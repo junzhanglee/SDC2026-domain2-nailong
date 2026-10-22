@@ -1,6 +1,6 @@
 import {roles} from './data.js';
 export const permissions = {
- owner:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors'],
+ owner:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors','broadcast'],
  manager:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors'],
  hr:['dashboard','approvals','people','work','chat','logs','strategy','hr-import','hr-review','announce'],
  finance:['dashboard','approvals','people','work','chat','connect','logs','strategy','claim-review'],
@@ -10,6 +10,21 @@ export const permissions = {
 export function can(s,p){return !!s.session && (permissions[s.session.role]||[]).includes(p);}
 export function requirePermission(s,p){if(!can(s,p)) throw Error('当前职位没有这项操作权限。');}
 export function staffId(s){return roles[s.session?.role]?.staff;}
+export function publicBroadcasts(s){
+ if(!s.session)return [];
+ return (s.broadcasts||[]).filter(b=>b.kind==='owner-broadcast'&&b.issuerRole==='owner'&&b.staff===roles.owner.staff&&b.audience==='all');
+}
+export function publishBroadcast(s,title,text){
+ requirePermission(s,'broadcast');if(s.session.role!=='owner')throw Error('只有企业主可以发布公屏通知。');
+ title=title.trim();text=text.trim();if(!title||title.length>80||!text||text.length>1000)throw Error('请填写标题（1–80 字）与通知内容（1–1000 字）。');
+ const b={id:crypto.randomUUID(),kind:'owner-broadcast',issuerRole:'owner',staff:staffId(s),by:s.session.name,title,text,audience:'all',createdAt:new Date().toISOString(),readBy:[staffId(s)]};
+ s.broadcasts??=[];s.broadcasts.push(b);addLog(s,'request','企业主发布公屏通知',title,'operations');return b;
+}
+export function unreadBroadcasts(s){return publicBroadcasts(s).filter(b=>!(b.readBy||[]).includes(staffId(s)));}
+export function markBroadcastRead(s,id){
+ const b=publicBroadcasts(s).find(b=>b.id===id);if(!b)throw Error('通知不存在或不是企业主发布的公屏通知。');
+ b.readBy??=[];if(!b.readBy.includes(staffId(s)))b.readBy.push(staffId(s));return b;
+}
 export function directRoom(a,b){return 'dm:'+([a,b].sort().join(':'));}
 export function conversationMembers(s,room){
  if(['交付协作','全员交流'].includes(room))return s.staff.map(e=>e.id);

@@ -39,6 +39,6 @@ export function initialState() {
     {id:'M2',room:'交付协作',by:'Daniel',staff:'e5',text:'我 26 日休假已经批准，Amir 可以接手制作。',time:'09:18'}],
   logs:[{id:'EV-001',time:'2026-10-23T01:20:00.000Z',type:'request',title:'收到客户询价 Q-1042',detail:'Bunga Café · 100 个定制杯 · 合成数据',actor:'演示导入',staff:'e6',visibility:'operations'},
     {id:'EV-002',time:'2026-10-23T01:10:00.000Z',type:'approval',title:'休假已批准',detail:'Daniel · 2026-10-26 · 已反映到资源排期',actor:'Aisha',staff:'e5',visibility:'hr'}],
-  connections:{}, replies:[]
+  connections:{}, replies:[], broadcasts:[]
  };
 }

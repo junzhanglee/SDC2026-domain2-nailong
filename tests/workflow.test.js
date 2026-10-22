@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState} from '../apps/web/assets/data.js';
-import {can,permissions,planInquiry,approveInquiry,reviewRequest,visibleLogs,visibleRequests,visibleTasks,parseCSV,analyzeMessage,directRoom,visibleMessages,sendMessage,unreadMessages,markConversationRead} from '../apps/web/assets/engine.js';
+import {can,permissions,planInquiry,approveInquiry,reviewRequest,visibleLogs,visibleRequests,visibleTasks,parseCSV,analyzeMessage,directRoom,visibleMessages,sendMessage,unreadMessages,markConversationRead,publicBroadcasts,publishBroadcast,unreadBroadcasts,markBroadcastRead} from '../apps/web/assets/engine.js';
 const setup=role=>{const s=initialState();s.session={role,name:'Test'};return s;};
 test('core journey checks inventory and approved leave before creating one task',()=>{
  const s=setup('owner');const p=planInquiry(s,'Q-1042');
@@ -44,7 +44,7 @@ test('zero-capacity staff are not suggested as available',()=>{
  assert.equal(planInquiry(s,'Q-1042').assignee,null);assert.throws(()=>approveInquiry(s,'Q-1042'),/没有可用/);
 });
 test('management has the same complete business permissions as the owner',()=>{
- const s=setup('manager');assert.deepEqual(permissions.manager,permissions.owner);
+ const s=setup('manager');assert.deepEqual(permissions.manager,permissions.owner.filter(p=>p!=='broadcast'));
  for(const p of ['hr-import','claim-review','connect','manage-connectors'])assert.equal(can(s,p),true);
  assert.equal(visibleLogs(s).length,s.logs.length);
  s.claims.push({id:'mine',staff:'e2',status:'pending'});assert.throws(()=>reviewRequest(s,'claims','mine',true),/自己/);
@@ -69,4 +69,18 @@ test('a direct message notifies only its recipient and can be marked read withou
 test('invalid/self conversations and empty messages are rejected',()=>{
  const s=setup('employee');for(const room of ['dm:e5:e5','dm:e5:unknown','fake'])assert.throws(()=>sendMessage(s,room,'hello'));
  assert.throws(()=>sendMessage(s,directRoom('e5','e6'),'  '));assert.throws(()=>sendMessage(s,directRoom('e5','e6'),'x'.repeat(2001)));
+});
+test('only the owner can publish public-screen notifications, including denying managers',()=>{
+ for(const role of ['manager','hr','finance','employee','support']){const s=setup(role);assert.equal(can(s,'broadcast'),false);assert.throws(()=>publishBroadcast(s,'Notice','Important update'),/权限/);assert.equal(publicBroadcasts(s).length,0);}
+ const s=setup('owner'),b=publishBroadcast(s,'Notice','Important update');assert.equal(publicBroadcasts(s)[0].id,b.id);assert.equal(b.issuerRole,'owner');assert.equal(b.audience,'all');
+});
+test('ordinary chats never become public broadcasts even when sent by the owner',()=>{
+ for(const role of ['owner','manager','hr','finance','employee','support']){const s=setup(role);sendMessage(s,'全员交流','Normal group message');const target=role==='owner'?'e2':'e1';const own={owner:'e1',manager:'e2',hr:'e3',finance:'e4',employee:'e5',support:'e6'}[role];sendMessage(s,directRoom(own,target),'Normal private message');assert.equal(publicBroadcasts(s).length,0);assert.equal(unreadBroadcasts(s).length,0);}
+});
+test('owner broadcasts reach every role and read state remains per recipient',()=>{
+ const s=setup('owner'),b=publishBroadcast(s,'Team update','Tomorrow at 9');assert.equal(unreadBroadcasts(s).length,0);
+ for(const role of ['manager','hr','finance','employee','support']){s.session={role,name:'Recipient'};assert.equal(unreadBroadcasts(s)[0].id,b.id);markBroadcastRead(s,b.id);assert.equal(unreadBroadcasts(s).length,0);}
+});
+test('missing legacy broadcast arrays migrate and invalid records cannot enter the public banner',()=>{
+ const s=setup('owner');delete s.broadcasts;assert.deepEqual(publicBroadcasts(s),[]);const b=publishBroadcast(s,'Valid','Body');s.broadcasts.push({...b,id:'fake',issuerRole:'manager'});assert.equal(publicBroadcasts(s).length,1);assert.throws(()=>markBroadcastRead(s,'fake'));assert.throws(()=>publishBroadcast(s,' ','Body'));assert.throws(()=>publishBroadcast(s,'Valid',' '));assert.throws(()=>publishBroadcast(s,'a'.repeat(81),'Body'));
 });
