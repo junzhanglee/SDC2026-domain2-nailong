@@ -1,7 +1,7 @@
 import {roles} from './data.js';
 export const permissions = {
- owner:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce'],
- manager:['dashboard','inbox','approvals','people','work','chat','logs','strategy','hr-review','business-review','announce'],
+ owner:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors'],
+ manager:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors'],
  hr:['dashboard','approvals','people','work','chat','logs','strategy','hr-import','hr-review','announce'],
  finance:['dashboard','approvals','people','work','chat','connect','logs','strategy','claim-review'],
  employee:['dashboard','people','work','chat','logs','strategy'],
@@ -10,10 +10,34 @@ export const permissions = {
 export function can(s,p){return !!s.session && (permissions[s.session.role]||[]).includes(p);}
 export function requirePermission(s,p){if(!can(s,p)) throw Error('当前职位没有这项操作权限。');}
 export function staffId(s){return roles[s.session?.role]?.staff;}
+export function directRoom(a,b){return 'dm:'+([a,b].sort().join(':'));}
+export function conversationMembers(s,room){
+ if(['交付协作','全员交流'].includes(room))return s.staff.map(e=>e.id);
+ const ids=room.startsWith('dm:')?room.slice(3).split(':'):[];
+ return ids.length===2&&ids[0]!==ids[1]&&ids.every(id=>s.staff.some(e=>e.id===id))?ids:[];
+}
+export function visibleMessages(s,room){
+ requirePermission(s,'chat');if(!conversationMembers(s,room).includes(staffId(s)))throw Error('你不是这段私聊的参与者。');
+ return s.chats.filter(m=>m.room===room);
+}
+export function unreadMessages(s){
+ if(!can(s,'chat'))return [];const own=staffId(s);
+ return s.chats.filter(m=>m.staff!==own&&conversationMembers(s,m.room).includes(own)&&!(m.readBy||[]).includes(own));
+}
+export function markConversationRead(s,room){
+ const own=staffId(s);let changed=false;
+ for(const m of visibleMessages(s,room)){m.readBy??=[];if(!m.readBy.includes(own)){m.readBy.push(own);changed=true;}}
+ return changed;
+}
+export function sendMessage(s,room,text){
+ visibleMessages(s,room);text=text.trim();if(!text||text.length>2000)throw Error('消息请输入 1–2000 个字符。');
+ const m={id:crypto.randomUUID(),room,by:s.session.name,staff:staffId(s),text,time:new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Kuala_Lumpur',hour:'2-digit',minute:'2-digit'}),createdAt:new Date().toISOString(),readBy:[staffId(s)]};
+ s.chats.push(m);addLog(s,'request',room.startsWith('dm:')?'私聊消息已发送':'共享频道消息已发送',room.startsWith('dm:')?'私聊内容仅参与者可见':room,'private-chat');return m;
+}
 export function ownOrTeam(s,id){return can(s,'business-review') || id===staffId(s);}
 export function visibleTasks(s){return s.tasks.filter(t=>ownOrTeam(s,t.assignee));}
 export function visibleRequests(s,kind){const scope=kind==='claims'?'claim-review':'hr-review';return s[kind].filter(x=>can(s,scope)||x.staff===staffId(s));}
-export function visibleLogs(s){return s.logs.filter(l=>s.session?.role==='owner'|| l.staff===staffId(s) || (l.visibility==='operations'&&can(s,'business-review')) || (l.visibility==='hr'&&can(s,'hr-import')) || (l.visibility==='finance'&&can(s,'claim-review')));}
+export function visibleLogs(s){return s.logs.filter(l=>can(s,'manage-connectors')|| l.staff===staffId(s) || (l.visibility==='operations'&&can(s,'business-review')) || (l.visibility==='hr'&&can(s,'hr-import')) || (l.visibility==='finance'&&can(s,'claim-review')));}
 export function addLog(s,type,title,detail,visibility='operations',subject=staffId(s)){
  s.logs.unshift({id:crypto.randomUUID(),time:new Date().toISOString(),type,title,detail,visibility,actor:s.session?.name||'系统',staff:subject});
 }

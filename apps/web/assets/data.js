@@ -1,6 +1,6 @@
 export const roles = {
   owner: {label:'企业主', desc:'全局经营、审批与连接管理', name:'Li Wei', staff:'e1'},
-  manager: {label:'团队主管', desc:'团队任务、资源与业务审批', name:'Aisha', staff:'e2'},
+  manager: {label:'管理者', desc:'最高权限 · 全部业务与管理模块', name:'Aisha', staff:'e2'},
   hr: {label:'人力资源', desc:'员工资料、休假与考勤', name:'Mei Ling', staff:'e3'},
   finance: {label:'财务人员', desc:'报销审核、付款与财务连接', name:'Kumar', staff:'e4'},
   employee: {label:'普通员工', desc:'自己的任务、考勤和申请', name:'Daniel', staff:'e5'},

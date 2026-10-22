@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Orbyte Flow — proposed adapter contracts",
+    "title": "Nexus — proposed adapter contracts",
     "version": "0.1.0",
     "description": "Design contract only. No production endpoints or vendor compatibility are claimed."
   },
