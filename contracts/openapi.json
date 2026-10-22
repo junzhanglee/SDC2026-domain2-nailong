@@ -1,0 +1,368 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Orbyte Flow — proposed adapter contracts",
+    "version": "0.1.0",
+    "description": "Design contract only. No production endpoints or vendor compatibility are claimed."
+  },
+  "paths": {
+    "/api/v1/connectors/payments/events": {
+      "post": {
+        "summary": "PROPOSED: /connectors/payments/events",
+        "description": "Contract only; this static MVP does not implement the HTTP endpoint. Supplier-specific signature and scope verification required.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted for validation / review, not proof of completed financial action"
+          },
+          "401": {
+            "description": "Authentication or signature invalid"
+          },
+          "403": {
+            "description": "Tenant / role / supplier scope denied"
+          },
+          "409": {
+            "description": "Duplicate or stale event"
+          },
+          "422": {
+            "description": "Payload invalid"
+          },
+          "503": {
+            "description": "Provider unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/connectors/accounting/invoices": {
+      "post": {
+        "summary": "PROPOSED: /connectors/accounting/invoices",
+        "description": "Contract only; this static MVP does not implement the HTTP endpoint. Supplier-specific signature and scope verification required.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted for validation / review, not proof of completed financial action"
+          },
+          "401": {
+            "description": "Authentication or signature invalid"
+          },
+          "403": {
+            "description": "Tenant / role / supplier scope denied"
+          },
+          "409": {
+            "description": "Duplicate or stale event"
+          },
+          "422": {
+            "description": "Payload invalid"
+          },
+          "503": {
+            "description": "Provider unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/connectors/payroll/approved-hours": {
+      "post": {
+        "summary": "PROPOSED: /connectors/payroll/approved-hours",
+        "description": "Contract only; this static MVP does not implement the HTTP endpoint. Supplier-specific signature and scope verification required.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted for validation / review, not proof of completed financial action"
+          },
+          "401": {
+            "description": "Authentication or signature invalid"
+          },
+          "403": {
+            "description": "Tenant / role / supplier scope denied"
+          },
+          "409": {
+            "description": "Duplicate or stale event"
+          },
+          "422": {
+            "description": "Payload invalid"
+          },
+          "503": {
+            "description": "Provider unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/connectors/crm/contacts": {
+      "post": {
+        "summary": "PROPOSED: /connectors/crm/contacts",
+        "description": "Contract only; this static MVP does not implement the HTTP endpoint. Supplier-specific signature and scope verification required.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted for validation / review, not proof of completed financial action"
+          },
+          "401": {
+            "description": "Authentication or signature invalid"
+          },
+          "403": {
+            "description": "Tenant / role / supplier scope denied"
+          },
+          "409": {
+            "description": "Duplicate or stale event"
+          },
+          "422": {
+            "description": "Payload invalid"
+          },
+          "503": {
+            "description": "Provider unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/connectors/commerce/orders": {
+      "post": {
+        "summary": "PROPOSED: /connectors/commerce/orders",
+        "description": "Contract only; this static MVP does not implement the HTTP endpoint. Supplier-specific signature and scope verification required.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted for validation / review, not proof of completed financial action"
+          },
+          "401": {
+            "description": "Authentication or signature invalid"
+          },
+          "403": {
+            "description": "Tenant / role / supplier scope denied"
+          },
+          "409": {
+            "description": "Duplicate or stale event"
+          },
+          "422": {
+            "description": "Payload invalid"
+          },
+          "503": {
+            "description": "Provider unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/webhooks/whatsapp": {
+      "post": {
+        "summary": "PROPOSED: /webhooks/whatsapp",
+        "description": "Contract only; this static MVP does not implement the HTTP endpoint. Supplier-specific signature and scope verification required.",
+        "security": [
+          {
+            "webhookSignature": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted for validation / review, not proof of completed financial action"
+          },
+          "401": {
+            "description": "Authentication or signature invalid"
+          },
+          "403": {
+            "description": "Tenant / role / supplier scope denied"
+          },
+          "409": {
+            "description": "Duplicate or stale event"
+          },
+          "422": {
+            "description": "Payload invalid"
+          },
+          "503": {
+            "description": "Provider unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "webhookSignature": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Provider-Signature",
+        "description": "Placeholder; exact signature headers and verification algorithm depend on confirmed provider contract."
+      }
+    },
+    "schemas": {
+      "BusinessEvent": {
+        "type": "object",
+        "required": [
+          "tenant_id",
+          "event_id",
+          "source",
+          "payload"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "tenant_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Must match authenticated principal or configured webhook tenant; never trust body alone."
+          },
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "payments",
+              "accounting",
+              "payroll",
+              "crm",
+              "commerce",
+              "whatsapp"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "description": "Supplier adapter schema to be confirmed; do not pass through unvalidated."
+          }
+        }
+      }
+    }
+  }
+}

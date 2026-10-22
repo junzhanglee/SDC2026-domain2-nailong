@@ -1,3 +1,58 @@
-# SDC2026-domain2-nailong
-## Development Status
-SDC Hackathon 2026 - Domain 2 project - nailong
+# Orbyte Flow · 消息到履约
+
+SDC Hackathon 2026 · Domain 2 · nailong
+
+为马来西亚微型和小型企业，把客户消息变成**核对业务信息 → 建议分派 → 人工审批 → 工作任务 → 活动记录**的完整旅程。
+
+参赛创新是客户需求与履约自动化；People、Work、Connect 为模拟的 Orbyte 平台上下文，**不以复制现有 HR 功能作为创新点**。
+
+## 本地运行
+
+无需安装依赖。使用 Python 3 启动：
+
+```sh
+python3 -m http.server 4173 --directory apps/web
+```
+
+访问 http://localhost:4173。Node.js 22+ 用于检查与测试：
+
+```sh
+npm test
+npm run build
+```
+
+`build` 检查原生 ES 模块、静态资源与 API 契约，然后复制到 `dist/`；无需编译或下载依赖。静态托管根目录为 `dist`。
+
+## 目录规则
+
+```text
+apps/web/             网页入口与静态资产
+  assets/app.js       页面和交互
+  assets/engine.js    职位权限、订单分析、审批、CSV 校验
+  assets/data.js      合成数据、职位和连接器元数据
+contracts/           拟议 API 契约（不是已实现 HTTP 后端）
+docs/                产品研究、权限说明、路演与接入边界
+tests/               有意义的业务规则与越权测试
+scripts/             项目检查工具
+.github/workflows/   持续集成
+```
+
+不要将密钥、真实员工／客户资料、运行缓存、压缩包或第三方依赖提交到仓库。保留原 Apache-2.0 LICENSE。新增模块归入对应目录；核心规则保持独立可测。
+
+## 现场演示（约 3 分钟）
+
+1. 选择「客户服务」并输入姓名。在客户收件箱分析 Bunga Café 的 100 个定制杯请求。
+2. 系统发现库存只有 80 个，Daniel 在 10 月 26 日已批准休假，建议 Amir 负责。客服没有最终审批按钮。
+3. 切换「团队主管」，审批建议。系统重新核对数据，只创建一次「等待补货」的任务，不对客户承诺交期。
+4. 打开 Work 查看任务与阻碍，再打开活动与洞察查看审计和本月复盘。
+5. 切换「普通员工」验证只能看本人申请与任务。HR 可上传 CSV；财务可审批报销和测试财务示例事件。
+
+## 能力状态
+
+可以实际交互：规则核对、基于职位的演示范围、审批状态机、任务创建、申请、考勤、每日记录、公告、浏览器内聊天、CSV 分析、回复草稿、日志与规则月报。
+
+明确模拟：身份认证、Orbyte 平台数据、客户消息、业务量图表、供应商事件。浏览器的 localStorage 可修改且保存完整合成数据；**前端 RBAC 不是安全边界**。共享频道聊天不跨设备同步。收据只预览与人工填单；OCR、大语言模型、官方 WhatsApp、支付／会计／工资／CRM／电商后端未接入。不要录入真实个人资料。
+
+更换身份保留此浏览器的演示进度。全新演示可在浏览器清除本站站点数据。团队成员各自浏览器不会自动同步。
+
+详细说明：[产品方案](docs/product-design.md)、[权限与架构](docs/architecture.md)、[接入计划](docs/integrations.md)、[API 契约](contracts/openapi.json)。
