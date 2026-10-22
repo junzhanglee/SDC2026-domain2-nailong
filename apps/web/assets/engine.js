@@ -7,7 +7,7 @@ export const permissions = {
  employee:['dashboard','people','work','chat','logs','strategy'],
  support:['dashboard','inbox','people','work','chat','logs','strategy']
 };
-export function can(s,p){return !!s.session && (permissions[s.session.role]||[]).includes(p);}
+export function can(s,p){return !!s.session && !!permissions[s.session.role] && (['profile','settings'].includes(p)||(permissions[s.session.role]||[]).includes(p));}
 export function requirePermission(s,p){if(!can(s,p)) throw Error('当前职位没有这项操作权限。');}
 export function staffId(s){return roles[s.session?.role]?.staff;}
 export function publicBroadcasts(s){
@@ -77,7 +77,7 @@ export function reviewRequest(s,kind,id,approved){
  if(!['leave','claims','ot'].includes(kind))throw Error('未知申请类型');requirePermission(s,kind==='claims'?'claim-review':'hr-review');
  const req=s[kind].find(x=>x.id===id);if(!req||req.status!=='pending')throw Error('申请不存在或已处理。');
  if(req.staff===staffId(s))throw Error('不能审批自己的申请，请交由另一位有权限的人员。');
- if(approved&&kind==='leave') {const used=s.leave.filter(l=>l.staff===req.staff&&l.status==='approved').reduce((n,l)=>n+l.days,0);if(used+req.days>14)throw Error('演示年假余额不足，请调整天数。');}
+ if(approved&&kind==='leave') {const used=s.leave.filter(l=>l.staff===req.staff&&l.status==='approved').reduce((n,l)=>n+l.days,0);if(used+req.days>(s.policies?.annualLeaveDays??14))throw Error('演示年假余额不足，请调整天数。');}
  req.status=approved?'approved':'rejected';addLog(s,'approval',`${kind==='claims'?'报销':kind==='ot'?'加班':'休假'}${approved?'已批准':'已驳回'}`,req.id,kind==='claims'?'finance':'hr',req.staff);
 }
 export function analyzeMessage(text){
