@@ -5,13 +5,13 @@ export const permissions = {
  hr:['dashboard','approvals','people','work','chat','logs','strategy','hr-import','hr-review','announce'],
  finance:['dashboard','approvals','people','work','chat','connect','logs','strategy','claim-review'],
  employee:['dashboard','people','work','chat','logs','strategy'],
- support:['dashboard','inbox','people','work','chat','logs','strategy']
+ support:['dashboard','inbox','people','work','chat','logs','strategy','create-inquiry','customer-support']
 };
 export function can(s,p){return !!s.session && !!permissions[s.session.role] && (['profile','settings'].includes(p)||(permissions[s.session.role]||[]).includes(p));}
 export function requirePermission(s,p){if(!can(s,p)) throw Error('当前职位没有这项操作权限。');}
 export function staffId(s){return roles[s.session?.role]?.staff;}
 export function publicBroadcasts(s){
- if(!s.session)return [];
+ if(!s.session||!permissions[s.session.role])return [];
  return (s.broadcasts||[]).filter(b=>b.kind==='owner-broadcast'&&b.issuerRole==='owner'&&b.staff===roles.owner.staff&&b.audience==='all');
 }
 export function publishBroadcast(s,title,text){
@@ -49,10 +49,10 @@ export function sendMessage(s,room,text){
  const m={id:crypto.randomUUID(),room,by:s.session.name,staff:staffId(s),text,time:new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Kuala_Lumpur',hour:'2-digit',minute:'2-digit'}),createdAt:new Date().toISOString(),readBy:[staffId(s)]};
  s.chats.push(m);addLog(s,'request',room.startsWith('dm:')?'私聊消息已发送':'共享频道消息已发送',room.startsWith('dm:')?'私聊内容仅参与者可见':room,'private-chat');return m;
 }
-export function ownOrTeam(s,id){return can(s,'business-review') || id===staffId(s);}
+export function ownOrTeam(s,id){return can(s,'work')&&(can(s,'business-review') || id===staffId(s));}
 export function visibleTasks(s){return s.tasks.filter(t=>ownOrTeam(s,t.assignee));}
-export function visibleRequests(s,kind){const scope=kind==='claims'?'claim-review':'hr-review';return s[kind].filter(x=>can(s,scope)||x.staff===staffId(s));}
-export function visibleLogs(s){return s.logs.filter(l=>can(s,'manage-connectors')|| l.staff===staffId(s) || (l.visibility==='operations'&&can(s,'business-review')) || (l.visibility==='hr'&&can(s,'hr-import')) || (l.visibility==='finance'&&can(s,'claim-review')));}
+export function visibleRequests(s,kind){if(!can(s,'people'))return [];const scope=kind==='claims'?'claim-review':'hr-review';return s[kind].filter(x=>can(s,scope)||x.staff===staffId(s));}
+export function visibleLogs(s){if(!can(s,'logs'))return [];return s.logs.filter(l=>can(s,'manage-connectors')|| l.staff===staffId(s) || (l.visibility==='operations'&&can(s,'business-review')) || (l.visibility==='hr'&&can(s,'hr-import')) || (l.visibility==='finance'&&can(s,'claim-review')));}
 export function addLog(s,type,title,detail,visibility='operations',subject=staffId(s)){
  s.logs.unshift({id:crypto.randomUUID(),time:new Date().toISOString(),type,title,detail,visibility,actor:s.session?.name||'系统',staff:subject});
 }
@@ -62,15 +62,16 @@ export function planInquiry(s,id){
  const missing=Math.max(0,q.qty-s.stock);
  const unavailable=s.leave.filter(l=>l.status==='approved'&&l.from<=q.due&&l.to>=q.due).map(l=>l.staff);
  const candidates=s.staff.filter(e=>e.skill==='印刷'&&e.capacity>0&&!unavailable.includes(e.id)).sort((a,b)=>b.capacity-a.capacity);
- q.plan={missing,unavailable,assignee:candidates[0]?.id||null,reason:missing?`现货 ${s.stock} 个，需求 ${q.qty} 个，缺 ${missing} 个。`:'库存充足。',decision:missing?'先补货，交期需人工确认':'可进入排期审批',at:new Date().toISOString()};q.status='review';
+ q.plan={missing,unavailable,assignee:(q.requestedAssignee?candidates.find(e=>e.id===q.requestedAssignee):candidates[0])?.id||null,reason:missing?`现货 ${s.stock} 个，需求 ${q.qty} 个，缺 ${missing} 个。`:'库存充足。',decision:missing?'先补货，交期需人工确认':'可进入排期审批',at:new Date().toISOString()};q.status='review';
  addLog(s,'analysis','已生成订单建议',`${q.id} · ${q.plan.reason} 仅生成建议，未向客户发送。`);return q.plan;
 }
 export function approveInquiry(s,id){
  requirePermission(s,'business-review');const q=s.inquiries.find(q=>q.id===id);
  if(!q||q.status!=='review'||!q.plan)throw Error('请先分析该请求；已审批请求不能重复执行。');
+ if(q.reviewer&&q.reviewer!==staffId(s)&&s.session.role!=='owner')throw Error('请交由指定负责人审批。');
  // Re-evaluate mutable business data at approval time.
  planInquiry(s,id); if(!q.plan.assignee)throw Error('没有可用制作人员，请先安排人员。');
- q.status='approved';s.tasks.push({id:'T-'+crypto.randomUUID().slice(0,6),title:`${q.customer} · ${q.qty} 个定制杯${q.plan.missing?'（等待补货）':''}`,customer:q.customer,project:`${q.customer} 客户订单`,assignee:q.plan.assignee,due:q.due,status:q.plan.missing?'受阻':'待开始',blocked:q.plan.missing?`缺货 ${q.plan.missing} 个；补货后再承诺交期`:''});
+ q.status='approved';s.tasks.push({inquiryId:q.id,reviewer:q.reviewer||staffId(s),id:'T-'+crypto.randomUUID().slice(0,6),title:`${q.customer} · ${q.qty} 个定制杯${q.plan.missing?'（等待补货）':''}`,customer:q.customer,project:`${q.customer} 客户订单`,assignee:q.plan.assignee,due:q.due,status:q.plan.missing?'受阻':'待开始',blocked:q.plan.missing?`缺货 ${q.plan.missing} 个；补货后再承诺交期`:''});
  addLog(s,'approval','订单方案已审批并创建任务',`${q.id} · 负责人 ${s.staff.find(e=>e.id===q.plan.assignee).name} · 尚未对外发送或支付`);
 }
 export function reviewRequest(s,kind,id,approved){
