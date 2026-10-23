@@ -1,0 +1,40 @@
+/* Customer entry and service handoff. Internal layout and materials stay shared. */
+.login-entry { width:100%; max-width:430px; }
+.entry-tabs { display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:4px; background:#eaf0f7; border:1px solid #e0e7f1; border-radius:12px; margin-bottom:30px; }
+.entry-tabs button { min-height:44px; border-radius:9px; background:transparent; color:#536d91; font-size:13px; }
+.entry-tabs .active { background:#fff; color:#0968c8; font-weight:600; box-shadow:0 1px 4px #1b416d12; }
+.customer-header { justify-content:space-between; }
+.customer-content { max-width:1180px; margin:auto; padding:38px 32px 60px; }
+.customer-portal-grid { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr); gap:24px; align-items:start; }
+.customer-portal-grid>* { min-width:0; }
+.customer-messages { display:flex; flex-direction:column; gap:18px; max-height:440px; min-height:210px; overflow:auto; overscroll-behavior:contain; padding:18px; background:#f8fafd; border:1px solid #e7edf6; border-radius:12px; }
+.customer-message { align-self:flex-start; max-width:90%; min-width:0; }
+.customer-message.mine { align-self:flex-end; }
+.customer-message .bubble { white-space:pre-wrap; overflow-wrap:anywhere; }
+.customer-message-action { margin-top:8px; }
+.customer-message-action .btn { font-size:11px; }
+#customer-message-form { border-top:1px solid #e9eef5; margin-top:20px; padding-top:4px; }
+#customer-message-form small { font-size:11px; }
+.support-customer-panel .tabbar { margin-bottom:16px; }
+.support-customer-panel .card-head .footer-note { margin:6px 0 0; }
+.customer-request { border-top:1px solid #e8edf5; padding:16px 0; }
+.customer-request:first-of-type { border:0; }
+.customer-request b { color:#3e5b80; font-size:12px; }
+.customer-request p { font-size:13px; overflow-wrap:anywhere; }
+.customer-request small { font-size:11px; }
+.customer-request .tag { white-space:normal; line-height:1.7; }
+@media(max-width:900px) {
+  .customer-portal-grid { grid-template-columns:minmax(0,1fr); }
+}
+@media(max-width:760px) {
+  .customer-content { padding:28px 20px 44px; }
+  .customer-header .brand { padding:0; font-size:24px; }
+  .customer-header .actions { gap:8px; }
+  .customer-messages { min-height:210px; max-height:380px; padding:14px; }
+  .customer-message { max-width:96%; }
+  .customer-message-action .btn { min-height:44px; }
+  .login-entry { max-width:480px; }
+}
+@media(max-width:480px) {
+  .customer-content { padding:24px 16px 40px; }
+}
