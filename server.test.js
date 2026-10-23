@@ -4,6 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createApp } from './server.js';
+import { demoPassword } from './lib/auth.js';
 
 async function harness(t, databaseFile = ':memory:') {
   const server = createApp({ databaseFile });
@@ -11,8 +12,17 @@ async function harness(t, databaseFile = ':memory:') {
   const base = `http://127.0.0.1:${server.address().port}`;
   const close = () => new Promise(resolve => server.close(resolve));
   t.after(close);
+  const cookies = new Map();
+  async function login(user, password = demoPassword(user)) {
+    const response = await fetch(base + '/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: user, password }) });
+    const result = { status: response.status, body: await response.json(), headers: response.headers, cookie: response.headers.get('set-cookie')?.split(';')[0] };
+    if (result.cookie && result.status === 200) cookies.set(user, result.cookie);
+    return result;
+  }
   async function req(user, path = '/api/state', data, company = 'orion') {
-    const res = await fetch(base + path, { method: data ? 'POST' : 'GET', headers: { 'X-Demo-Company': company, 'X-Demo-User': user, ...(data ? { 'Content-Type': 'application/json' } : {}) }, ...(data ? { body: JSON.stringify(data) } : {}) });
+    if (!cookies.has(user)) { const signedIn = await login(user); if (signedIn.status !== 200) return signedIn; }
+    const res = await fetch(base + path, { method: data ? 'POST' : 'GET', headers: { Cookie: cookies.get(user), 'X-Demo-Company': company, 'X-Demo-User': user, ...(data ? { 'Content-Type': 'application/json' } : {}) }, ...(data ? { body: JSON.stringify(data) } : {}) });
+    if (res.headers.get('set-cookie')) cookies.set(user, res.headers.get('set-cookie').split(';')[0]);
     return { status: res.status, body: await res.json(), headers: res.headers };
   }
   const get = async (user, id) => (await req(user)).body.parcels.find(p => p.id === id || p.tracking === id);
@@ -35,7 +45,7 @@ async function harness(t, databaseFile = ':memory:') {
     assert.equal(res.status, 200);
   };
   const checks = { model: true, quantity: true, condition: true, sender: true, receiver: true };
-  return { req, get, act, a, approve, release, checks, base };
+  return { req, get, act, a, approve, release, checks, base, login, cookies };
 }
 
 test('A：明确关联 → 授权备用人 → 人工审核 → 双身份交接 → 日志与关联业务状态', async t => {
@@ -60,7 +70,7 @@ test('登记：必填项、唯一编号、仅登记员可写、只接受有效 J
   assert.equal((await h.req('nina', '/api/parcels', input)).status, 403);
   assert.equal((await h.req('lin', '/api/parcels', input)).status, 201);
   assert.equal((await h.req('lin', '/api/parcels', { ...input, tracking: 'new-001' })).status, 409);
-  const bad = await fetch(h.base + '/api/parcels', { method: 'POST', headers: { 'X-Demo-Company': 'orion', 'X-Demo-User': 'lin', 'Content-Type': 'application/json' }, body: '{broken' });
+  const bad = await fetch(h.base + '/api/parcels', { method: 'POST', headers: { Cookie: h.cookies.get('lin'), 'Content-Type': 'application/json' }, body: '{broken' });
   assert.equal(bad.status, 400);
 });
 
@@ -184,7 +194,7 @@ test('企业范围：第二家企业复用配置，不能跨企业查看或操�
   const other = await h.req('ivy', '/api/state', undefined, 'cedar');
   assert.equal(other.body.parcels.length, 0); assert.equal(other.body.businesses[0].ownerId, 'jo');
   assert.equal((await h.req('ivy', `/api/parcels/${id}/edit`, { etag: 0, reason: '跨企业尝试' }, 'cedar')).status, 404);
-  assert.equal((await h.req('lin', '/api/state', undefined, 'cedar')).status, 401);
+  assert.equal((await h.req('lin', '/api/state', undefined, 'cedar')).body.company.id, 'orion');
   const created = await h.req('ivy', '/api/parcels', { tracking: 'CEDAR-001', source: '合成客户', recipient: '乔文', type: '客户资料', reference: 'AC-2026-001' }, 'cedar');
   assert.equal(created.status, 201);
   const pid = created.body.created.id;
@@ -256,4 +266,121 @@ test('交出方确认后离岗或状态变动，也会使旧交出证明和批�
   assert.equal(res.status, 409); assert.equal(res.body.blocked, true);
   assert.equal((await h.get('mei', id)).approval, null);
   assert.equal((await h.get('mei', id)).release, null);
+});
+
+test('登录：必须验证密码，旧模拟身份头和伪造会话不能登录', async t => {
+  const h = await harness(t);
+  assert.equal((await fetch(h.base + '/api/state', { headers: { 'X-Demo-Company': 'orion', 'X-Demo-User': 'admin' } })).status, 401);
+  assert.equal((await fetch(h.base + '/api/state', { headers: { Cookie: 'pr_session=admin' } })).status, 401);
+  assert.equal((await h.login('lin', 'not-the-password')).status, 401);
+  const result = await h.login('lin'); assert.equal(result.status, 200);
+  assert.match(result.headers.get('set-cookie'), /HttpOnly/); assert.match(result.headers.get('set-cookie'), /SameSite=Strict/);
+  assert.equal(result.body.user.id, 'lin'); assert.equal(result.body.account.username, 'lin');
+  assert.ok(!JSON.stringify(result.body).includes('password_hash'));
+});
+
+test('独立账号的任务只流转给下一负责人；审核人不能代替指定交出方', async t => {
+  const h = await harness(t); const tasks = async user => (await h.req(user, '/api/tasks')).body.tasks;
+  const id = await h.a();
+  assert.ok(!(await tasks('lin')).some(p => p.id === id));
+  assert.equal((await tasks('mei')).find(p => p.id === id).task.kind, 'review');
+  assert.ok(!(await tasks('nina')).some(p => p.id === id));
+  await h.approve(id);
+  assert.equal((await tasks('lin')).find(p => p.id === id).task.kind, 'release');
+  assert.ok(!(await tasks('mei')).some(p => p.id === id));
+  assert.equal((await h.act('mei', id, 'release', { confirmed: true })).status, 403);
+  await h.release(id);
+  assert.ok(!(await tasks('lin')).some(p => p.id === id));
+  assert.equal((await tasks('nina')).find(p => p.id === id).task.kind, 'handoff');
+  await h.act('nina', id, 'handoff', { checks: h.checks });
+  for (const user of ['lin', 'mei', 'nina']) assert.ok(!(await tasks(user)).some(p => p.id === id));
+});
+
+test('已登录接收人无法通过请求头、请求体中的人名改成审核人', async t => {
+  const h = await harness(t); const id = await h.a(); const nina = await h.login('nina');
+  const p = await h.get('nina', id);
+  const result = await fetch(h.base + `/api/parcels/${id}/review`, { method: 'POST', headers: { Cookie: nina.cookie, 'X-Demo-User': 'mei', 'X-Demo-Company': 'orion', 'Content-Type': 'application/json' }, body: JSON.stringify({ etag: p.etag, version: p.plan.version, userId: 'mei', decision: 'approve', reason: '伪造审核身份', assigneeId: 'nina' }) });
+  assert.equal(result.status, 403); assert.equal((await h.get('lin', id)).status, '待审核');
+});
+
+test('退出使当前设备的会话失效，不影响另一设备独立登录', async t => {
+  const h = await harness(t); const first = await h.login('lin'); const second = await h.login('lin');
+  const logout = await fetch(h.base + '/api/auth/logout', { method: 'POST', headers: { Cookie: first.cookie, 'Content-Type': 'application/json' }, body: '{}' });
+  assert.equal(logout.status, 200); assert.match(logout.headers.get('set-cookie'), /Max-Age=0/);
+  assert.equal((await fetch(h.base + '/api/state', { headers: { Cookie: first.cookie } })).status, 401);
+  assert.equal((await fetch(h.base + '/api/state', { headers: { Cookie: second.cookie } })).status, 200);
+});
+
+test('改密验证旧密码，旧会话全部失效；重开数据库不会重置新密码', async t => {
+  const dir = await mkdtemp(join(tmpdir(), 'parcelrelay-auth-')); t.after(() => rm(dir, { recursive: true, force: true }));
+  const file = join(dir, 'auth.sqlite'); const h = await harness(t, file);
+  const first = await h.login('lin'); const other = await h.login('lin');
+  assert.equal((await h.req('lin', '/api/auth/password', { currentPassword: 'bad-password', newPassword: 'My-new-private-pass-2026!' })).status, 400);
+  const changed = await h.req('lin', '/api/auth/password', { currentPassword: demoPassword('lin'), newPassword: 'My-new-private-pass-2026!' });
+  assert.equal(changed.status, 200);
+  for (const cookie of [first.cookie, other.cookie]) assert.equal((await fetch(h.base + '/api/state', { headers: { Cookie: cookie } })).status, 401);
+  assert.equal((await h.req('lin')).status, 200);
+  const reopened = await harness(t, file);
+  assert.equal((await reopened.login('lin')).status, 401);
+  assert.equal((await reopened.login('lin', 'My-new-private-pass-2026!')).status, 200);
+});
+
+test('企业管理员创建个人账号，但创建角色不会自动授予业务权限', async t => {
+  const h = await harness(t);
+  const input = { username: 'new.staff', name: '新同事（合成）', role: 'reviewer', password: 'My-staff-private-2026!' };
+  assert.equal((await h.req('lin', '/api/accounts', input)).status, 403);
+  const created = await h.req('admin', '/api/accounts', input); assert.equal(created.status, 200);
+  assert.equal((await h.req('admin', '/api/accounts', input)).status, 409);
+  const signedIn = await h.login('new.staff', input.password); assert.equal(signedIn.status, 200);
+  assert.deepEqual(signedIn.body.parcels, []); assert.deepEqual(signedIn.body.businesses, []);
+  const id = await h.a();
+  const attempt = await fetch(h.base + `/api/parcels/${id}/review`, { method: 'POST', headers: { Cookie: signedIn.cookie, 'Content-Type': 'application/json' }, body: JSON.stringify({ etag: 1, version: 1, decision: 'approve', assigneeId: 'nina', reason: '未获该业务审核权限' }) });
+  assert.equal(attempt.status, 404);
+  const list = await h.req('admin', '/api/accounts'); assert.ok(!JSON.stringify(list.body).includes('password'));
+});
+
+test('新登记员不能读取或修改另一登记员的收件', async t => {
+  const h = await harness(t);
+  await h.req('admin', '/api/accounts', { username: 'second.clerk', name: '第二登记员（合成）', role: 'registrar', password: 'Second-clerk-pass-2026!' });
+  const signedIn = await h.login('second.clerk', 'Second-clerk-pass-2026!');
+  assert.equal(signedIn.body.parcels.length, 0);
+  const original = await h.get('lin', 'DEMO-A-001');
+  const result = await fetch(h.base + `/api/parcels/${original.id}/edit`, { method: 'POST', headers: { Cookie: signedIn.cookie, 'Content-Type': 'application/json' }, body: JSON.stringify({ etag: 0, reason: '不能修改别人登记的收件', note: '变更' }) });
+  assert.equal(result.status, 404);
+});
+
+test('登录节流与跨站登录保护', async t => {
+  const h = await harness(t);
+  const cross = await fetch(h.base + '/api/auth/login', { method: 'POST', headers: { Origin: 'https://other.example', 'Content-Type': 'application/json' }, body: JSON.stringify({ username: 'lin', password: demoPassword('lin') }) });
+  assert.equal(cross.status, 403);
+  for (let n = 0; n < 6; n++) assert.equal((await h.login('lin', 'wrong-password')).status, 401);
+  assert.equal((await h.login('lin')).status, 429);
+});
+
+test('新员工完成独立业务授权后，才能关联采购并收到自己的后续任务', async t => {
+  const h = await harness(t);
+  const created = await h.req('admin', '/api/accounts', { username: 'private.clerk', name: '独立登记员（合成）', role: 'registrar', password: 'Personal-clerk-pass-2026!' });
+  const uid = created.body.users.find(u => u.name === '独立登记员（合成）').id;
+  await h.login('private.clerk', 'Personal-clerk-pass-2026!');
+  const receipt = await h.req('private.clerk', '/api/parcels', { tracking: 'PRIVATE-STAFF-001', source: '合成供应商', recipient: '黄安', type: '采购物资', reference: 'PO-2026-001' });
+  const pid = receipt.body.created.id;
+  assert.equal((await h.act('private.clerk', pid, 'link', { businessId: 'PO-2026-001', confirmed: true })).status, 400);
+  assert.equal((await h.req('admin', '/api/config', { kind: 'business-access', businessId: 'PO-2026-001', userId: uid, access: 'read', granted: true, reason: '明确允许新登记员关联该采购业务' })).status, 200);
+  assert.equal((await h.act('private.clerk', pid, 'link', { businessId: 'PO-2026-001', confirmed: true })).status, 200);
+  await h.approve(pid);
+  const tasks = (await h.req('private.clerk', '/api/tasks')).body.tasks;
+  assert.equal(tasks.find(p => p.id === pid).task.kind, 'release');
+  assert.ok(!(await h.req('lin', '/api/tasks')).body.tasks.some(p => p.id === pid));
+});
+
+test('审核权限独立授予并校验岗位，不能扩展保密业务', async t => {
+  const h = await harness(t);
+  const created = await h.req('admin', '/api/accounts', { username: 'private.reviewer', name: '独立审核员（合成）', role: 'reviewer', password: 'Personal-review-pass-2026!' });
+  const uid = created.body.users.find(u => u.name === '独立审核员（合成）').id;
+  assert.equal((await h.req('admin', '/api/config', { kind: 'business-access', businessId: 'CT-2026-001', userId: uid, access: 'review', granted: true, reason: '禁止普通配置扩展保密范围' })).status, 400);
+  assert.equal((await h.req('admin', '/api/config', { kind: 'business-access', businessId: 'PO-2026-001', userId: 'nina', access: 'review', granted: true, reason: '接收岗位不能审核' })).status, 400);
+  const id = await h.a();
+  assert.equal((await h.req('admin', '/api/config', { kind: 'business-access', businessId: 'PO-2026-001', userId: uid, access: 'review', granted: true, reason: '指定新审核员处理该采购业务' })).status, 200);
+  await h.login('private.reviewer', 'Personal-review-pass-2026!');
+  assert.equal((await h.req('private.reviewer', '/api/tasks')).body.tasks.find(p => p.id === id).task.kind, 'review');
 });

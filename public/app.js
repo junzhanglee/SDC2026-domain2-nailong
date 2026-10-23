@@ -5,56 +5,55 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;
 const fmt = value => value ? new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Kuala_Lumpur', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(value)) + ' MYT' : '—';
 const statusClass = value => ({ 待审核: 'review', 待交接: 'handoff', 已交接: 'done', 异常: 'error', 退回: 'return' })[value] || '';
 const badge = value => `<span class="badge ${statusClass(value)}">${esc(value)}</span>`;
-let boot, state, companyId = localStorage.getItem('pr-company') || 'orion', userId = localStorage.getItem('pr-user') || 'lin';
+let state, companyId, userId, demoAccounts = [], authGeneration = 0;
 let filter = '待我处理', search = '', selectedSample = 'A', toastTimer, busy = false, completion = null;
 const userName = uid => state.users.find(u => u.id === uid)?.name || uid || '未指定';
 const parcel = () => state.parcels.find(p => p.id === decodeURIComponent(location.hash.slice(8)));
 const route = () => location.hash.startsWith('#parcel/') ? 'detail' : (location.hash === '#main' ? 'overview' : (location.hash.slice(1) || 'overview'));
-function toast(message, error = false) { clearTimeout(toastTimer); toastEl.textContent = message; toastEl.className = `show${error ? ' error' : ''}`; toastTimer = setTimeout(() => { toastEl.className = ''; }, error ? 10000 : 6500); }
+function toast(message, error = false) { clearTimeout(toastTimer); toastEl.textContent = message; toastEl.className = `show${error ? ' error' : ''}`; toastTimer = setTimeout(() => { toastEl.className = ''; }, error ? 8500 : 4500); }
 async function api(path, data) {
-  const scope = `${companyId}:${userId}`;
-  const response = await fetch(path, { method: data ? 'POST' : 'GET', headers: { 'X-Demo-Company': companyId, 'X-Demo-User': userId, ...(data ? { 'Content-Type': 'application/json' } : {}) }, ...(data ? { body: JSON.stringify(data) } : {}) });
+  const generation = authGeneration;
+  const response = await fetch(path, { method: data ? 'POST' : 'GET', credentials: 'same-origin', headers: data ? { 'Content-Type': 'application/json' } : {}, ...(data ? { body: JSON.stringify(data) } : {}) });
   const result = await response.json();
-  if (scope !== `${companyId}:${userId}`) throw new Error('模拟身份已切换，请使用当前身份重试。');
-  if (!response.ok) { const error = new Error(result.error || result.message || '请求失败'); error.data = result; throw error; }
+  if (generation !== authGeneration) throw new Error('账号会话已变化，请重试。');
+  if (!response.ok) {
+    const error = new Error(result.error || result.message || '请求失败'); error.data = result; error.status = response.status;
+    if (response.status === 401 && !path.includes('/auth/login')) { state = null; authGeneration++; renderLogin(path === '/api/state' ? '' : error.message); }
+    throw error;
+  }
   return result;
 }
-async function refresh() { state = await api('/api/state'); render(); }
-function go(value) { if (location.hash === `#${value}`) render(); else location.hash = value; }
-async function changeIdentity(nextCompany, nextUser) {
-  companyId = nextCompany; userId = nextUser;
-  localStorage.setItem('pr-company', companyId); localStorage.setItem('pr-user', userId);
-  filter = '待我处理'; search = '';
-  await refresh();
-  if (route() === 'detail' && !parcel()) go('overview');
-  if (route() === 'detail') { window.scrollTo(0, 0); document.querySelector('.task-heading h2, .complete-heading h2')?.focus({ preventScroll: true }); }
-  if (route() !== 'detail') toast(`已切换模拟身份：${state.user.name} · ${roleNames[state.user.role]}`);
+async function refresh(animate = false) { const result = await api('/api/state'); state = result; companyId = state.company.id; userId = state.user.id; render(animate); }
+function go(value) { if (location.hash === `#${value}`) render(true); else location.hash = value; }
+function icon(name) {
+  const paths = { tasks: '<path d="M8 6h12M8 12h12M8 18h12M3 6h.01M3 12h.01M3 18h.01"/>', add: '<path d="M12 5v14M5 12h14"/>', user: '<circle cx="12" cy="8" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>', box: '<path d="m3 7 9-5 9 5v10l-9 5-9-5V7Z"/><path d="m3 7 9 5 9-5M12 12v10M7.5 4.5l9 5"/>', logout: '<path d="M9 4H4v16h5M14 8l4 4-4 4M8 12h10"/>', arrow: '<path d="m9 5 7 7-7 7"/>' };
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths[name] || paths.tasks}</svg>`;
 }
-const navItems = [['overview', '▦', '收件工作台'], ['intake', '＋', '到件登记'], ['rules', '☷', '企业规则'], ['guide', '◷', '验收与说明']];
-function render() {
+function render(animate = false) {
+  if (!state) return renderLogin();
   const r = route();
-  app.innerHTML = `<div class="shell"><aside class="sidebar">
-    <a class="brand" href="#overview"><span class="brand-mark">↗</span><span>ParcelRelay<small>EVERY HANDOFF, ACCOUNTED FOR.</small></span></a>
-    <nav class="nav" aria-label="主导航">${navItems.map(([key, icon, label]) => `<a href="#${key}" class="${r === key || (r === 'detail' && key === 'overview') ? 'active' : ''}" ${r === key ? 'aria-current="page"' : ''}><span class="nav-icon" aria-hidden="true">${icon}</span>${label}</a>`).join('')}</nav>
-    <div class="side-bottom"><strong>从到件，到责任交接。</strong><span class="muted">把业务归属、人的决定和每一次交接，留在同一条记录里。</span><div class="side-foot"><span class="dot"></span><span>合成企业 · 演示空间</span></div></div>
-    </aside><div class="content"><header class="topbar"><div class="breadcrumb">${esc(state.company.name)}</div>
-    <details class="identity-picker"><summary><span class="mock">模拟身份</span><strong>${esc(state.user.name)}</strong><span class="role-label">${roleNames[state.user.role]}⌄</span></summary><div class="identity"><label class="sr-only" for="company-select" hidden>合成企业</label><select id="company-select" aria-label="切换合成企业">${boot.companies.map(c => `<option value="${c.id}" ${c.id === companyId ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}</select>
-    <select id="user-select" aria-label="切换模拟身份">${boot.companies.find(c => c.id === companyId).users.map(u => `<option value="${u.id}" ${u.id === userId ? 'selected' : ''}>${esc(u.name)} · ${roleNames[u.role]}</option>`).join('')}</select></div></details></header>
-    <main id="main" class="main">${r === 'overview' ? overview() : r === 'intake' ? intake() : r === 'detail' ? detail() : r === 'rules' ? rules() : guide()}<footer class="footer"><span>ParcelRelay · 合成数据演示</span><a href="#guide">演示范围说明</a></footer></main></div></div>`;
+  const nav = [['overview', 'tasks', '我的任务'], ...(state.user.role === 'registrar' ? [['intake', 'add', '登记']] : []), ['account', 'user', '我的']];
+  document.body.className = 'personal-app';
+  app.innerHTML = `<div class="personal-shell"><header class="personal-header"><a class="personal-brand" href="#overview">${icon('box')}<span>ParcelRelay</span></a><a class="account-shortcut" href="#account" aria-label="我的账号 ${esc(state.user.name)}"><span>${esc(state.user.name)}</span><span class="mini-avatar">${esc(state.user.name.slice(-1))}</span></a></header>
+  <main id="main" class="personal-main page-screen ${animate ? 'route-enter' : ''}">${r === 'overview' || r === 'records' ? overview() : r === 'intake' ? intake() : r === 'detail' ? detail() : r === 'rules' ? (state.user.role === 'admin' ? rules() : '<div class="empty"><strong>此页面需要企业配置权限</strong><a href="#overview">返回我的任务</a></div>') : r === 'guide' ? guide() : accountPage()}</main>
+  <nav class="bottom-nav" aria-label="主导航">${nav.map(([key, glyph, label]) => `<a href="#${key}" class="${r === key || (key === 'overview' && ['detail', 'records'].includes(r)) || (key === 'account' && ['rules', 'guide'].includes(r)) ? 'active' : ''}" ${r === key ? 'aria-current="page"' : ''}>${icon(glyph)}<span>${label}</span></a>`).join('')}</nav></div>`;
+}
+function renderLogin(message = '') {
+  document.body.className = 'personal-app signed-out';
+  app.innerHTML = `<main id="main" class="login-shell route-enter"><a href="#login" class="personal-brand">${icon('box')}<span>ParcelRelay</span></a><div class="login-heading"><span class="login-kicker">YOUR WORK, IN HAND.</span><h1>每一次交接，<br>从你的任务开始。</h1><p>登录自己的账号，查看待办并接续工作。</p></div><form id="login-form" class="login-form">${message ? `<p class="form-error" role="alert">${esc(message)}</p>` : ''}<div class="field"><label for="login-name">账号</label><input id="login-name" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required maxlength="48" placeholder="输入企业分配的账号"></div><div class="field"><label for="login-password">密码</label><input id="login-password" name="password" type="password" autocomplete="current-password" required maxlength="128" placeholder="输入你的密码"></div><button class="btn login-submit">登录，查看我的任务 ${icon('arrow')}</button><p class="login-help">账号由企业配置负责人创建。</p></form>
+  <details class="demo-account-help"><summary>试用合成账号</summary><p>以下账号仅用于这份合成数据演示。每个账号独立登录；改密后初始密码失效。</p><div>${demoAccounts.map(a => `<div class="demo-login-row"><strong>${esc(a.name)}<small>${esc(a.role)}</small></strong><span><code>${esc(a.username)}</code><small>${esc(a.password)}</small></span></div>`).join('')}</div></details><footer class="login-footer">PARCELRELAY <span>·</span> 合成数据演示</footer></main>`;
+}
+function accountPage() {
+  return `<div class="account-page">${heading('个人空间', '我的', '账号身份与当前工作空间。')}<section class="profile-card"><div class="profile-avatar">${esc(state.user.name.slice(-1))}</div><div><h2>${esc(state.user.name)}</h2><p>${roleNames[state.user.role]} · ${esc(state.company.name)}</p><small>账号 ${esc(state.account.username)}</small></div></section>
+  <div class="profile-links"><a href="#records">我参与的记录 ${icon('arrow')}</a>${state.user.role === 'admin' ? `<a href="#rules">企业授权与规则 ${icon('arrow')}</a>` : ''}<a href="#guide">演示与验收说明 ${icon('arrow')}</a></div>
+  <details class="settings-section"><summary>修改密码<span>更新个人登录凭据</span></summary><div class="settings-body"><form id="password-form" class="focus-form"><div class="field"><label for="current-password">当前密码</label><input id="current-password" name="currentPassword" type="password" autocomplete="current-password" required maxlength="128"></div><div class="field"><label for="new-password">新密码（12–128 位）</label><input id="new-password" name="newPassword" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></div><button class="btn">更新密码</button></form></div></details>
+  ${state.user.role === 'admin' ? `<details class="settings-section"><summary>成员账号<span>创建与查看</span></summary><div class="settings-body"><p>新账号只获得岗位身份；业务接收和审核权限需要独立配置。</p><div class="member-list">${(state.accounts || []).map(a => `<div><span>${esc(userName(a.userId))}</span><code>${esc(a.username)}</code></div>`).join('')}</div><form id="account-create-form" class="focus-form"><div class="form-grid">${inputField('member-name', '成员姓名 *', '', true, 40)}${inputField('member-username', '登录账号 *', '', true, 48)}<div class="field"><label for="member-role">岗位</label><select id="member-role" name="role">${Object.entries(roleNames).map(([key, label]) => `<option value="${key}">${label}</option>`).join('')}</select></div><div class="field"><label for="member-password">初始密码（至少 12 位）</label><input id="member-password" name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></div></div><button class="btn">创建成员账号</button></form></div></details>` : ''}
+  <button class="logout-button" data-action="logout">${icon('logout')}退出当前账号</button><p class="account-footnote">当前使用合成业务数据。账号登录与任务归属由服务端校验。</p></div>`;
 }
 function heading(kicker, title, subtitle, action = '') { return `<div class="page-heading"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p class="subtitle">${subtitle}</p></div>${action}</div>`; }
-function canRelease(p) {
-  return p.status === '待交接' && !p.release && ['registrar', 'reviewer'].includes(state.user.role)
-    && state.user.available && p.business?.readers.includes(userId);
-}
-function canReplan(p) {
-  return !!p.business && ['异常', '待审核'].includes(p.status)
-    && (state.user.role === 'registrar' || p.business.reviewers.includes(userId));
-}
-function isMyTask(p) {
-  return state.user.available && (p.canLink || p.canReview || canRelease(p)
-    || (p.canReceive && !!p.release) || (p.status === '异常' && canReplan(p)));
-}
+function canRelease(p) { return !!p.canRelease; }
+function canReplan(p) { return !!p.business && ['异常', '待审核'].includes(p.status) && (p.creatorId === userId || p.business.reviewers.includes(userId)); }
+function isMyTask(p) { return !!p.task; }
 function phase(p) {
   if (p.status === '已交接') return 5;
   if (p.status === '待核对' || p.status === '退回') return 1;
@@ -76,13 +75,13 @@ function nextAction(p) {
 }
 function overview() {
   const myTasks = state.parcels.filter(isMyTask);
-  const shown = state.parcels.filter(p => (filter === '全部' || (filter === '待我处理' ? isMyTask(p) : p.status === filter))
+  const shown = state.parcels.filter(p => ((filter === '待我处理' ? isMyTask(p) : filter === '跟进中' ? p.status !== '已交接' && !isMyTask(p) : filter === '已完成' ? p.status === '已交接' : p.status === filter))
     && `${p.tracking} ${p.recipient} ${p.businessId || ''} ${p.reference}`.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => Number(isMyTask(b)) - Number(isMyTask(a)) || b.createdAt.localeCompare(a.createdAt));
-  return `<div class="worklist-page">${heading('收件工作台', '今天，先处理这几件。', `${esc(state.user.name)}，你有 ${myTasks.length} 件收件可以继续处理。`, state.user.role === 'registrar' ? '<a class="btn" href="#intake">＋ 登记新收件</a>' : '<button class="text-action" data-action="refresh">刷新记录 ↻</button>')}
-    <section class="panel task-list"><div class="list-controls"><div class="list-tabs" role="group" aria-label="收件范围">${['待我处理', '全部', '异常', '已交接'].map(s => `<button class="list-tab ${filter === s ? 'active' : ''}" data-filter="${s}" aria-pressed="${filter === s}">${s}<span>${state.parcels.filter(p => s === '待我处理' ? isMyTask(p) : s === '全部' || p.status === s).length}</span></button>`).join('')}</div><input id="search" type="search" aria-label="搜索收件" placeholder="搜索收件或业务编号" value="${esc(search)}"></div>
-    ${shown.length ? `<div class="receipt-list">${shown.map(p => `<article class="receipt-row"><div class="receipt-symbol" aria-hidden="true">${p.status === '已交接' ? '✓' : p.status === '异常' ? '!' : '▱'}</div><div class="receipt-name"><a href="#parcel/${p.id}">${esc(p.tracking)}</a><p>${esc(p.type)}<span>·</span>${esc(p.recipient)}</p></div><div class="receipt-stage">${badge(p.status)}<small>${esc(nextAction(p))}</small></div><a href="#parcel/${p.id}" class="${isMyTask(p) ? 'btn small' : 'btn ghost small'}" aria-label="${esc(taskLabel(p))} ${esc(p.tracking)}">${isMyTask(p) ? esc(taskLabel(p)) : p.status === '已交接' ? '查看结果' : '查看进度'} →</a></article>`).join('')}</div>` : `<div class="empty"><span class="empty-mark" aria-hidden="true">${filter === '待我处理' ? '✓' : '▱'}</span><strong>${filter === '待我处理' && !search ? '当前没有需要你处理的收件' : '没有找到收件'}</strong><p>${filter === '待我处理' ? '可以切换到「全部」查看其他人的处理进度。' : '试试其他范围或收件编号。'}</p>${filter !== '全部' ? '<button class="btn ghost small" data-filter="全部">查看全部收件</button>' : ''}</div>`}
-    </section><div class="list-bottom"><p>打开一条收件，跟着当前步骤继续。</p><details class="list-more"><summary>更多选项</summary><button class="text-action" data-action="export">导出当前身份可见记录</button><a href="#guide">查看演示验收说明</a></details></div></div>`;
+  return `<div class="worklist-page">${heading('MY TASKS', `你好，${esc(state.user.name)}。`, `有 ${myTasks.length} 项任务等待你处理。`, state.user.role === 'registrar' ? '<a class="btn" href="#intake">＋ 登记新收件</a>' : '<button class="text-action" data-action="refresh">刷新记录 ↻</button>')}
+    <section class="panel task-list"><div class="list-controls"><div class="list-tabs" role="group" aria-label="我的任务范围">${['待我处理', '跟进中', '已完成'].map(s => `<button class="list-tab ${filter === s ? 'active' : ''}" data-filter="${s}" aria-pressed="${filter === s}">${s}<span>${state.parcels.filter(p => s === '待我处理' ? isMyTask(p) : s === '跟进中' ? p.status !== '已交接' && !isMyTask(p) : p.status === '已交接').length}</span></button>`).join('')}</div><input id="search" type="search" aria-label="搜索收件" placeholder="搜索收件或业务编号" value="${esc(search)}"></div>
+    ${shown.length ? `<div class="receipt-list">${shown.map(p => `<article class="receipt-row"><div class="receipt-symbol" aria-hidden="true">${p.status === '已交接' ? '✓' : p.status === '异常' ? '!' : '▱'}</div><div class="receipt-name"><a href="#parcel/${p.id}">${esc(p.tracking)}</a><p>${esc(p.type)}<span>·</span>${esc(p.recipient)}</p></div><div class="receipt-stage">${badge(p.status)}<small>${esc(nextAction(p))}</small></div><a href="#parcel/${p.id}" class="${isMyTask(p) ? 'btn small' : 'btn ghost small'}" aria-label="${esc(taskLabel(p))} ${esc(p.tracking)}">${isMyTask(p) ? esc(taskLabel(p)) : p.status === '已交接' ? '查看结果' : '查看进度'} →</a></article>`).join('')}</div>` : `<div class="empty"><span class="empty-mark" aria-hidden="true">${filter === '待我处理' ? '✓' : '▱'}</span><strong>${filter === '待我处理' && !search ? '当前没有需要你处理的收件' : '没有找到收件'}</strong><p>${filter === '待我处理' ? '你的任务会在需要你处理时出现，可在「跟进中」查看已流转的记录。' : '试试其他范围或收件编号。'}</p>${filter !== '跟进中' ? '<button class="btn ghost small" data-filter="跟进中">查看跟进中的记录</button>' : ''}</div>`}
+    </section><div class="list-bottom"><p>每次只处理你负责的步骤，完成后流转给下一位同事。</p><details class="list-more"><summary>更多选项</summary><button class="text-action" data-action="export">导出当前身份可见记录</button><a href="#guide">查看演示验收说明</a></details></div></div>`;
 }
 const samples = {
   A: { label: '采购物资 · 正常闭环', desc: '原负责人休假，推荐在岗授权备用人。', type: '采购物资', reference: 'PO-2026-001', source: '合成供应商 · 云帆设备', recipient: '黄安 / 采购', note: '案例 A：两台显示器到件，按采购单核对并交给授权备用人。' },
@@ -94,7 +93,7 @@ const samples = {
 function intake() {
   const sample = companyId === 'orion' ? samples[selectedSample] : { type: '客户资料', reference: 'AC-2026-001', source: '合成客户 · 青禾', recipient: '乔文', note: '接收资料不代表已经审阅内容。' };
   return `<div class="intake-focus">${heading('第 1 步 / 登记', '这次收到了什么？', '先记录到件信息，保存后再核对业务归属。')}
-    ${state.user.role !== 'registrar' ? `<div class="notice"><strong>请由登记员完成登记</strong><button class="btn small" data-switch="${companyId === 'orion' ? 'lin' : 'ivy'}">切换到模拟登记员 →</button></div>` : ''}
+    ${state.user.role !== 'registrar' ? '<div class="notice">当前账号没有到件登记权限。</div>' : ''}
     <section class="panel intake-card"><details class="sample-picker"><summary>试用合成案例 <span>点击填充</span></summary><div class="sample-list">${companyId === 'orion' ? Object.entries(samples).map(([key, s]) => `<button class="sample ${selectedSample === key ? 'selected' : ''}" data-sample="${key}"><span class="sample-letter">${key}</span><span><strong>${s.label}</strong><small>${s.desc}</small></span></button>`).join('') : '<p>已填入青杉企业的合成客户资料。</p>'}</div></details>
     <form id="intake-form" class="intake-fields"><div class="form-grid">
     ${inputField('tracking', '收件编号 *', `DEMO-${companyId === 'orion' ? selectedSample : 'AC'}-${Date.now().toString().slice(-6)}`, true, 60)}
@@ -119,9 +118,8 @@ function businessSummary(p) {
   return b ? `<div class="item-summary"><span class="summary-icon" aria-hidden="true">▱</span><div><strong>${esc(b.model)} <span>× ${b.quantity}</span></strong><small>${esc(b.name)} · ${esc(b.id)}</small></div></div>` : '';
 }
 function switchTask(ids, verb) {
-  const target = [...new Set(ids)].find(uid => uid !== userId && state.users.some(u => u.id === uid && u.available));
-  if (!target) return '<p class="wait-note">当前没有可切换的在岗处理人，请联系配置负责人。</p>';
-  return `<div class="role-handoff"><p class="handoff-caption">接下来由 <strong>${esc(userName(target))}</strong> ${verb}</p><button class="btn" data-switch="${esc(target)}">切换至${esc(userName(target))}，${verb} →</button><small>演示身份切换；切换后仍需明确确认操作。</small></div>`;
+  const target = ids.find(uid => state.users.some(u => u.id === uid));
+  return `<div class="role-handoff"><p class="handoff-caption">${target ? `接下来由 <strong>${esc(userName(target))}</strong> ${verb}` : '等待指定负责人处理'}</p><p class="wait-note">对方登录自己的账号后，会在任务列表中看到这一步。</p><a class="btn" href="#overview">返回我的任务 →</a></div>`;
 }
 function reasonField(id, label = '处理理由 *', placeholder = '说明这次决定的原因') {
   return `<div class="field"><label for="${id}">${label}</label><textarea id="${id}" name="reason" maxlength="500" required placeholder="${placeholder}" rows="2"></textarea></div>`;
@@ -132,11 +130,11 @@ function outcomeNote(p) {
 }
 function detail() {
   const p = parcel();
-  if (!p) return `${heading('', '此收件不可见', '请切换到有权处理的身份，或返回工作台。')}<a class="btn" href="#overview">返回工作台</a>`;
+  if (!p) return `${heading('', '此收件不可见', '当前账号无权查看此收件，请返回自己的任务。')}<a class="btn" href="#overview">返回我的任务</a>`;
   const events = state.events.filter(e => e.parcelId === p.id);
   const n = phase(p);
-  const owner = n === 1 ? '登记员' : n === 2 ? (p.business?.reviewers || []).map(userName).join('、') : n === 3 ? '交出方' : userName(p.plan?.assigneeId);
-  return `<div class="journey-page"><a class="back" href="#overview">← 收件工作台</a><div class="receipt-heading"><div><h1>${esc(p.tracking)}</h1><p>${esc(p.type)}<span>·</span>${esc(p.recipient)}</p></div>${badge(p.status)}</div>
+  const owner = n === 1 ? '登记员' : n === 2 ? (p.business?.reviewers || []).map(userName).join('、') : n === 3 ? userName(p.senderId) : userName(p.plan?.assigneeId);
+  return `<div class="journey-page"><a class="back" href="#overview">← 我的任务</a><div class="receipt-heading"><div><h1>${esc(p.tracking)}</h1><p>${esc(p.type)}<span>·</span>${esc(p.recipient)}</p></div>${badge(p.status)}</div>
     ${stepper(p)}${outcomeNote(p)}
     <section class="panel journey-focus" aria-label="当前步骤">${p.status === '已交接' ? completeTask(p) : `<div class="task-eyebrow"><span>${p.status === '异常' ? '需要处理 / 流程已暂停' : `第 ${n + 1} 步 / 共 5 步`}</span><span>${esc(owner)}负责</span></div>${currentTask(p)}`}</section>
     <div class="receipt-extras"><details class="extra-panel"><summary>收件资料<span>来源、备注与编辑</span></summary><div class="extra-body">${receiptInfo(p)}${p.canEdit ? editForm(p) : ''}</div></details>
@@ -165,8 +163,8 @@ function currentTask(p) {
   if (n === 3) {
     const canAct = canRelease(p);
     const message = p.approval ? `${esc(userName(p.approval.by))}已批准交给${esc(userName(p.plan.assigneeId))}。` : '';
-    return taskHeading(canAct ? '将收件交给获批准的接收人' : '等待交出方确认', `${message}交出方先确认，接收人再核对。`) + businessSummary(p) + `<div class="handoff-pair"><div><small>交出方</small><strong>${canAct ? esc(state.user.name) : '待确认'}</strong></div><span aria-hidden="true">→</span><div><small>获批准接收人</small><strong>${esc(userName(p.plan.assigneeId))}</strong></div></div>` +
-      (canAct ? `<form data-parcel-action="release" class="focus-form"><label class="check"><input name="confirmed" type="checkbox" required>我已核对收件，并向${esc(userName(p.plan.assigneeId))}当面交出。</label><div class="step-submit"><span>下一步：${esc(userName(p.plan.assigneeId))}核对接收</span><button class="btn">确认交出，交给接收人 →</button></div></form>${exceptionOption(p)}` : switchTask(p.business?.readers.filter(uid => state.users.some(u => u.id === uid && ['registrar', 'reviewer'].includes(u.role) && u.available)) || [], '确认交出'));
+    return taskHeading(canAct ? '将收件交给获批准的接收人' : '等待交出方确认', `${message}交出方先确认，接收人再核对。`) + businessSummary(p) + `<div class="handoff-pair"><div><small>交出方</small><strong>${esc(userName(p.senderId))}</strong></div><span aria-hidden="true">→</span><div><small>获批准接收人</small><strong>${esc(userName(p.plan.assigneeId))}</strong></div></div>` +
+      (canAct ? `<form data-parcel-action="release" class="focus-form"><label class="check"><input name="confirmed" type="checkbox" required>我已核对收件，并向${esc(userName(p.plan.assigneeId))}当面交出。</label><div class="step-submit"><span>下一步：${esc(userName(p.plan.assigneeId))}核对接收</span><button class="btn">确认交出，交给接收人 →</button></div></form>${exceptionOption(p)}` : switchTask([p.senderId], '确认交出'));
   }
   if (!p.canReceive) return taskHeading('已确认交出，等待接收人核对', `${esc(userName(p.release.by))}已于 ${fmt(p.release.at)} 确认交出。`) + businessSummary(p) + switchTask([p.plan.assigneeId], '核对接收');
   return taskHeading('物品核对无误后，确认接收', `交出方：${esc(userName(p.release.by))}。如果实物不符，请先报告异常。`) + businessSummary(p) +
@@ -196,7 +194,7 @@ function exceptionOption(p) {
   return `<details class="secondary-task exception-option"><summary>实物或资料不符？暂停并报告</summary><form data-parcel-action="exception" class="focus-form">${reasonField('exception-reason', '异常原因 *', '例如：应到两台，实到一台')}<button class="btn danger">记录异常，暂停交接</button></form></details>`;
 }
 function completeTask(p) {
-  return `<div class="complete-heading"><span class="complete-icon" aria-hidden="true">✓</span><div><h2 tabindex="-1">交接完成</h2><p>已由${esc(userName(p.proof.receiverId))}确认接收。</p></div></div>${businessSummary(p)}<dl class="proof-summary"><div><dt>交出方</dt><dd>${esc(userName(p.proof.senderId))}</dd></div><div><dt>接收方</dt><dd>${esc(userName(p.proof.receiverId))}</dd></div><div><dt>完成时间</dt><dd>${fmt(p.proof.at)}</dd></div></dl><div class="proof-checks">✓ 型号、数量、状况已核对<br>✓ 交出方与接收方均已确认</div>${p.proof.note ? `<p class="proof-note">备注：${esc(p.proof.note)}</p>` : ''}<div class="step-submit"><span>交接证明已保存，关联业务仍为进行中。</span><a class="btn" href="#overview">返回工作台 →</a></div>`;
+  return `<div class="complete-heading"><span class="complete-icon" aria-hidden="true">✓</span><div><h2 tabindex="-1">交接完成</h2><p>已由${esc(userName(p.proof.receiverId))}确认接收。</p></div></div>${businessSummary(p)}<dl class="proof-summary"><div><dt>交出方</dt><dd>${esc(userName(p.proof.senderId))}</dd></div><div><dt>接收方</dt><dd>${esc(userName(p.proof.receiverId))}</dd></div><div><dt>完成时间</dt><dd>${fmt(p.proof.at)}</dd></div></dl><div class="proof-checks">✓ 型号、数量、状况已核对<br>✓ 交出方与接收方均已确认</div>${p.proof.note ? `<p class="proof-note">备注：${esc(p.proof.note)}</p>` : ''}<div class="step-submit"><span>交接证明已保存，关联业务仍为进行中。</span><a class="btn" href="#overview">返回我的任务 →</a></div>`;
 }
 function receiptInfo(p) {
   return `<dl class="kv"><div><dt>来源</dt><dd>${esc(p.source)}</dd></div><div><dt>外包装收件人</dt><dd>${esc(p.recipient)}</dd></div><div><dt>登记业务线索</dt><dd>${esc(p.reference || '未提供')}</dd></div><div><dt>期望处理时间</dt><dd>${p.deadline ? `${esc(p.deadline.replace('T', ' '))} MYT（仅为期望）` : '未设置'}</dd></div><div class="full"><dt>必要备注</dt><dd>${esc(p.note || '无')}</dd></div><div><dt>登记时间</dt><dd>${fmt(p.createdAt)}</dd></div><div><dt>内部编号 / 资料版本</dt><dd>${esc(p.id)} / ${p.revision}</dd></div></dl>`;
@@ -204,13 +202,14 @@ function receiptInfo(p) {
 function planInfo(p) {
   return `<div class="business-card"><strong>${esc(p.business?.id)} · ${esc(p.business?.name)}</strong><p>方案 v${p.plan.version}；业务编号经明确确认，收件类型一致。</p><p>${esc(p.plan.reason)}</p></div><div class="people">${p.plan.people.map(u => `<div class="person-row"><div>${esc(u.name)}<small>${esc(u.reason)}</small></div><span class="badge ${u.available && u.authorized ? 'handoff' : 'error'}">${u.authorized ? (u.available ? '在岗 · 有授权' : '不在岗') : '无接收授权'}</span></div>`).join('')}</div><p class="hint">以上为方案生成时的快照，执行时会重新复核。</p>${p.approval ? `<div class="approval-record"><strong>${esc(userName(p.approval.by))}已批准 · v${p.approval.version}</strong><p>${esc(p.approval.reason)}</p><small>${fmt(p.approval.at)}</small></div>` : ''}`;
 }
-function switchButtons(ids) { return [...new Set(ids)].filter(uid => uid && uid !== userId).map(uid => `<button class="btn ghost small" data-switch="${esc(uid)}">切换至${esc(userName(uid))} →</button>`).join(''); }
+function switchButtons() { return '<span class="hint">请联系企业配置负责人。</span>'; }
 function editForm(p) { return `<section class="panel"><div class="panel-body"><details><summary>编辑资料或补充备注</summary><p class="hint">无关备注保留批准；来源、收件人或业务线索变化，会使原批准失效并回到待核对。</p><form data-parcel-action="edit" class="stack" style="gap:12px;margin-top:14px">${inputField('source', '来源', p.source, true, 100)}${inputField('recipient', '外包装收件人', p.recipient, true, 100)}${inputField('reference', '业务编号或名称', p.reference, false, 100)}<div class="field"><label for="edit-note">备注</label><textarea id="edit-note" name="note" maxlength="500">${esc(p.note)}</textarea></div><div class="field"><label for="edit-reason">修改理由 *</label><textarea id="edit-reason" name="reason" required maxlength="500"></textarea></div><button class="btn secondary">保存资料并重新校验</button></form></details></div></section>`; }
 function rules() {
   const admin = state.user.role === 'admin';
   return `<div class="settings-page">${heading('企业设置', '规则与授权', esc(state.company.name))}
   <details class="settings-section" open><summary>业务与接收授权<span>${state.businesses.length} 项可见业务</span></summary><div class="settings-body table-scroll"><table><thead><tr><th>业务</th><th>获授权接收人</th><th>指定审核人</th><th>核对物品</th></tr></thead><tbody>${state.businesses.map(b => `<tr><td><strong>${esc(b.id)}</strong><small>${esc(b.name)}</small></td><td>${esc(b.authorized.map(userName).join('、') || '暂无')}</td><td>${esc(b.reviewers.map(userName).join('、'))}</td><td>${esc(b.model)} × ${b.quantity}</td></tr>`).join('')}</tbody></table></div></details>
   ${admin ? `<details class="settings-section"><summary>更改接收授权<span>独立记录变更</span></summary><div class="settings-body"><p class="hint">改派不会扩大权限。公开业务的接收授权在这里单独变更。</p><form id="authorization-form" class="focus-form settings-form"><div class="form-grid"><div class="field"><label for="config-business">业务</label><select id="config-business" name="businessId">${state.businesses.filter(b => b.type !== '保密文件').map(b => `<option value="${b.id}">${esc(b.id)} / ${esc(b.name)}</option>`).join('')}</select></div><div class="field"><label for="config-user">接收人</label><select id="config-user" name="userId">${state.users.filter(u => u.role === 'receiver').map(u => `<option value="${u.id}" ${u.id === 'nina' ? 'selected' : ''}>${esc(u.name)}</option>`).join('')}</select></div><div class="field full"><label for="config-authorized">变更为</label><select id="config-authorized" name="authorized"><option value="false">撤销接收授权</option><option value="true">授权生效</option></select></div></div>${reasonField('auth-reason', '授权变更理由 *')}<button class="btn">记录授权变更</button></form></div></details>` : `<div class="settings-access"><p>配置变更由指定负责人处理。</p>${switchButtons([companyId === 'orion' ? 'admin' : 'ops'])}</div>`}
+  ${admin ? `<details class="settings-section"><summary>登记与审核权限<span>为新成员配置业务</span></summary><div class="settings-body"><form id="business-access-form" class="focus-form"><div class="field"><label for="access-business">业务</label><select id="access-business" name="businessId">${state.businesses.filter(b => b.type !== '保密文件').map(b => `<option value="${b.id}">${esc(b.id)} / ${esc(b.name)}</option>`).join('')}</select></div><div class="field"><label for="access-user">成员</label><select id="access-user" name="userId">${state.users.filter(u => ['registrar', 'reviewer'].includes(u.role)).map(u => `<option value="${u.id}">${esc(u.name)} / ${roleNames[u.role]}</option>`).join('')}</select></div><div class="field"><label for="access-kind">权限</label><select id="access-kind" name="access"><option value="read">业务查看与登记关联</option><option value="review">授权审核（仅审核岗位）</option></select></div><div class="field"><label for="access-granted">变更为</label><select id="access-granted" name="granted"><option value="true">权限生效</option><option value="false">撤销权限</option></select></div>${reasonField('access-reason', '权限变更理由 *')}<button class="btn">记录业务权限变更</button></form></div></details>` : ''}
   <details class="settings-section"><summary>人员在岗状态<span>${state.users.length} 位合成人员</span></summary><div class="settings-body"><div class="people">${state.users.map(u => `<div class="person-row"><div>${esc(u.name)}<small>${roleNames[u.role]}</small></div><span class="badge ${u.available ? 'handoff' : 'error'}">${u.available ? '在岗' : '不在岗'}</span></div>`).join('')}</div>
     ${admin ? `<details class="secondary-task"><summary>变更人员状态</summary><form id="availability-form" class="focus-form"><div class="form-grid"><div class="field"><label for="availability-user">人员</label><select id="availability-user" name="userId">${state.users.map(u => `<option value="${u.id}">${esc(u.name)} / ${u.available ? '在岗' : '不在岗'}</option>`).join('')}</select></div><div class="field"><label for="availability-value">变更为</label><select id="availability-value" name="available"><option value="false">不在岗</option><option value="true">在岗</option></select></div></div>${reasonField('availability-reason', '人员状态变更理由 *')}<button class="btn secondary">记录人员状态变更</button></form></details>` : ''}</div></details>
   <details class="settings-section"><summary>交接规则<span>查看完成条件与限制</span></summary><div class="settings-body">${[
@@ -225,23 +224,21 @@ function rules() {
 function guide() {
   return `<div class="guide-page">${heading('演示与验收', '从一条收件开始。', '先走完正常流程，再按需验证异常。')}
   <details class="settings-section" open><summary>A / 完成一次采购交接<span>正常流程</span></summary><div class="settings-body"><ol class="acceptance-steps">
-  <li><span>1</span><div><strong>登记员核对业务</strong><p>以林悦打开一条采购收件，确认 <code>PO-2026-001</code>。方案应推荐在岗且有授权的李宁。</p></div></li>
-  <li><span>2</span><div><strong>授权审核人批准</strong><p>按页面提示切换陈美，写明理由并批准分派。</p></div></li>
-  <li><span>3</span><div><strong>交出方先确认</strong><p>陈美或林悦核对收件后，确认当面交出。</p></div></li>
-  <li><span>4</span><div><strong>接收人核对并接收</strong><p>按提示切换李宁，核对显示器 M27 × 2、状况和实际接收，保存交接结果。</p></div></li>
-  </ol><div class="acceptance-result">应看到：交接完成、双方姓名和时间。刷新后仍保留；关联业务仍为进行中。</div><a class="btn" href="#overview">打开收件工作台 →</a><p class="hint guide-hint">已经处理过的收件不能重复领取。可在登记页填充案例 A，新建一条唯一编号的收件。</p></div></details>
-  <details class="settings-section"><summary>B / 保密件无人可接收<span>权限与暂存</span></summary><div class="settings-body"><ol class="guide-list"><li>切换周晨，打开保密件并确认 <code>CT-2026-001</code>。</li><li>温岚和何皓均不在岗，不能分给普通员工。</li><li>填写理由确认暂存，或展开其他方式升级/退回。流程应保持暂停。</li><li>林悦、陈美或李宁的列表中不应出现受限收件元数据。</li></ol></div></details>
-  <details class="settings-section"><summary>C / 相似业务不能自动选定<span>归属歧义</span></summary><div class="settings-body"><p>以林悦打开晨光客户资料，会看到品牌项目与网站项目两个候选。补充完整编号 <code>CLIENT-101</code> 或 <code>CLIENT-102</code> 并明确确认后才能继续。</p></div></details>
-  <details class="settings-section"><summary>D / 批准后撤销授权<span>执行前拦截</span></summary><div class="settings-body"><ol class="guide-list"><li>新建案例 D，完成核对、审核与交出确认，暂不接收。</li><li>切换许岑，在企业规则中展开「更改接收授权」，撤销 PO-2026-001 / 李宁授权并写明理由。</li><li>切换李宁尝试接收，应被拦截，旧批准失效并留下原因。</li><li>恢复授权后，仍需重新生成方案、审核与确认交出。验收后请恢复李宁权限，方便继续演示。</li></ol></div></details>
+  <li><span>1</span><div><strong>登记员核对业务</strong><p>请林悦登录并打开一条采购收件，确认 <code>PO-2026-001</code>。方案应推荐在岗且有授权的李宁。</p></div></li>
+  <li><span>2</span><div><strong>授权审核人批准</strong><p>请陈美登录自己的账号，写明理由并批准分派。</p></div></li>
+  <li><span>3</span><div><strong>交出方先确认</strong><p>林悦登录自己的账号，核对收件后确认当面交出。</p></div></li>
+  <li><span>4</span><div><strong>接收人核对并接收</strong><p>按提示请李宁登录，核对显示器 M27 × 2、状况和实际接收，保存交接结果。</p></div></li>
+  </ol><div class="acceptance-result">应看到：交接完成、双方姓名和时间。刷新后仍保留；关联业务仍为进行中。</div><a class="btn" href="#overview">打开我的任务 →</a><p class="hint guide-hint">已经处理过的收件不能重复领取。可在登记页填充案例 A，新建一条唯一编号的收件。</p></div></details>
+  <details class="settings-section"><summary>B / 保密件无人可接收<span>权限与暂存</span></summary><div class="settings-body"><ol class="guide-list"><li>请周晨登录，打开保密件并确认 <code>CT-2026-001</code>。</li><li>温岚和何皓均不在岗，不能分给普通员工。</li><li>填写理由确认暂存，或展开其他方式升级/退回。流程应保持暂停。</li><li>林悦、陈美或李宁的列表中不应出现受限收件元数据。</li></ol></div></details>
+  <details class="settings-section"><summary>C / 相似业务不能自动选定<span>归属歧义</span></summary><div class="settings-body"><p>请林悦登录并打开晨光客户资料，会看到品牌项目与网站项目两个候选。补充完整编号 <code>CLIENT-101</code> 或 <code>CLIENT-102</code> 并明确确认后才能继续。</p></div></details>
+  <details class="settings-section"><summary>D / 批准后撤销授权<span>执行前拦截</span></summary><div class="settings-body"><ol class="guide-list"><li>新建案例 D，完成核对、审核与交出确认，暂不接收。</li><li>请许岑登录，在企业规则中展开「更改接收授权」，撤销 PO-2026-001 / 李宁授权并写明理由。</li><li>请李宁登录尝试接收，应被拦截，旧批准失效并留下原因。</li><li>恢复授权后，仍需重新生成方案、审核与确认交出。验收后请恢复李宁权限，方便继续演示。</li></ol></div></details>
   <details class="settings-section"><summary>E / 实物不符必须暂停<span>异常与漏核对</span></summary><div class="settings-body"><p>新建案例 E，批准后打开「实物或资料不符？暂停并报告」，填写「应到两台，实到一台」。应暂停交接，清除旧批准，要求记录修正情况并重新审核。任何必要证明项缺失都不能完成。</p></div></details>
-  <details class="settings-section"><summary>演示范围与数据说明<span>已实现与未实现</span></summary><div class="settings-body"><ul class="guide-list"><li>人员、企业和业务均为合成数据。身份可自由切换，没有真实身份认证。</li><li>记录保存在本机 SQLite；日志可由本机拥有者修改，不声称防篡改。</li><li>Orbyte 数据为团队接口假设；未连接真实 Orbyte、AI、WhatsApp 或外部通知。</li><li>内部交接不代表合同审核或后续业务办结。</li><li>没有真实访谈、用户对照实验或商业收益测量；Replit 线上运行尚未验证。</li></ul><button class="btn secondary small" data-action="export">导出当前身份可见记录</button></div></details>
+  <details class="settings-section"><summary>演示范围与数据说明<span>已实现与未实现</span></summary><div class="settings-body"><ul class="guide-list"><li>人员、企业和业务均为合成数据。当前已启用账号密码与服务端会话，业务资料仍为合成数据。</li><li>记录保存在本机 SQLite；日志可由本机拥有者修改，不声称防篡改。</li><li>Orbyte 数据为团队接口假设；未连接真实 Orbyte、AI、WhatsApp 或外部通知。</li><li>内部交接不代表合同审核或后续业务办结。</li><li>没有真实访谈、用户对照实验或商业收益测量；Replit 线上运行尚未验证。</li></ul><button class="btn secondary small" data-action="export">导出当前身份可见记录</button></div></details>
   <details class="settings-section"><summary>记录你的验收观察<span>可用性与业务验证</span></summary><div class="settings-body"><p>记录使用者背景、案例、完成时间、求助次数和失败原因。对比聊天＋表格时，使用同等难度的不同案例并交换顺序。自动测试通过不代表市场需求或收益已被验证。仓库 docs 文件夹提供原始记录模板。</p></div></details></div>`;
 }
 
 app.addEventListener('change', async e => {
   try {
-    if (e.target.id === 'company-select') { const c = boot.companies.find(c => c.id === e.target.value); await changeIdentity(c.id, c.users[0].id); }
-    if (e.target.id === 'user-select') await changeIdentity(companyId, e.target.value);
     if (e.target.id === 'decision') { const field = e.target.form.querySelector('.alternate-assignee'); if (field) field.hidden = e.target.value !== 'approve'; }
     if (e.target.id === 'status-filter') { filter = e.target.value; render(); }
   } catch (error) { toast(error.message, true); }
@@ -253,9 +250,9 @@ app.addEventListener('click', async e => {
   const target = e.target.closest('button');
   if (!target) return;
   try {
-    if (target.dataset.filter) { filter = target.dataset.filter; render(); }
+    if (target.dataset.filter) { filter = target.dataset.filter; render(true); }
     if (target.dataset.sample) { selectedSample = target.dataset.sample; render(); }
-    if (target.dataset.switch) await changeIdentity(companyId, target.dataset.switch);
+    if (target.dataset.action === 'logout') { await api('/api/auth/logout', {}); authGeneration++; state = null; completion = null; search = ''; location.hash = 'login'; renderLogin(); return; }
     if (target.dataset.action === 'refresh') { await refresh(); toast('已读取最新记录。'); }
     if (target.dataset.action === 'export') {
       const result = await api('/api/export');
@@ -269,8 +266,22 @@ app.addEventListener('submit', async e => {
   if (busy) return;
   const form = e.target;
   const values = Object.fromEntries(new FormData(form));
+  if (['login-form', 'password-form'].includes(form.id)) {
+    busy = true; const button = form.querySelector('button'); button.disabled = true;
+    form.querySelector('.form-error')?.remove();
+    try {
+      if (form.id === 'login-form') {
+        const result = await api('/api/auth/login', values); authGeneration++; state = result; companyId = state.company.id; userId = state.user.id;
+        filter = '待我处理'; completion = null; search = ''; location.hash = 'overview'; render(true); window.scrollTo(0, 0);
+      } else { const result = await api('/api/auth/password', values); form.reset(); toast(result.message); }
+    } catch (error) { const hint = document.createElement('p'); hint.className = 'form-error'; hint.setAttribute('role', 'alert'); hint.textContent = error.message; form.prepend(hint); button.disabled = false; }
+    finally { busy = false; if (button.isConnected) button.disabled = false; }
+    return;
+  }
   let path, data, message, actedId, action;
-  if (form.id === 'intake-form') { path = '/api/parcels'; data = values; message = '登记成功。'; }
+  if (form.id === 'account-create-form') { path = '/api/accounts'; data = { username: values['member-username'], name: values['member-name'], role: values.role, password: values.password }; message = '成员账号已创建，业务权限需单独配置。'; }
+  else if (form.id === 'intake-form') { path = '/api/parcels'; data = values; message = '登记成功。'; }
+  else if (form.id === 'business-access-form') { path = '/api/config'; data = { ...values, kind: 'business-access', granted: values.granted === 'true' }; message = '业务权限已独立配置并记录。'; }
   else if (form.id === 'authorization-form' || form.id === 'availability-form') {
     path = '/api/config'; data = { ...values, kind: form.id === 'authorization-form' ? 'authorization' : 'availability', authorized: values.authorized === 'true', available: values.available === 'true' }; message = '配置已记录。旧批准执行时将重新检查条件。';
   } else if (form.dataset.parcelAction) {
@@ -289,7 +300,7 @@ app.addEventListener('submit', async e => {
       message = result.created.message;
       if (result.created.visible) { const created = state.parcels.find(p => p.id === result.created.id); completion = { id: created.id, status: created.status, message: '到件已登记，接下来核对业务归属。' }; go(`parcel/${result.created.id}`); } else go('overview');
     }
-    render(); window.scrollTo(0, 0); document.querySelector('.task-heading h2, .complete-heading h2')?.focus({ preventScroll: true }); if (!actedId && !result.created?.visible) toast(message);
+    render(true); window.scrollTo(0, 0); document.querySelector('.task-heading h2, .complete-heading h2')?.focus({ preventScroll: true }); if (!actedId && !result.created?.visible) toast(message);
   } catch (error) {
     if (error.data?.parcels) { state = error.data; completion = null; render(); window.scrollTo(0, 0); document.querySelector('.task-heading h2')?.focus({ preventScroll: true }); }
     else if (error.data?.error && /已被更新|已过期|版本已变化/.test(error.message)) { await refresh(); }
@@ -300,14 +311,27 @@ app.addEventListener('submit', async e => {
     if (!form.isConnected) toast(error.message, true);
   } finally { busy = false; }
 });
-window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+window.addEventListener('hashchange', () => {
+  if (route() === 'records') filter = '跟进中';
+  else if (route() === 'overview') filter = '待我处理';
+  render(true); window.scrollTo(0, 0);
+});
+async function backgroundRefresh() {
+  if (!state || busy || document.visibilityState !== 'visible' || !['overview', 'records'].includes(route()) || ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+  try { await refresh(); } catch { /* 过期会话已转至登录页；临时网络问题保留当前画面 */ }
+}
+setInterval(backgroundRefresh, 15000);
+window.addEventListener('focus', backgroundRefresh);
+document.addEventListener('visibilitychange', backgroundRefresh);
 async function start() {
   try {
-    boot = await api('/api/bootstrap');
-    let c = boot.companies.find(c => c.id === companyId);
-    if (!c) { c = boot.companies[0]; companyId = c.id; }
-    if (!c.users.some(u => u.id === userId)) userId = c.users[0].id;
+    if (route() === 'records') filter = '跟进中';
+    const result = await fetch('/api/demo-accounts'); demoAccounts = (await result.json()).accounts || [];
     await refresh();
-  } catch (error) { app.innerHTML = `<main class="boot"><h1>暂时无法打开工作空间</h1><p>${esc(error.message)}</p><p>请确认本地服务仍在运行，然后刷新页面。</p><button class="btn" id="retry">重试连接</button></main>`; document.querySelector('#retry').onclick = start; }
+    if (route() === 'login') go('overview');
+  } catch (error) {
+    if (error.status === 401) renderLogin();
+    else { state = null; renderLogin('暂时无法连接，请确认服务正在运行后重试。'); }
+  }
 }
 start();
