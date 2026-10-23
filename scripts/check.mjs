@@ -1,6 +1,6 @@
 import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-for(const file of ['apps/web/assets/app.js','apps/web/assets/data.js','apps/web/assets/engine.js','apps/web/assets/preferences.js','apps/web/assets/account-ui.js'])execFileSync(process.execPath,['--check',file]);
+for(const file of ['apps/web/assets/app.js','apps/web/assets/data.js','apps/web/assets/engine.js','apps/web/assets/preferences.js','apps/web/assets/account-ui.js','apps/web/assets/interaction-ui.js'])execFileSync(process.execPath,['--check',file]);
 const html=readFileSync('apps/web/index.html','utf8');
 for(const file of ['assets/style.css','assets/messenger.css','assets/glass.css','assets/app.js'])if(!html.includes(file)||!existsSync('apps/web/'+file))throw Error('Missing website asset: '+file);
 const contract=JSON.parse(readFileSync('contracts/openapi.json','utf8'));
