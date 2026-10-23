@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+*.sqlite
+*.sqlite-*
+.DS_Store
+data/
+step1-preview.png

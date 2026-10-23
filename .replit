@@ -1,0 +1,9 @@
+run = "npm start"
+
+[env]
+HOST = "0.0.0.0"
+PORT = "3000"
+
+[[ports]]
+localPort = 3000
+externalPort = 80

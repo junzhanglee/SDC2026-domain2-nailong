@@ -1,0 +1,9 @@
+{
+  "name": "parcelrelay",
+  "version": "0.1.0",
+  "description": "ParcelRelay synthetic hackathon MVP",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node server.js", "test": "node --test" },
+  "engines": { "node": ">=24" }
+}
