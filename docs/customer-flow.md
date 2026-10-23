@@ -1,24 +1,24 @@
-# 客户入口与客服交接
+# Customer Entry and Support Handoff
 
-登录页提供独立的员工入口和客户入口。客户入口使用两个固定的演示客户账户（Bunga Café / Kedai Kita），填写称呼后进入专属客服对话。它不是密码认证、注册服务或真实多租户账户。
+The sign-in page separates staff and customer entry. Customer entry uses two fixed synthetic customer accounts, Bunga Café and Kedai Kita. A display name opens the dedicated support conversation. This is not password authentication, registration or real multitenancy.
 
-## 流程
+## Workflow
 
-1. 客户给客服发送站内消息，只能查看当前客户的会话与请求摘要。
-2. 客服在客户收件箱选择客户、回复消息，或从某条客户消息建立请求。同一条消息只能转为一张请求。
-3. 建立请求需要确认数量、期望日期、建议执行员工和审批负责人。仅客服拥有 `create-inquiry`；其他职位不展示新建入口，直接调用建单函数也会被拒绝。
-4. 规则检查库存、员工产能和批准休假；请求进入待审批。可指定执行员工或自动建议；指定员工不可用时不静默换人。
-5. 请求出现在执行员工的 Work 待确认交接中，管理者在审批中心确认。指定审批负责人处理，企业主保留业务审批的全局覆盖权限。
-6. 只有审批成功才创建正式任务。库存不足时，任务仍为受阻，不能据此承诺交期。
+1. Customers send internal support messages and see only their selected customer's conversation and request summaries.
+2. Customer Service selects a customer in the inbox, replies or converts a message into a request. One message can produce only one request.
+3. Creation confirms quantity, requested date, proposed assignee and reviewer. Only Customer Service has create-inquiry permission. Other roles have no creation entry and direct function calls are rejected.
+4. Rules check stock, capacity and approved leave. The request awaits approval. An assignee may be selected or suggested automatically; if a selected employee is unavailable, the system does not silently substitute another person.
+5. The assignee sees the pending handoff in Work and the manager sees the request in approvals. The designated reviewer handles it; the owner retains global business-approval override authority.
+6. Only successful approval creates a task. Insufficient stock leaves the task blocked and cannot justify a delivery promise.
 
-## 可见范围
+## Visibility
 
-客户会话与内部聊天、企业主公屏通知分开存储。客户不能进入 People、Work、Connect、审批、内部日志或员工个人中心。客户请求摘要不包含内部排期建议、审批人或其他客户数据。客服查看客户会话；管理者与员工通过请求和任务获得工作交接信息。
+Customer conversations are separate from internal chats and owner broadcasts. Customers cannot access People, Work, Connect, approvals, internal logs or staff profiles. Request summaries exclude internal scheduling suggestions, reviewers and other customers' data. Customer Service sees conversations; managers and employees receive handoff information through requests and tasks.
 
-旧状态通过 `migrateCustomerService` 补全客户字段，不清空原有资料。旧请求继续保留；只有新流程明确绑定客户 ID 的请求出现在该客户账户。
+migrateCustomerService fills missing customer fields without clearing existing business records. Legacy requests remain; only requests explicitly linked to a customer ID appear in that customer's account.
 
-## 边界
+## Boundaries
 
-这是同一浏览器来源下的前端演示。相同来源的标签页可同步消息，不同设备/浏览器之间不会自动同步。localStorage 仍包含演示组织状态，界面与函数权限检查不构成生产安全隔离。真实账户、服务端权限、消息存储、并发冲突处理和实时推送仍需后端接入。
+This is a same-origin browser demonstration. Tabs on the same origin can synchronise; different browsers/devices do not. localStorage contains the demo organisation state and UI/function checks are not production isolation. Real accounts, server-side permissions, message storage, concurrency handling and realtime delivery need a backend.
 
-业务逻辑在 `customer-service.js`，客户入口、门户和客服建单界面在 `customer-ui.js`，相关样式在 `customer.css`。现有审批执行仍由 `engine.js` 负责。
+Business logic lives in customer-service.js; customer entry, portal and support forms in customer-ui.js; styling in customer.css. engine.js retains approval execution.

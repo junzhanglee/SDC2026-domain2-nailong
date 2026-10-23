@@ -1,31 +1,29 @@
-# 个人中心与设置
+# Profile and Settings
 
-右上角头像和左侧用户卡都打开账户菜单，提供个人中心、设置、切换演示身份和退出工作空间。退出只结束 Nexus 本地演示身份，不代表退出 ChatGPT 或撤销真实服务端会话。
+The top-right avatar and sidebar user card open the account menu: profile, settings, demo identity switching and sign-out. Sign-out ends the local Nexus demo identity; it does not sign out of another service or revoke a real server session.
 
-## 所有角色可用
+## Available to Every Role
 
-个人中心：姓名、工作邮箱、电话、简介、头像、本人员工编号与职位、本人工作摘要、个人资料导出。保存资料只更新当前固定演示员工；不接受 role 或权限字段。头像只接受较小的 PNG/JPEG/WebP 数据，不处理 SVG、外部 URL 或密钥。
+Profile includes name, work email, phone, biography, avatar, fixed employee ID and role, personal work summary and personal export. Saving changes only the current fixed demo employee; role and permission fields are rejected. Avatars accept small PNG/JPEG/WebP data, not SVG, remote URLs or secrets.
 
-个人设置：聊天未读数量、紧凑布局、减少动画、降低透明度，按员工编号保存。偏好立即应用到页面与聊天列表。界面语言仅简体中文；时区和货币显示 MYT 与 MYR，不伪装成已经实现多语言或多币种。
+Personal settings include chat unread counts, compact layout, reduced motion and reduced transparency, stored per employee ID and applied immediately. The interface supports Simplified Chinese only. Time and currency are displayed as MYT and MYR; multilingual or multicurrency support is not implemented.
 
-安全与登录：显示当前浏览器的模拟会话，允许切换身份和退出。修改密码、两步验证、远程会话撤销需要真实身份服务，当前仅说明状态，没有收集密码的无效表单。
+Security shows the current simulated browser session, identity switching and sign-out. Password changes, two-factor authentication and remote session revocation require a real identity backend. The prototype explains their unavailable status rather than collecting passwords through non-functional forms.
 
-隐私与数据：导出本人的资料、请假/报销/加班申请和工作记录；可见日志另按当前权限导出。云端备份、保留策略、账号注销和订阅支付尚未接入后端，明确显示未启用。
+Privacy export contains the user's profile, leave/claim/overtime requests and work records. Visible logs are exported separately under current permissions. Cloud backup, retention controls, account deletion and subscription payments are explicitly not enabled. Help includes FAQs, capability boundaries, version and project notes.
 
-帮助与关于：常见问题、功能边界、版本与项目说明。
+## Owner and Manager Features
 
-## 企业主与管理者可用
+Company settings include name, industry, state, email, phone and address. Saving updates workspace context but does not establish integration with state holiday calendars.
 
-企业资料：名称、行业、州属、邮箱、电话、地址。保存后更新工作空间名称和上下文；不能据此声称州属假期已经接通。
+Members and permissions show the existing organisation and role boundaries. Real invitations, account disabling and role grants require an identity backend. Profile editing cannot elevate privileges. Public-screen notification publishing remains owner-only.
 
-成员与权限：显示现有组织与职位边界。邀请真实成员、停用账号、角色授予需接身份后端；个人中心不能自我提权。公屏发布始终仅企业主拥有。
+Approval settings configure demo annual leave allowance, claim review threshold and overtime anomaly threshold. Values are validated and saved atomically with an activity record. Leave allowance applies to balances, requests and approval; claim/overtime thresholds affect prompts and new requests. Reducing an allowance does not revoke approved records. These are demo policies, not statutory entitlement or payroll calculations.
 
-审批规则：配置演示年假天数、报销复核阈值和加班异常提醒阈值；校验范围后原子保存，形成活动记录。年假额度应用于余额、申请和审批，报销与加班阈值应用于页面提醒与新申请。降低额度不撤销已批准记录；不是法定工时/权益或工资计算。
+Connection management opens Connect with proposed integrations and sample events. Never place API keys in browser settings or a public repository.
 
-连接管理：进入 Connect，显示现有拟议连接与模拟事件；API 密钥不得放在浏览器设置或公开仓库。
+## Permissions and Data
 
-## 权限与数据
+Profiles are keyed by employee ID; company settings and policies belong to the global demo organisation. The independent preferences module validates identity, fields and permissions for writes rather than relying only on hidden controls. Old states receive defaults for new fields without clearing existing demo data.
 
-profiles 按员工 ID 保存；企业配置和 policies 属于全局组织状态。所有写操作在独立 preferences 模块校验身份、字段和权限，而非仅靠隐藏按钮。旧状态没有新增字段时使用默认值，已有演示数据无需清空。
-
-本项目仍是纯前端原型，浏览器拥有者能检查和修改所有本地数据。真实身份、安全隔离、资料验证、审计与跨设备保存需要后端。
+This remains a frontend prototype. The browser owner can inspect and modify all local records. Real identity, isolation, verification, audit controls and cross-device persistence require a backend.

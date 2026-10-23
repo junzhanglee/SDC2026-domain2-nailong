@@ -1,33 +1,27 @@
-# Connect 与 AI 接入计划
+# Connect and AI Integration Plan
 
-所有 `/api/v1/...` 为**Nexus 团队拟议内部接口**，不代表供应商现有端点。静态原型不提供这些 HTTP 服务，也不做真实网络集成。契约用于未来后端和供应商 adapter 联调。
+Every /api/v1/... path is a **proposed Nexus internal interface**, not a verified supplier endpoint. This static prototype does not serve those HTTP APIs or perform live network integrations. Contracts support future backend/adapter work.
 
-六个入口分别为支付事件、会计发票、核准工资时数、CRM 联系人、电商订单、WhatsApp Webhook。各供应商的 API 版本、授权范围、字段映射、限流、费用、签名和事件覆盖情况需逐项确认后实现。
+The six proposed inputs cover payment events, accounting invoices, approved payroll hours, CRM contacts, ecommerce orders and WhatsApp webhooks. Confirm provider versions, permissions, mappings, rate limits, costs, signatures and event coverage individually before implementation.
 
-## WhatsApp 与站内聊天
+## WhatsApp and Internal Chat
 
-建议通过 WhatsApp Business Platform 的官方企业消息能力接入，授权企业号码的客户消息由 Webhook 转为标准 inquiry 事件，站内 inbox 展示会话；发送通过服务端代理，并遵守当时适用的消息／模板规则。不会把 WhatsApp Web 用 iframe 嵌入，也不会抓取员工个人账号或群聊。Meta 文档本次受限流，尚未验证当前授权与消息限制，接入前须核实。
+The plan uses authorised WhatsApp Business Platform messaging: customer messages become standard inquiry events through webhooks and appear in the inbox. Sending goes through a backend proxy under the applicable messaging/template rules. Do not embed private WhatsApp Web in an iframe or scrape personal accounts/groups. The earlier Meta documentation lookup was rate-limited; authorisation and messaging limits remain unverified and need checking before integration.
 
-内部团队聊天使用自有数据模型，生产版以 WebSocket 或 SSE 同步，只向有频道成员权限的人提供消息。不能把内部聊天自动发送给客户。AI 只读选定授权上下文，摘要附消息来源，关键任务须人工确认。
+Internal chat has its own model. Production synchronisation would use WebSocket or SSE and enforce channel membership. Never automatically forward internal chat to customers. AI may read only selected authorised context; summaries should reference their source messages and consequential tasks require confirmation.
 
-## 支付／会计／工资／CRM／电商
+## Payments, Accounting, Payroll, CRM and Ecommerce
 
-支付：只信任验签供应商事件和服务端核对结果，不能根据客户贴图就标记已付款。
+Payments trust verified provider events and server checks, not a customer's screenshot. Quotations, orders and invoices have separate objects/states; MyInvois integration, if required, needs independent verification against current official specifications. The prototype does not issue legally valid electronic invoices.
 
-会计：报价、订单和发票应有独立对象与状态；电子发票若需要 MyInvois，需独立验证现行官方技术规范。本原型不生成合法电子发票。
+Payroll synchronises approved attendance/overtime only. Do not calculate payable wages without checking applicable rules and contracts. CRM maps authorised contacts and customer projects without default access to personal address books. Ecommerce normalises SKU, order, refund and inventory events with idempotency/version checks to prevent duplicate deductions.
 
-工资：仅同步已核准考勤／加班记录，不在未核对适用法规和合同前自动计算应付工资。
+## Optional AI Boundary
 
-CRM：授权联系人与客户项目映射；不默认导入个人通讯录。
+Current classification, suggested replies, chat summaries, HR analysis and monthly reviews use deterministic rules/statistics and are labelled demonstrations. There are no model calls or API keys.
 
-电商：标准化 SKU、订单、退款和库存变更事件；使用幂等键和版本避免重复扣库存。
+Possible backend additions are message-field extraction, evidence-based recommendation explanations, structuring OCR receipts and authorised-event monthly reviews. Each output records sources, version, missing fields and confidence, with human clarification when needed. Fixed code retains identity, permissions, approval and financial control.
 
-## AI 可插拔边界
+## Errors and Recovery
 
-本原型的客户分类／建议回复、对话摘要、HR 分析与月报采用确定性规则和统计，明确标为演示。没有模型调用，不包含 API key。
-
-后续可增加四个服务端能力：提取消息字段、解释有依据的工作建议、收据 OCR 后结构化、按授权事件生成月报。每项输出记录来源、版本、缺失字段和置信度；数据不足时请求人工补充。身份、权限、审批和资金动作必须由固定业务代码执行。
-
-## 错误与恢复
-
-缺字段返回 422；未认证 401；权限不足 403；重复或陈旧版本 409；供应商不可用 503。保持原始事件和 correlation_id，在重试时复用 idempotency key。失败事件进入人工队列，不把重试失败改成成功。
+Proposed responses: 422 missing/invalid fields, 401 unauthenticated, 403 insufficient permission, 409 duplicate/stale version and 503 supplier unavailable. Preserve source events and correlation_id, reuse idempotency keys on retry and route failures for human review. Do not relabel failed retries as success.

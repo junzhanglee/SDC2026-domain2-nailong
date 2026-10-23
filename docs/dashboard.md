@@ -1,30 +1,30 @@
-# 工作台首页：先处理事项，再看项目
+# Dashboard: Act on Work Before Reviewing Projects
 
-首页顺序为一行问候、工作概览指标、需要处理的事项、当前项目。移除原有大面积宣传区、英文装饰标语、演示柱图与重复介绍。桌面待办列表为主，项目列表为辅；小屏按同样优先级单列排列。
+The home page presents a short greeting, work metrics, actionable items and current projects. Large promotional sections, decorative slogans, demo bar charts and duplicate introductions were removed. Tasks dominate the desktop layout; projects are secondary. Mobile follows the same priority in one column.
 
-## 统计口径
+## Metric Definitions
 
-- 待审批：当前角色可审批的客户方案与 HR/报销/加班申请，不包括本人申请及其他指定负责人专属方案。企业主保留已有业务全局审批权限。
-- 即将到期：按马来西亚日期计算，今天及后两个日历日；不含逾期与已完成事项。
-- 逾期：合法的截止日期早于 MYT 今天，且事项未完成。
-- 阻塞：当前可见任务明确标记受阻，或已有非空阻碍原因。展示实际原因，不推断未记录风险。
+- Pending approval: customer plans and leave/claim/overtime requests the current role can approve, excluding self-requests and plans reserved for a different reviewer. The owner retains existing global business-approval authority.
+- Due soon: today and the next two calendar days in Malaysia, excluding overdue and completed items.
+- Overdue: an incomplete item with a valid due date before today in MYT.
+- Blocked: a visible task explicitly marked blocked or containing a non-empty blocking reason. Show the recorded reason; do not infer unrecorded risk.
 
-四项为独立筛选，可以重叠，不相加成一个虚构总数。不存在截止日期时显示“未设置截止时间”。休假开始和加班日期只是申请内容，不能自动当成审批截止时间；客户期望交付日期明确标为“期望交付”。
+These four filters are independent and may overlap; never sum them into a fabricated total. A missing date is displayed as unset. Leave start dates and overtime dates describe requests, not approval deadlines. Customer delivery dates are labelled as requested delivery dates.
 
-## 列表与操作
+## Items and Actions
 
-依次排列逾期、阻塞、本人待审批事项，之后是客服待跟进和普通任务。每行包含名称、下一步动作、已有依据、日期、负责人和操作。
+Order items by overdue, blocked and personally actionable approvals, followed by customer-service follow-ups and ordinary tasks. Each row contains its name, next action, recorded evidence, date, owner and action control.
 
-任务开始/完成继续使用原有 task 操作；阻碍详情提供联系管理者/执行人，以及已有的管理者解除受阻操作。客户方案、员工申请仍经原有业务审批函数处理。客服新建请求仅保留为弱化的次要按钮，其他角色没有建单入口。
+Start/complete controls use the existing task actions. Blocking details offer contact with a manager/assignee and the existing manager unblock action. Customer plans and staff requests use the existing approval functions. Request creation remains a subdued secondary customer-service action; other roles have no creation entry.
 
-项目列表从当前可见任务计算待完成数与总数，不显示原有固定演示进度百分比。优先使用明确项目身份；存在独立项目名时，不因同一客户就错误合并。项目入口实际筛选首页事项。
+Project summaries derive remaining and total counts from currently visible tasks rather than fixed demo progress percentages. Prefer explicit project identity; separate named projects must not merge merely because they share a customer. Project entry filters the dashboard items.
 
-空列表只显示简洁说明与清除筛选，不使用宣传内容填充。数据更新后重新计算，保留权限边界，不改变业务状态机、客户账户与内部聊天规则。
+Empty lists show a short explanation and clear-filter control without promotional filler. Recompute after changes while preserving permission boundaries, the business state machine, customer identity and chat rules.
 
-## 实现与验证
+## Implementation and Verification
 
-派生数据在 `dashboard-model.js`，界面在 `dashboard-ui.js`，首页样式在 `dashboard.css`。没有新增首页合成数据或统计常量；数据来源仍是现有浏览器业务状态，顶部保留演示数据提示。
+Derived data lives in dashboard-model.js, rendering in dashboard-ui.js and styling in dashboard.css. No additional synthetic dashboard records or statistics constants were added. Existing browser business state supplies the data and the demonstration-data notice remains visible.
 
-验证包含 MYT 日期边界、排序、权限、自审批排除、无效/缺失日期、客户回复、项目归属和真实空状态。浏览器检查 1440×900、1280×800、768×1024、390×844、375×667 下的横向溢出与首条事项按钮可见性，并实际点击指标筛选、项目筛选与开始任务。
+Tests cover MYT date boundaries, ordering, permissions, self-approval exclusion, invalid/missing dates, customer replies, project identity and actual empty states. The previous browser review recorded 1440×900, 1280×800, 768×1024, 390×844 and 375×667 layouts, horizontal overflow, first-item action visibility and metric/project/start-task interactions.
 
-最终断点复核：默认业务数据下，1440/1280 宽度首条“处理阻碍”按钮底部约 y=462，768 宽度约 y=489，390/375 宽度约 y=591；均在相应首屏范围内。所有尺寸文档宽度等于视口宽度。空数据验证不填充占位宣传。
+The recorded default-data review placed the bottom of the first blocking-action button around y=462 at widths 1440/1280, y=489 at 768 and y=591 at 390/375, within the corresponding initial viewports. Document width matched viewport width at those sizes. Empty-data review did not add promotional placeholders. These are earlier recorded observations, not a fresh browser check on every documentation edit.

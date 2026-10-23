@@ -7,3 +7,6 @@ coverage/
 dist/
 *.zip
 .sites-*
+
+# Contact details and personalised submission copies stay local.
+submission/private/

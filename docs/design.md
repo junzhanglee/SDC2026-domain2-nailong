@@ -1,37 +1,29 @@
-# Nexus 前端设计
+# Nexus Frontend Design
 
-Nexus 使用一套工作台外观：白色内容面、浅灰导航、蓝色主要操作。按 Emil Kowalski 的设计工程规范完善界面，保留 People、Work、Connect、私聊、企业主通知、个人中心与设置的业务能力。
+Nexus uses a consistent workspace: white content surfaces, light-grey navigation and blue primary actions. The interface retains People, Work, Connect, direct messages, owner notifications, profile and settings.
 
-## 设计来源
+## Design References
 
-本次实际读取并应用：
+The original design work recorded use of [emil-design-eng](https://github.com/emilkowalski/skills/blob/main/skills/emil-design-eng/SKILL.md) for restrained animation, immediate press feedback, explicit transition properties, layered shadows and consistent detail, and [apple-design](https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md) for hierarchy, system typography, size-specific tracking, material depth and accessibility preferences. No React or animation dependencies were added; the existing static modules support the interactions.
 
-- [emil-design-eng](https://github.com/emilkowalski/skills/blob/main/skills/emil-design-eng/SKILL.md)：克制动效、即时按压反馈、明确的过渡属性、层叠阴影与细节一致性。
-- [apple-design](https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md)：清晰的层级、系统字体、按字号调整字距、材料深度和无障碍偏好。
+## Workspace
 
-未引入 React 或动画依赖；现有静态模块已能完成这次交互需求。
+- The dashboard prioritises actionable metrics, tasks and project summaries. Marketing heroes and decorative English copy were removed. See dashboard.md for sorting, filtering and counting rules.
+- Body content and forms use opaque surfaces. Small, low-contrast text receives larger type or stronger contrast; numbers use tabular figures.
+- Glass effects are concentrated in the sticky header, notifications and dialogs, with blur limited to 16px. The sidebar uses a stable light-grey surface to avoid large transparent layers.
+- Primary actions are blue, secondary actions white and destructive actions use red semantics. Statuses always include text rather than relying solely on colour.
+- Component styling is concentrated in apps/web/assets/glass.css, preserving the base layout. interaction-ui.js handles interaction details; engine.js retains approval and permission rules.
 
-## 工作界面
+## Motion and Input
 
-- 工作概览以可行动指标、优先事项列表和项目摘要为核心，移除宣传 hero 和英文装饰。具体排序、筛选和数据口径见 dashboard.md。
-- 正文和表单采用实色背景。低对比度的小字提高字号或对比度；数字采用等宽数字字形。
-- 玻璃效果集中在粘性顶栏、通知和弹窗，模糊控制在 16px；侧栏使用稳定的浅灰材料，避免大面积透明层叠。
-- 主要操作蓝色，次要操作白色，危险操作使用红色语义。状态包含文字，不只依赖颜色。
-- 组件样式集中在 `apps/web/assets/glass.css`，保留既有布局基础。交互细节位于 `interaction-ui.js`，审批和权限继续由 `engine.js` 管理。
+Frequent navigation, contact selection and message scrolling respond immediately without full-page entrance animation. Press feedback lasts approximately 140ms, dialogs 200–240ms and notifications 240ms. Transitions target explicit properties such as transform and opacity. Keyboard input does not animate. System and personal reduced-motion preferences take precedence; reduced transparency and stronger contrast have fallback styles.
 
-## 动效与输入
+Dialogs have accessible names and restore focus to their trigger when closed. Page navigation focuses the heading; role and tab switches retain focus.
 
-- 高频页面导航、联系人列表和消息滚动即时响应，不使用整页入场动画。
-- 按压反馈约 140ms；弹窗约 200–240ms；通知约 240ms。只对 transform、opacity 等明确属性设置动态过渡。
-- 键盘输入不播放过渡。系统与个人设置中的减少动态效果均优先；降低透明度和提高对比度也有降级样式。
-- 弹窗有可访问名称，关闭后恢复触发按钮焦点；切换页面后焦点落在标题；职位和标签切换保留焦点。
+## Mobile Layout
 
-## 手机布局
+Navigation becomes an overlay drawer. Closed navigation is not focusable; when open, the background is inert and Tab stays inside the drawer. Escape or the backdrop closes it. Mobile form inputs use at least 16px text and primary touch targets at least 44px. Compact settings must not shrink navigation targets. Columns reflow at breakpoints, project summaries stack and chat contacts form a horizontal list.
 
-- 导航使用遮罩抽屉，关闭时不可聚焦；打开时背景不可交互，Tab 保持在导航内，Escape 或点击遮罩关闭。
-- 小屏表单输入字号至少 16px；主要触控按钮至少 44px；紧凑设置不缩小手机导航触控区域。
-- 主体列随断点重排，项目摘要在窄屏垂直显示，聊天联系人横向排列。
+## Verification Scope
 
-## 验证范围
-
-运行现有业务测试、模块语法和构建检查；浏览器检查工作概览、聊天、弹窗、设置、导航焦点与页面横向溢出。UI 重构不改变职位权限、通知路由或浏览器存储键，现有本地演示数据继续使用。
+Use the existing business tests, syntax checks and build checks. Browser review covers the dashboard, chat, dialogs, settings, navigation focus and horizontal overflow. UI refactoring must preserve permissions, notification routing and storage keys so existing browser demo data remains usable. The website interface remains in Chinese; English repository documentation is not a localisation claim.

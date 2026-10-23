@@ -1,78 +1,158 @@
-# Nexus · 消息到履约
+# Nexus — From Customer Messages to Fulfilment
 
-SDC Hackathon 2026 · Domain 2 · nailong
+Nexus helps Malaysian micro and small businesses turn customer enquiries into context-checked, human-approved fulfilment tasks.
 
-为马来西亚微型和小型企业，把客户消息变成**核对业务信息 → 建议分派 → 人工审批 → 工作任务 → 活动记录**的完整旅程。
+## SDC 2026 — Team Information
 
-参赛创新是客户需求与履约自动化；People、Work、Connect 为模拟的 Nexus 平台上下文，**不以复制现有 HR 功能作为创新点**。
+- Team: **nailong**.
+- Assigned domain: **Domain 2 — Orbyte Smart SME Challenge**.
+- Main SDG: **8 — Decent Work and Economic Growth**, targets **8.2 / 8.3**.
+- Project: **Nexus**.
+- Team leader: **LING YUXUAN**.
+- University: **Xiamen University Malaysia**.
+- Team size: **4 members (leader + 3 team members)**.
+- Responsibilities: **concept development / frontend debugging / backend debugging**. Individual assignments for the three team members have not been supplied; LING YUXUAN serves separately as team leader. Backend debugging is a team responsibility, not a claim that a production backend is implemented.
+- Mandatory training: **all members completed the GenAI, Database and Cloud Deployment workshops**, as confirmed by the team.
 
-## 本地运行
+## Links
 
-无需安装依赖。使用 Python 3 启动：
+- [GitHub repository](https://github.com/junzhanglee/SDC2026-domain2-nailong). Application source is on **`feat/orbyte-flow-mvp`**; `main` currently contains the initial repository files. The final submission must expose the application source on its submitted branch.
+- [Replit project](https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2). This is an editor/project link for proof of use, not the public judging website.
+- [Existing live demo](https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/). Browser-local synthetic data; use a fresh session for a clean demo. Final submission-version verification is pending.
+- Published Replit website: **not yet supplied or verified**. Recent screenshots show publishing settings prepared, not publication completed.
+- Slide deck / YouTube pitch video: **pending**.
+- RunPod endpoint: **not applicable to the current implementation — the team confirms RunPod was not used**.
+- [Submission drafts and completion checklist](submission/README.md).
+
+## Overview
+
+### Problem
+
+A small print or custom-gift business may receive an urgent customer request through chat while stock, staff availability and task ownership remain in separate records. A premature delivery promise or unclear handoff can lead to repeated follow-up and missed work. Our initial user and industry assumptions still require SME validation.
+
+### Solution and Key Features
+
+Nexus checks stock and approved leave, prepares an assignment, routes it to an authorised human and creates a linked task with an activity record. The core demo uses deterministic rules. **The application currently makes no LLM or other AI-model calls.** Future AI-assisted extraction would propose fields for human confirmation; code retains control over permissions and consequential actions.
+
+- One customer request flows through data checks, a decision, approval and a visible outcome.
+- Approval rechecks business data and rejects duplicate execution; insufficient stock creates a blocked task rather than a delivery promise.
+- Simulated roles demonstrate who may prepare or approve work; customer summaries exclude internal decision details.
+- The concept fits Orbyte as a reusable business workflow. People, Work and Connect provide simulated context; existing HR features are not the innovation claim.
+
+### Tech Stack and Architecture
+
+- Frontend: HTML, CSS and native JavaScript ES modules; no third-party JavaScript runtime dependencies.
+- Business logic: browser-side rules and approval state transitions.
+- Storage: localStorage containing synthetic demo records; no production database or server-side authentication.
+- Local/Replit serving: Python 3 static HTTP server. Node.js 22+ runs tests and build checks.
+- Hosting: existing Sites demo; Replit project used for import/run setup as reported by the team. No public Replit deployment has been verified here.
+- AI/GPU: no runtime AI model or GPU workload in this codebase. Development assistance is declared separately.
+
+```text
+Customer request → confirmed fields → synthetic stock / staff / leave
+                → deterministic rules → authorised human approval
+                → linked task + browser-local activity record
+```
+
+For the current and proposed production architecture, see [architecture](docs/architecture.md), [integration boundaries](docs/integrations.md) and [product design](docs/product-design.md).
+
+## How to Run on Replit
+
+Open the Replit project above, or import the GitHub repository and select **`feat/orbyte-flow-mvp`**. Confirm that `apps/web/index.html` is present. Start in Shell or configure Run with:
+
+```sh
+python3 -m http.server 3000 --bind 0.0.0.0 --directory apps/web
+```
+
+Open Preview. No API keys, database setup or package installation are required for this static prototype. For static publishing, use `npm run build` and the output directory `dist/`. A prepared configuration does not establish that a public website is published; verify the final public URL separately. Keep any newer Replit workspace configuration when syncing this documentation.
+
+## How We Use Replit
+
+The team imported the existing repository, switched to the application branch and reported successful preview. Supplied Replit screenshots show static publishing settings and platform-reported checks; these do not prove publication. Collect the team/project identity, actual run evidence and accessible project link using the [proof-of-use draft](submission/SDC2026_nailong_Replit_POU.draft.md). The final proof PDF is pending.
+
+## How We Use RunPod
+
+The team confirms that RunPod was not used. No RunPod call, endpoint or GPU workload is implemented in the current source. The official sample labels RunPod as required, while the Participant Handbook ties mandatory RunPod use to GPU work. **Resolve applicability with the organisers before finalising the declaration; do not claim use without evidence.** See the [submission checklist](submission/README.md).
+
+## Challenges & Learnings
+
+Approval must recheck stock and availability rather than trust a stale recommendation. Role-based UI filtering can demonstrate a workflow, but browser-local data cannot provide a production security boundary. A narrow order-to-task journey communicates business value more clearly than a tour of all administrative modules.
+
+## Future Improvements
+
+- Validate order-handling time, missed checks and learnability with target SME users.
+- Add server-side identity, tenant isolation, transactional approvals and persistent events before handling real records.
+- Connect one authorised business messaging source and one stock/order source.
+- Evaluate optional model-assisted field extraction with source references, missing-field handling and human confirmation.
+
+## Team and AI-Assisted Development
+
+The team has four members: the leader and three team members covering concept development, frontend debugging and backend debugging. LING YUXUAN is the team leader; other member names and individual role assignments have not been supplied. Codex/ChatGPT assistance was used for project code and documentation; the full tool/model inventory and extent of use must be checked by all team members. Current rules are tested automatically, but testing is not a substitute for the team's review and responsibility. Do not list the development assistant as an AI model embedded in the product.
+
+## Submission Checklist
+
+- [x] Application source, architecture notes, synthetic demo data and Apache-2.0 LICENSE are present locally.
+- [x] Local verification on 2026-10-23: 43 existing business tests and build checks passed.
+- [x] Team name, leader, university, size, responsibility areas and completion of all three mandatory workshops confirmed by the team.
+- [ ] Add the remaining member names and individual role assignments.
+- [ ] Finalise the official preliminary proposal and technical declaration PDFs, including signatures.
+- [ ] Attach the Replit proof PDF; resolve RunPod applicability and attach evidence if applicable.
+- [ ] Add slide deck and 5–7 minute YouTube pitch links.
+- [ ] Verify the submitted repository branch, visibility and every judging link.
+- [ ] Submit through the official portal and keep the receipt.
+
+This repository was adapted to the [official submission template](https://github.com/michaelzhngg/SDC_Hackathon_Submission_Template), rather than replacing the application with its example Python/GPU code. Pending fields and `.draft.md` files are not completed submission PDFs.
+
+## License
+
+Apache License 2.0; see [LICENSE](LICENSE). Preserve third-party attribution where applicable.
+
+## Demonstration Guide (approximately 3 minutes)
+
+1. Enter as Customer Service and prepare the Bunga Café request for 100 customised cups.
+2. Check the stock shortage and approved leave; inspect the proposed assignee. Customer Service cannot approve the business decision.
+3. Switch to the designated manager and approve. Recheck the state, create exactly one blocked task and avoid promising delivery before replenishment.
+4. Inspect Work and the activity record. Confirm an ordinary employee sees only their own scoped records.
+5. Use the customer entry to demonstrate customer-to-support messaging and request summaries without exposing internal decision details.
+
+This is the product-demonstration segment, not a substitute for the required 5–7 minute pitch video.
+
+## Additional Implemented Features and Limits
+
+People includes synthetic leave, claims, overtime, attendance, directory and announcements. Work includes daily records, project tasks and handoffs. Connect contains proposed contracts and sample events rather than live supplier integrations. Receipts support preview and manual entry; OCR is not connected.
+
+Internal channels and direct conversations demonstrate participant-based filtering. Owner status does not grant access to others' direct conversations. Ordinary chats do not trigger public-screen banners. Only the owner can issue a public-screen notification through the dedicated form; managers cannot publish those notifications. Read status and same-origin tab updates are simulated locally, without cross-device synchronisation.
+
+The profile menu supports personal details, avatar, export and sign-out. Settings include personal preferences and management-only company/approval settings. Customer entry uses fixed synthetic identities; only Customer Service creates customer requests, and approval precedes task creation. These browser checks are not production authentication or data isolation.
+
+The interface uses translucent materials, a neutral palette and responsive layouts. English submission documentation does not imply that the currently Chinese-language interface is fully localised.
+
+## Project Structure
+
+```text
+apps/web/             Browser application, interface, rules and synthetic data
+contracts/            Proposed internal API contracts, not deployed endpoints
+docs/                 Product, architecture, integration and feature notes
+submission/           Submission drafts and completion instructions
+submission/private/   Local-only contact details and personalised drafts (Git-ignored)
+tests/                Existing business and access-scope tests
+scripts/              Static checks and build tools
+.github/workflows/    Repository check workflow
+```
+
+## Local Development
+
+No dependency installation is required. Serve the application using Python 3:
 
 ```sh
 python3 -m http.server 4173 --directory apps/web
 ```
 
-访问 http://localhost:4173。Node.js 22+ 用于检查与测试：
+Open http://localhost:4173. With Node.js 22+ available, run:
 
 ```sh
 npm test
 npm run build
 ```
 
-`build` 检查原生 ES 模块、静态资源与 API 契约，然后复制到 `dist/`；无需编译或下载依赖。静态托管根目录为 `dist`。
-
-## 目录规则
-
-```text
-apps/web/             网页入口与静态资产
-  assets/app.js       页面和交互
-  assets/engine.js    职位权限、订单分析、审批、CSV 校验
-  assets/data.js      合成数据、职位和连接器元数据
-contracts/           拟议 API 契约（不是已实现 HTTP 后端）
-docs/                产品研究、权限说明、路演与接入边界
-tests/               有意义的业务规则与越权测试
-scripts/             项目检查工具
-.github/workflows/   持续集成
-```
-
-不要将密钥、真实员工／客户资料、运行缓存、压缩包或第三方依赖提交到仓库。保留原 Apache-2.0 LICENSE。新增模块归入对应目录；核心规则保持独立可测。
-
-## 现场演示（约 3 分钟）
-
-1. 选择「客户服务」并输入姓名。在客户收件箱分析 Bunga Café 的 100 个定制杯请求。
-2. 系统发现库存只有 80 个，Daniel 在 10 月 26 日已批准休假，建议 Amir 负责。客服没有最终审批按钮。
-3. 切换「管理者」，审批建议。系统重新核对数据，只创建一次「等待补货」的任务，不对客户承诺交期。
-4. 打开 Work 查看任务与阻碍，再打开活动与洞察查看审计和本月复盘。
-5. 切换「普通员工」验证只能看本人申请与任务。HR 可上传 CSV；财务可审批报销和测试财务示例事件。
-
-## 能力状态
-
-可以实际交互：规则核对、基于职位的演示范围、审批状态机、任务创建、申请、考勤、每日记录、公告、浏览器内聊天、CSV 分析、回复草稿、日志与规则月报。
-
-明确模拟：身份认证、Nexus 平台数据、客户消息、业务量图表、供应商事件。浏览器的 localStorage 可修改且保存完整合成数据；**前端 RBAC 不是安全边界**。共享频道聊天不跨设备同步。收据只预览与人工填单；OCR、大语言模型、官方 WhatsApp、支付／会计／工资／CRM／电商后端未接入。不要录入真实个人资料。
-
-更换身份保留此浏览器的演示进度。全新演示可在浏览器清除本站站点数据。团队成员各自浏览器不会自动同步。
-
-详细说明：[产品方案](docs/product-design.md)、[权限与架构](docs/architecture.md)、[接入计划](docs/integrations.md)、[API 契约](contracts/openapi.json)。
-
-## Nexus 聊天更新
-
-产品名称改为 Nexus。企业主和管理者拥有同等最高业务权限（仍禁止自审批）。团队聊天包含共享频道和全部同事的一对一私聊；私聊展示与摘要仅允许参与者读取。普通聊天不弹出公屏通知；仅企业主通过专用通知窗口发布后才在顶部弹出，点击可查看全文。支持未读计数、切换身份后的未读提醒和同源多标签页的消息通知；不同浏览器或设备之间仍需实时后端。最高业务权限不自动开放他人私聊。旧 localStorage key 保留，以迁移已有演示进度。
-
-## 新版前端
-
-前端现采用 Apple-inspired 黑白灰、蓝色操作与半透明玻璃效果，不提供原版切换入口。侧栏、顶栏、弹窗和消息通知采用可降级的模糊材料，业务流程不变。设计说明见 [docs/design.md](docs/design.md)。
-
-## 企业主专属公屏通知
-
-企业主在「企业主通知」页面或聊天页的「发布企业通知」专用窗口发布；管理者也没有此权限。普通私聊、团队聊天（包括企业主发出的聊天）和 People 公告均不触发公屏弹窗，聊天未读计数继续保留。企业主通知独立保存标题、正文、作者与每位员工的已读状态；所有角色可通过铃铛查看通知历史。同源标签页实时展示新通知，切换身份或重新登录后展示未读通知；跨设备同步仍需后端。
-
-## 个人中心与设置
-
-右上角头像打开个人账户菜单。支持个人资料、头像、工作摘要、资料导出和退出工作空间。左侧设置包含个人通知/外观、安全、隐私、帮助；企业主和管理者还可修改企业资料与审批规则，查看成员权限及连接管理。新模块在 assets/preferences.js 与 assets/account-ui.js，详细能力与边界见 [个人中心说明](docs/account-settings.md)。
-
-## 客户入口与客服交接
-
-登录页新增独立客户入口。仅客服可以创建客户请求；客户与客服站内对话后，由客服指定建议执行员工和审批负责人，审批通过才创建任务。客户只查看本人会话和请求摘要。仍为同源浏览器演示，真实账户验证与跨设备通信需后端。详见 [客户流程说明](docs/customer-flow.md)。
+The build checks modules, static assets and proposed API contracts before copying the site into dist. Do not open the site through a file URL. Never commit secrets or real customer/employee records. Preserve the Apache-2.0 licence and unrelated code. See the existing feature and architecture notes in docs for implementation details.

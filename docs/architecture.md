@@ -1,39 +1,37 @@
-# 权限、架构和真实边界
+# Permissions, Architecture and Implementation Boundaries
 
-## 当前实现
+## Current Implementation
 
-纯静态 ES 模块，零第三方 JavaScript 运行依赖。业务规则在 `engine.js`，合成资料在 `data.js`，呈现与输入校验在 `app.js`。localStorage 仅作单浏览器演示保存。所有角色使用一套合成组织资料；切换职位绑定固定员工 ID，姓名用于显示。
+The prototype uses static ES modules with no third-party JavaScript runtime dependencies. engine.js contains business rules, data.js synthetic records and app.js rendering/input validation. localStorage persists a single-browser demonstration. Roles share one synthetic organisation; role switching binds fixed employee IDs and names are display labels.
 
-职级规则：企业主查看全局；管理者与企业主拥有同等最高业务权限；HR 维护员工与人事审核；财务审核报销及财务示例事件；员工只看本人申请与任务；客服查看客户需求但不能审批业务方案。所有角色可用公开通讯录、全员共享频道和公告。
+The owner has global business visibility. Managers share the highest business permissions, subject to the owner-only broadcast exception. HR maintains staff and personnel review; Finance handles claims and financial sample events; employees see their own requests/tasks; Customer Service prepares customer work without final business approval. Public directory, shared channels and announcements are available across staff roles.
 
-本原型只有一个运营团队；不能据此宣称已实现任意组织／多团队授权。主管目前能审批演示人事申请；生产版必须加入申请人与主管的 reporting_line 与 team_id 检查。
+Only one operating team is modelled; this does not establish arbitrary organisation/multi-team authorisation. Managers can approve demo personnel requests; production must also enforce reporting_line and team_id relationships.
 
-`visibleRequests` 对人事／财务记录分别授权；`visibleTasks` 过滤本人或运营团队；`visibleLogs` 分人事、财务与运营可见范围。审批函数独立校验权限和状态，禁止自审批，禁止已处理申请重放；订单在审批时重新核对库存和可用性。
+visibleRequests authorises personnel/financial records; visibleTasks scopes individual or operations-team work; visibleLogs separates personnel, financial and operational visibility. Approval functions independently check permissions and status, prevent self-approval/replay and recheck stock/availability.
 
-**前端数据全部可以被浏览器拥有者查看或修改，角色过滤只用于演示交互，不是生产安全控制。** 不能放真实个人资料或企业敏感记录。日志本地可修改，不是防篡改账本；聊天不是真实多用户系统。
+**The browser owner can inspect or modify every local record. Role filtering demonstrates interaction, not production security.** Never enter real personal or confidential business records. Local logs are editable and chat is not a real multi-user service.
 
-## 拟议生产架构
+## Proposed Production Architecture
 
-Nexus 身份服务 → 服务端会话验证 → 租户与角色授权 → 业务服务／规则引擎 → 审批状态机 → Outbox 事件 → 供应商适配器。数据库按 tenant_id 隔离；消息、附件、任务、审批和事件都有唯一 ID、创建者和关联对象。
+Nexus identity service → server session validation → tenant/role authorisation → business/rules service → approval state machine → outbox events → supplier adapters. The database separates tenants by tenant_id. Messages, attachments, tasks, approvals and events have unique IDs, creators and related-object references.
 
-订单审批在事务内读取当前库存版本、人员可用性和当前审批状态；使用版本比较或行锁及幂等键，保证多个用户同时审批也只产生一个任务。当前单浏览器状态检查不能替代这一点。
+An order approval transaction reads current stock versions, availability and approval state. Version checks or row locks plus idempotency keys prevent concurrent approvals from duplicating tasks. Browser-state checks cannot replace this.
 
-收据进入私有对象存储，经文件类型、大小和恶意内容扫描后交给 OCR；员工复核金额、日期、商户和币种。只把授权的最小内容发送给模型；不能将模型判断直接作为合规或工资结论。
+Receipts enter private object storage with type/size/malware checks before OCR. Staff confirm amount, date, merchant and currency. Send only minimal authorised content to a model; model output cannot establish compliance or payroll conclusions.
 
-客户消息只能来自已授权企业通道；共享频道按成员关系过滤。消息文本属于不可信输入，不能改变系统权限、调用财务接口或绕过审批。对外消息／报价／采购／付款由独立 action 与审批授予的授权范围控制。
+Customer messages originate from authorised business channels; shared channels enforce membership. Message content is untrusted and cannot change permissions, invoke financial services or bypass approval. Outbound messages, quotations, procurement and payments require separate actions within an explicitly approved scope.
 
-Webhook 需要供应商规定的签名验证、重试策略与事件去重。密钥只留服务端。追加式事件库记录 actor、tenant、action、object、timestamp、correlation_id 与结果，避免在日志暴露完整敏感消息。
+Webhooks need provider-specific signature validation, retry policies and deduplication. Secrets remain server-side. Append-only events record actor, tenant, action, object, timestamp, correlation_id and outcome without exposing complete sensitive messages in logs.
 
-## 测试范围
+## Test Coverage
 
-业务测试覆盖：缺货与休假检查、客服越权、员工数据范围、财务与人事隔离、过期建议重新检查、重复审批、自审批、余额检查、CSV 引号与错误输入、回复不承诺付款／交期。
+Business tests cover stock/leave checks, Customer Service restrictions, employee visibility, Finance/HR isolation, stale recommendation checks, duplicate/self approvals, balance checks, CSV quoting/invalid input and replies that avoid payment/delivery commitments. Static checks cover module syntax, asset existence and contract structure. Report browser QA and deployment outcomes only when actually verified.
 
-静态检查覆盖模块语法、资源存在和契约结构。浏览器 QA 与实际部署结果在交付时报告；没有完成的验证不能声称通过。
+## Direct Messages and Notifications
 
-## Nexus 私聊与通知
+Direct-conversation IDs sort the two employee IDs. Reading, sending, summarising and unread calculations check membership first. Highest business permission does not open others' direct conversations. Shared channels are available to all staff. Messages persist locally; storage events update same-origin tabs while preserving the receiving tab's identity. Opening a conversation marks it read. Ordinary chat does not trigger public-screen banners. All filtering remains a UI simulation because the browser owner can inspect the state.
 
-私聊 ID 由两个员工 ID 排序生成。查看、发送、摘要与未读计算均先验证成员关系；最高业务权限不能读取第三方私聊内容。共享频道向全员开放。消息只在本机保存，storage 事件同步同源标签页并保持接收标签页的身份；聊天通过未读入口进入，进入后标记已读；普通聊天不触发顶部公屏。该过滤仅为交互模拟，所有本地数据仍可被浏览器拥有者查看。
+## Owner Broadcast Permission
 
-## 公屏通知权限（当前规则）
-
-公屏顶部弹窗只消费独立的 owner-broadcast 记录；普通 chats 不进入此分发路径。只有 owner 角色拥有 broadcast 权限；管理者的最高业务权限对此有明确例外。企业主必须通过专用通知表单发布，普通聊天不自动升级为通知。通知接收、全文与历史对所有登录角色可见，readBy 记录每人是否已读。同源 storage 同步只对新增的合法企业主通知触发公屏弹窗。登录与刷新只补发尚未阅读的企业主通知，绝不回放普通聊天弹窗。生产安全边界仍须在后端实现。
+Top banners consume independent owner-broadcast records, never ordinary chats. Only owner has broadcast permission; managers are explicitly excluded despite other top business permissions. The owner must use the dedicated form. All logged-in roles can read broadcast details/history; readBy records individual read state. Same-origin events display new valid owner notifications. Sign-in/refresh replays unread owner notifications only, never ordinary chat. Production enforcement still requires a backend.

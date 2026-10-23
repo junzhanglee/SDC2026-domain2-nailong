@@ -1,94 +1,80 @@
-# 产品设计：Nexus
+# Product Design: Nexus
 
-研究与方案日期：2026-10-23（马来西亚时间）。这是 Nexus 参赛方案与原型，相关功能不代表已经接通生产服务。
+Research/proposal date: 23 October 2026, Malaysia time. This is a competition proposal and prototype; described functionality does not imply production integrations.
 
-## 结论与主题
+## Focus
 
-**主题：把客户消息变成有人负责、有人审批、能够交付的工作。**
+**Turn customer messages into accountable, approved and traceable fulfilment work.**
 
-首个具体问题：小型印刷／定制礼品企业通过聊天接到加急需求，却没有同时核对库存、交期和人员休假，最终由老板反复追问，或者过早承诺交货。
+The initial use case is a small print/custom-gift business receiving an urgent request without checking stock, delivery expectations and staff leave together. This leads to repeated owner follow-up or premature commitments. A single order can demonstrate the full journey using people/project context. New value comes from customer service, stock checks and fulfilment coordination rather than copying HR features. A 5–20-person initial customer segment is an unvalidated hypothesis, not an official SME classification.
 
-选择这一主题是产品判断：可在单一订单上证明完整闭环；能利用 Nexus 的人员与项目上下文；新价值落在客户服务、库存检查和履约协作，而不是复制已有 HR 功能。5–20 人是初始目标客群假设，尚未访谈验证，不代表官方 SME 分类。
+## Source Notes
 
-## 笔记解读
+The user's note colours represented sections/themes (blue), required actions (red), emphasis (green) and pain points (purple). The main notes called for Trigger → Connected data → Decision logic → Human approval → Visible outcome and permitted simulated identity, RBAC and platform APIs. People, Work and Connect remain simulated context; the competition story centres on the new fulfilment workflow.
 
-用户提供的颜色语义：蓝色是章节／主题，红色是要做的要求，绿色是重点，紫色是痛点。
+The theme notes highlighted affordability, disconnected tools and training barriers, proposing configurable workflows with fixed execution rules and human approval. The prototype uses a static website, spreadsheet entry and a small set of clear actions. Industry configuration should guide adaptation; a model must not improvise permissions or payments. Unlinked WhatsApp/payment usage statistics from the notes were not repeated as verified market facts.
 
-主笔记要求展示 Trigger → Connected data → Decision logic → Human approval → Visible outcome，并明确允许模拟身份、RBAC 与平台 API。Nexus 不以复现基础 HR 和行政功能作为参赛创新。因此用户列出的 People、Work、Connect 均保留为模拟业务中心；比赛创新与演示主线必须放在新履约自动化中。
+## Malaysian SME Context
 
-子页「主题」强调“买不起、接不上、没人会用”，以及 AI 配置通用工作流、固定规则执行、关键操作人工审批。原型采用无需安装的静态网页、表格入口和少量明确按钮。后续适配应靠行业配置，不应让模型临时决定权限或付款。
+The referenced DOSM 2024 MSME report records 39.5% GDP contribution and 5.8% output growth. These are dated background statistics, not 2026 latest figures or product-effect evidence.
 
-笔记内有关 WhatsApp 使用率、现金与网银比例等未提供可核实原始链接，**未作为已验证市场统计复述**。
+Working assumptions requiring validation:
 
-## 马来西亚背景与 SME 特点
+- Small teams combine customer support, quotations and scheduling; support combined permissions without requiring a dedicated administrator.
+- Messages/spreadsheets are established inputs. Migration and training may cost more than licences; begin with one existing event.
+- Orders, payments, stock and people are fragmented. Reliable context and handoff matter more than additional generic chat.
+- Language/digital confidence varies. The current interface remains Chinese with familiar English module labels and mobile layouts. English repository documents do not establish multilingual UI; Bahasa Melayu/English localisation and usability tests remain future work.
+- Production scheduling needs state-specific calendars, RM currency and Asia/Kuala_Lumpur time. Demo leave allowances, claim thresholds and overtime prompts are sample policies.
 
-DOSM 的 2024 MSME 报告显示，MSME 对 GDP 的贡献为 39.5%，2024 年产出增速为 5.8%。这是有明确年份的市场背景，不应包装成 2026 年最新统计，也不能作为本产品效果证明。
+Do not equate small size with weak management or assume every Malaysian business uses the same tools.
 
-结合比赛目标客群及用户笔记，我们采用以下待试点验证的工作假设：
+## Core Journey
 
-- 小团队一人多职，负责人同时跟进客户、报价和排期；产品需要按权限组合职责，而不是要求增加专职系统管理员。
-- 聊天和表格是已有工作入口。迁移成本与学习成本可能高于软件许可成本，应从原流程的一个事件切入。
-- 订单、款项、库存和人员分散；缺的是可靠的上下文和交接，而非更多通用聊天文本。
-- 员工语言与数字熟练度不同。原型提供清楚中文、常见英文模块名和移动适配；BM / English 翻译与可用性测试是下一阶段，不宣称已经多语言。
-- 同一产品需要按州属处理日历、以 RM 展示金额、以 Asia/Kuala_Lumpur 记录时间；正式上线须配置公司政策。原型年假额度、报销阈值和加班提示都只是演示规则。
+1. Trigger: an enquiry requests 100 customised cups by 26 October 2026.
+2. Context: stock is 80; Daniel has approved leave on delivery day; Amir has relevant skills and capacity.
+3. Decision: fixed rules identify a shortage of 20 and suggest an available employee.
+4. Approval: Customer Service prepares; a manager/owner approves. Recheck before execution and reject repeat approvals.
+5. Outcome: create an assigned customer-linked task blocked pending replenishment. Do not purchase, pay, issue a quotation or promise delivery automatically. Record approvals/exceptions.
 
-不把企业规模小等同于管理能力弱，也不假设所有马来西亚企业都使用相同工具。
+Messages without quantity/date enter the support queue; staff confirm fields instead of guessing. Replies are editable drafts; real sending requires a separate authorised channel.
 
-## 产品旅程与关键设计
+## Supporting Modules
 
-1. **触发**：客户提出 100 个定制杯、2026-10-26 前交付的询价。
-2. **连接信息**：库存 80 个；Daniel 在交付日休假；Amir 有印刷技能及可用工时。
-3. **决策**：固定规则发现缺货 20 个，排除已休假的人，建议 Amir。不是无依据的模型答案。
-4. **人工审批**：客服只能准备；主管或老板审批。审批执行前重新检查数据，防止建议过期。重复审批被拦截。
-5. **结果**：创建等待补货的任务，关联客户与负责人；不擅自下采购单、支付、发报价或承诺交期。审批与异常被记录。
+People demonstrates leave/balances/approval, overlap and task conflicts; claims with image preview/manual entry/threshold review; overtime requests/hours/prompts; attendance, public directory, announcements and HR CSV analysis. Receipt OCR is not connected.
 
-普通客户留言若没有数量或日期，不自动猜测，先进入客服队列，再人工确认结构化订单。回复可编辑并保存为草稿；实际对外发送属于未来已授权通道的独立步骤。
+Work records accomplishments, next actions and blockers, project priorities, synthetic baselines and customer-linked tasks. Approved leave informs staffing. Records and risks offer clues to delays, not proven causality.
 
-## People、Work、Connect 与聊天
+Connect contains proposed internal contracts/sample events for payments, accounting, payroll, CRM, ecommerce and WhatsApp; providers remain to be verified. Internal chat is local, with authorised-channel rule summaries; customer messages remain in a separate inbox. A future WhatsApp integration uses an authorised business API, never private-account scraping or WhatsApp Web embedding.
 
-People：eLeave 申请／余额／移动审批、重叠与本人任务冲突提示；eClaim 照片预览、人工录入、超额提示与财务审批；eOT 提前申请、时数计算与阈值提示；考勤打卡、公开通讯录、公告；HR CSV 分析。照片 OCR 尚未接入。
+Activity and insights show/export requests, simulated events, approvals and validation errors. Role-scoped monthly rule reviews use Malaysian dates. Tamper-resistant auditing requires a backend.
 
-Work：每日完成事项、下一步、阻碍记录；每月项目重点与合成进度基线；客户关联项目与任务；批准休假影响人员检查；工作记录与既有项目风险为延期分析提供线索，不能自动证明因果。
+## Implementation and Commercialisation
 
-Connect：支付、会计、工资、CRM、电商和 WhatsApp 各有拟议内部契约与示例事件测试。供应商逐项待确认。
+Hackathon: demonstrate one explainable journey, role switching, blocked approvals and exceptions.
 
-团队聊天：站内共享频道与本地消息保存；可摘要当前授权频道的最近消息。客户留言位于单独收件箱，避免把内部讨论发给客户。真实 WhatsApp 通过官方企业消息接口接入站内 inbox，不以 iframe 嵌入私人 WhatsApp Web，不读取个人聊天。
+Pilot: interview five target businesses, collect anonymised order-handling time, omissions/rework, suggestion edits and first-time task success. Compare equivalent orders before/after and record sample sizes. A 30% preparation-time reduction and 50% omission reduction are **unverified targets**, not achieved results.
 
-活动与洞察：重要请求、交易模拟、审批和验证错误可查看与导出；按马来西亚年月和职位范围生成规则复盘，输出优点、问题与下月行动。真实不可篡改审计需要后端。
+Integration: agree backend/auth contracts, connect authorised business WhatsApp plus one stock/order source, then evaluate optional model assistance with confidence, source references and human confirmation.
 
-## 商业化与实施路线
+Expansion: configure fields, thresholds, skills and adapters for repair, gifts and appointments. Perishable food stock requires separate validation; cup-count rules do not transfer unchanged.
 
-黑客松阶段：完成一个闭环和可解释界面，展示角色切换、审批阻止和异常处理。
+Business model hypothesis: monthly company subscription with member/workflow allowances, plus advanced connectors/usage. Prices and willingness to pay are unvalidated. Explain channel/model costs and distribute reusable templates through partners.
 
-试点阶段：访谈 5 家目标企业，收集匿名的单笔处理时间、遗漏／返工率、人工修改建议比例和新员工任务成功率。对同类订单做上线前后对比，记录样本大小。目标设为准备时间降低 30%、遗漏降低 50%，**均为待验证目标**。
+## SDG Evidence
 
-接入阶段：完善 Nexus 后端接口与认证授权约定；优先企业 WhatsApp + 一个库存／订单来源。再加入可选模型辅助结构化与解释，保留置信度、字段来源和人工确认。
+- 8.2: handling minutes per order and completed work per person/week.
+- 8.3: affordability, need for specialist IT, retention and willingness to pay.
+- 10: mobile and low-digital-confidence task success without sensitive-data employee scoring.
+- 12: duplicate purchases, urgent replenishment and rework materials. Do not claim environmental savings before measurement.
 
-扩展阶段：将字段、审批阈值、技能匹配和连接器参数化，扩展到维修、礼品、预约服务等行业。餐饮涉及易腐库存，需要单独验证，不直接套用定制杯数量逻辑。
+## Risks and Fallbacks
 
-商业模式假设：基础企业月费 + 包含成员／流程额度；进阶连接器与额外流程按量付费。未指定未经验证价格。模型与通道费用应透明；通过 Nexus 合作伙伴渠道复用模板。
+Supplier access/backend readiness may block integration. Use clearly labelled adapters and synthetic events; the core demo must not depend on live Orbyte access. Models may extract incorrectly, follow injected messages or leak context. Confirm fields manually and keep fixed rules/approval in control. An overbroad feature tour obscures innovation: pitch one order and use supporting modules as context. Before real records or transactions, implement server-side authorisation, tenant isolation and persistent tamper-resistant events.
 
-## SDG 对应与证据
+## References
 
-- 8.2：衡量每单处理分钟、每人每周完成量，证明技术是否真的提高生产力。
-- 8.3：考察小团队是否能负担、是否无需专职 IT，以及留存与付费意愿。
-- 10：低数字熟练度参与者和移动端的任务成功率，避免只优化熟练用户；不做基于敏感信息的人员评分。
-- 12：统计重复采购、缺货后紧急补货、返工材料量的变化。没有实测前不宣称减排或浪费已下降。
-
-## 风险与备用方案
-
-主要风险是供应商接口未开放或 Nexus 后端尚未完成；使用明确标识的 adapter 与合成事件进行演示，绝不依赖实时平台账号才能完成核心闭环。
-
-模型风险：错误提取、消息内提示注入、越权上下文。备用方案为手工确认字段 + 固定规则；模型输出只作建议。关键行动必须经过代码权限和审批。
-
-采用风险：范围过大掩盖创新。路演只演一个订单的闭环，其他模块用于解释上下文。
-
-安全风险：前端身份是可编辑演示数据。生产版必须使用服务端授权、租户隔离与不可篡改事件库，才允许真实员工资料、客户消息和交易。
-
-## 来源
-
-- [比赛原始笔记（含颜色语义与参赛边界）](https://app.notion.com/p/40083c8a3210809fb2d9dd7303019085)，读取 2026-10-23。
-- [主题子页（痛点与产品配置方向）](https://app.notion.com/p/40083c8a321080f382d1cdd87e9fe389)，读取 2026-10-23。
-- [DOSM: MSMEs Performance 2024](https://www.dosm.gov.my/portal-main/release-content/micro-small--medium-enterprises-msmes-performance-2024)，2024 年有日期背景，非当前产品实测。
-- [马来西亚政府日历](https://www.malaysia.gov.my/calendar)，2026-11-08 Deepavali 日期样例；州属适用和补假在正式排期前另行核实。
-- [Meta WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/overview)，拟议接入路线；本次访问受 Meta 限流，接入前需再次核实版本与授权要求。
+- [Original competition notes](https://app.notion.com/p/40083c8a3210809fb2d9dd7303019085), recorded as read 23 October 2026.
+- [Theme notes](https://app.notion.com/p/40083c8a321080f382d1cdd87e9fe389), recorded as read 23 October 2026.
+- [DOSM MSMEs Performance 2024](https://www.dosm.gov.my/portal-main/release-content/micro-small--medium-enterprises-msmes-performance-2024), dated market background.
+- [Malaysian government calendar](https://www.malaysia.gov.my/calendar), previously referenced for the 8 November 2026 Deepavali example; verify state applicability/substitute holidays before production scheduling.
+- [Meta WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/overview), proposed integration reference; the earlier lookup was rate-limited and current requirements remain to be checked.
