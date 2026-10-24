@@ -1,5 +1,7 @@
 # Nexus — From Customer Messages to Fulfilment
 
+> **Excel update:** Actual local `.xlsx` / `.csv` employee-resource analysis is now available in People and Connect. Microsoft 365 cloud synchronization and WhatsApp are still unconnected; Connect shows their actual state. See [Excel and WhatsApp status](docs/excel-and-whatsapp.md) and [third-party notices](THIRD_PARTY_LICENSES/README.md).
+
 > **2026-10-24 AI update:** The deployed architecture now includes a server-side OpenAI Responses API adapter (gpt-4.1-mini), selected-message extraction and editable reply drafts. ChatGPT sign-in is required for AI calls. Cloudflare D1 stores daily usage counters only; business records still use browser localStorage. Live API verification reached OpenAI but returned `credit_balance_exhausted`; successful generation requires the project owner to add API credits. See [AI integration](docs/ai-integration.md). Older submission drafts describe the previous static version and must be reviewed before submission.
 
 Nexus helps Malaysian micro and small businesses turn customer enquiries into context-checked, human-approved fulfilment tasks.

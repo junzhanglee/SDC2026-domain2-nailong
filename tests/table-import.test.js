@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {tableRowsToEmployees,unpackWorkbook,readHRTable} from '../apps/web/assets/table-import.js';
+import {zipSync,strToU8} from '../apps/web/assets/vendor/fflate.js';
+test('Excel rows preserve zero capacity and quoted/comma-separated names',()=>{const rows=tableRowsToEmployees([['name','team','skill','capacity'],['Lee, "A"','Ops','Print',0]]);assert.equal(rows[0].name,'Lee, "A"');assert.equal(rows[0].capacity,0);});
+test('Chinese headers map to the same HR validation rules',()=>{const rows=tableRowsToEmployees([['姓名','部门','技能','可用工时'],['Amir','运营','印刷',5]]);assert.equal(rows[0].capacity,5);assert.equal(rows[0].name,'Amir');});
+test('invalid hours, duplicate columns and more than 200 employees fail without partial imports',()=>{assert.throws(()=>tableRowsToEmployees([['name','team','skill','capacity'],['A','B','C',25]]));assert.throws(()=>tableRowsToEmployees([['name','姓名','team','skill','capacity'],['A','A','B','C',5]]));assert.throws(()=>tableRowsToEmployees([['name','team','skill','capacity'],...Array.from({length:201},()=>['A','B','C',5])]));});
+test('compressed workbook payload is bounded before XML decompression',async()=>{const zip=zipSync({'xl/workbook.xml':strToU8('a'.repeat(5*1024*1024))});assert.ok(zip.length<1024*1024);await assert.rejects(()=>unpackWorkbook(zip),/过大/);});
+test('invalid archives and missing workbook parts are rejected',async()=>{await assert.rejects(()=>unpackWorkbook(new Uint8Array([1,2,3])));await assert.rejects(()=>unpackWorkbook(zipSync({'not-excel.txt':strToU8('hi')})),/有效/);});
+test('legacy .xls and oversized files are rejected before reading',async()=>{await assert.rejects(()=>readHRTable({name:'old.xls',size:100}),/xlsx/);await assert.rejects(()=>readHRTable({name:'huge.xlsx',size:2*1024*1024}),/1 MB/);});
+test('CSV compatibility is retained',async()=>{const result=await readHRTable({name:'staff.csv',size:60,text:async()=> 'name,team,skill,capacity\nAmir,Ops,Print,4'});assert.equal(result.rows[0].capacity,4);});

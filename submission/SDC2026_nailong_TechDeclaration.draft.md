@@ -30,6 +30,8 @@ No runtime LLM, GPU inference, messaging provider, payment service or backend da
 
 ### 2.2 Languages, Frameworks & Libraries
 
+- fflate 0.8.3 (MIT): browser-local ZIP decompression for real `.xlsx` employee-resource imports. Full notice: `THIRD_PARTY_LICENSES/fflate-MIT.txt`. This is a file parser, not a Microsoft Graph connection.
+
 - HTML/CSS/native JavaScript ES modules: user interface and business workflow; no third-party JavaScript runtime libraries. Browser versions: [record actual tested versions].
 - Node.js: tests and build checks, supported 22+; local verified runtime v24.19.0. Replit version: [capture actual version]. Licence: verify the distributed runtime's licence/third-party notices.
 - Python 3 standard-library http.server: static development serving. Actual local/Replit versions and runtime licence: [confirm from environments].
