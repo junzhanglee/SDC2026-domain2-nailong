@@ -1,5 +1,31 @@
 // UI copy only. Business records, messages, names and form values are never rewritten.
 export const languages=Object.freeze({'zh-CN':'简体中文',en:'English',ms:'Bahasa Melayu'});
+// Known built-in examples only. Customer-entered text is never sent for translation.
+export const demoCopy=Object.fromEntries(`
+门店菜单印刷 · 校对|Store menu printing · Proofreading|Percetakan menu kedai · Semakan pruf
+等待客户确认尺寸|Awaiting customer confirmation of dimensions|Menunggu pengesahan ukuran daripada pelanggan
+Deepavali 礼盒 · 设计确认|Deepavali gift boxes · Design approval|Kotak hadiah Deepavali · Pengesahan reka bentuk
+Bunga Café 品牌物料|Bunga Café brand materials|Bahan jenama Bunga Café
+Kedai Kita 节庆礼盒|Kedai Kita festive gift boxes|Kotak hadiah perayaan Kedai Kita
+本月完成门店开业物料|Complete store-opening materials this month|Siapkan bahan pembukaan kedai bulan ini
+完成样品与批量生产排期|Complete samples and batch production scheduling|Siapkan sampel dan jadual pengeluaran kelompok
+客户确认延迟；Daniel 已批准休假|Customer confirmation delayed; Daniel has approved leave|Pengesahan pelanggan tertangguh; cuti Daniel telah diluluskan
+包装材料待确认|Packaging materials awaiting confirmation|Bahan pembungkusan menunggu pengesahan
+个人事务|Personal matters|Urusan peribadi
+本周交付安排|This week's delivery schedule|Jadual penghantaran minggu ini
+加急订单请先检查库存和人员可用性，由主管确认后再承诺交期。|Check stock and staff availability for urgent orders. Confirm with the manager before promising a delivery date.|Semak stok dan ketersediaan pekerja untuk pesanan segera. Sahkan dengan pengurus sebelum menjanjikan tarikh penghantaran.
+Bunga Café 的订单需要先确认杯子库存。请不要直接向客户承诺交期。|Check cup stock for the Bunga Café order first. Do not promise a delivery date before confirmation.|Semak stok cawan untuk pesanan Bunga Café dahulu. Jangan janjikan tarikh penghantaran sebelum pengesahan.
+我 26 日休假已经批准，Amir 可以接手制作。|My leave on the 26th is approved. Amir can take over production.|Cuti saya pada 26 haribulan telah diluluskan. Amir boleh mengambil alih pengeluaran.
+收到客户询价 Q-1042|Customer enquiry received: Q-1042|Pertanyaan pelanggan diterima: Q-1042
+Bunga Café · 100 个定制杯 · 合成数据|Bunga Café · 100 custom cups · Synthetic data|Bunga Café · 100 cawan tersuai · Data sintetik
+休假已批准|Leave approved|Cuti diluluskan
+Daniel · 2026-10-26 · 已反映到资源排期|Daniel · 2026-10-26 · Included in resource scheduling|Daniel · 2026-10-26 · Disertakan dalam jadual sumber
+演示导入|Demo import|Import demo
+经营|Business operations|Operasi perniagaan
+排期|Scheduling|Penjadualan
+人事|HR|Sumber manusia
+印刷|Printing|Percetakan
+`.trim().split('\n').map(line=>{const [zh,en,ms]=line.split('|');return [zh,{en,ms}];}));
 export const copy=Object.fromEntries(`
 设置|Settings|Tetapan
 界面语言|Interface language|Bahasa antara muka

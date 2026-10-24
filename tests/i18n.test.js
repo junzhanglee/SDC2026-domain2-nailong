@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {initialState} from '../apps/web/assets/data.js';
-import {copy,languages} from '../apps/web/assets/locales.js';
+import {copy,demoCopy,languages} from '../apps/web/assets/locales.js';
 import {translate,validLanguage} from '../apps/web/assets/i18n.js';
 import {currentProfile,saveLanguage,savePersonalPreferences} from '../apps/web/assets/preferences.js';
 import {setLanguage} from '../apps/web/assets/i18n.js';
@@ -62,4 +62,23 @@ test('dynamic UI copy preserves names and counts; unknown business content remai
   const message='We need 100 cups, 请先报价 <script>';
   assert.equal(translate(message,'en'),message);assert.equal(translate(message,'ms'),message);
   assert.equal(translate('设置','unsupported'),'设置');
+});
+test('all built-in task, project, blocker and example copy has English and Malay display text',()=>{
+  for(const [source,target] of Object.entries(demoCopy))for(const language of ['en','ms']){
+    assert.ok(target[language]?.trim(),source);
+    assert.doesNotMatch(translate(source,language),/[\u3400-\u9fff]/u,source);
+    assert.equal(translate(source,'zh-CN'),source);
+  }
+  const s=initialState();s.session={role:'owner',name:'Li Wei'};const before=JSON.stringify(s);
+  const ui=createDashboardUI({getState:()=>s,esc:String,btn:text=>`<button>${text}</button>`});
+  for(const language of ['en','ms']){
+    setLanguage(language);const markup=ui.render();
+    assert.ok(markup.includes(language==='en'?'Store menu printing · Proofreading':'Percetakan menu kedai · Semakan pruf'));
+    assert.ok(markup.includes(language==='en'?'Bunga Café brand materials':'Bahan jenama Bunga Café'));
+    assert.equal(JSON.stringify(s),before);
+    for(const project of s.projects)assert.doesNotMatch(translate(project.risk+'。这是合成项目基线，需结合实际工作记录确认。',language),/[\u3400-\u9fff]/u);
+  }
+  setLanguage('zh-CN');assert.ok(ui.render().includes('门店菜单印刷 · 校对'));
+  const entered='客户自行填写的工作说明，保持原文';
+  for(const language of ['en','ms'])assert.equal(translate(entered,language),entered);
 });

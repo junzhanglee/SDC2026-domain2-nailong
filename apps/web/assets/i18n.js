@@ -1,4 +1,4 @@
-import {copy,languages} from './locales.js';
+import {copy,demoCopy,languages} from './locales.js';
 export {languages};
 const KEY='nexus-interface-language';
 export function validLanguage(value){return Object.hasOwn(languages,value);}
@@ -11,6 +11,7 @@ export function setLanguage(value){
   if(globalThis.document)document.documentElement.lang=language;
 }
 const patterns=[
+  [/^(.+)。这是合成项目基线，需结合实际工作记录确认。$/,(_,risk)=>({en:`${translate(risk,'en')}. Synthetic project baseline; verify against actual work records.`,ms:`${translate(risk,'ms')}. Garis dasar projek sintetik; sahkan dengan rekod kerja sebenar.`})],
   [/^(.*) · (\d+) 个定制杯(（等待补货）)?$/,(_,name,n,restock)=>({en:`${name} · ${n} custom cups${restock?' (awaiting restock)':''}`,ms:`${name} · ${n} cawan tersuai${restock?' (menunggu stok)':''}`})],
   [/^(.*) 客户订单$/,(_,name)=>({en:`${name} customer orders`,ms:`Pesanan pelanggan ${name}`})],
   [/^缺货 (\d+) 个；补货后再承诺交期$/,(_,n)=>({en:`Shortage: ${n}; confirm delivery only after restocking`,ms:`Kekurangan: ${n}; sahkan penghantaran selepas menambah stok`})],
@@ -40,7 +41,7 @@ const patterns=[
 ];
 export function translate(value,locale=language){
   if(locale==='zh-CN'||!validLanguage(locale))return value;
-  const source=String(value),key=source.trim();let translated=copy[key]?.[locale];
+  const source=String(value),key=source.trim();let translated=(copy[key]||demoCopy[key])?.[locale];
   if(!translated){for(const [pattern,format] of patterns){const match=key.match(pattern);if(match){translated=format(...match)[locale];break;}}}
   if(!translated&&key.includes(' · '))translated=key.split(' · ').map(part=>translate(part,locale)).join(' · ');
   if(!translated&&key.includes('；'))translated=key.split('；').map(part=>translate(part,locale)).join('; ');
@@ -54,8 +55,10 @@ export function translateUI(root=document.body){
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   let node;
   while((node=walker.nextNode())){
-    if(node.parentElement?.closest(protectedContent))continue;
     const previous=texts.get(node),source=previous&&node.nodeValue===previous.last?previous.source:node.nodeValue;
+    // Protected business containers may show known built-in examples in the selected language.
+    // Unrecognised messages, titles and entered content remain exactly as provided.
+    if(node.parentElement?.closest(protectedContent)&&!Object.hasOwn(demoCopy,source.trim()))continue;
     const next=translate(source);texts.set(node,{source,last:next});if(node.nodeValue!==next)node.nodeValue=next;
   }
   for(const el of root.querySelectorAll('[placeholder],[aria-label],[title],option')){
