@@ -11,8 +11,22 @@
   <link rel="stylesheet" href="./assets/glass.css?v=20261023-customer3">
   <link rel="stylesheet" href="./assets/customer.css?v=20261023-customer3">
   <link rel="stylesheet" href="./assets/dashboard.css?v=20261023-home2">
+  <link rel="stylesheet" href="./assets/launch.css?v=20261024-launch1">
 </head>
 <body>
+  <section id="launch-screen" class="launch-screen" role="dialog" aria-modal="true" aria-labelledby="launch-title" data-i18n-skip>
+    <div class="launch-scene">
+      <svg class="launch-orbits" viewBox="0 0 1100 580" aria-hidden="true"><ellipse cx="550" cy="295" rx="500" ry="165" transform="rotate(-13 550 295)"/><ellipse cx="550" cy="295" rx="420" ry="224" transform="rotate(20 550 295)"/></svg>
+      <div class="launch-tile" aria-hidden="true"><span class="launch-mark"></span></div>
+      <h1 id="launch-title">Nexus</h1>
+      <p id="launch-tagline" class="launch-tagline">让工作，自然流动。</p>
+    </div>
+    <div class="launch-footer">
+      <button class="launch-enter" type="button"><span id="launch-enter-label">进入 Nexus</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></button>
+      <p id="launch-hint" class="launch-hint">即将进入你的工作空间</p>
+    </div>
+  </section>
+  <script defer src="./assets/launch.js?v=20261024-launch1"></script>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
   <div id="app"></div>
   <div id="message-banner" class="message-banner" role="status" aria-live="polite" aria-label="企业主公屏通知"></div>

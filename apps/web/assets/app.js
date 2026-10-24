@@ -188,4 +188,5 @@ window.addEventListener('storage',e=>{
 });
 render();
 startTranslations();
+document.dispatchEvent(new Event('nexus:ready'));
 notifyUnread();
