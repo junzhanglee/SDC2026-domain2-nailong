@@ -14,7 +14,7 @@
 - Leader email / phone: [Included in the local private copy; omitted from the public repository draft]
 - Live prototype: https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/ [verify final submission version]
 - Repository: https://github.com/junzhanglee/SDC2026-domain2-nailong
-- Application branch: feat/orbyte-flow-mvp
+- Application branch: feat/nexus-mvp
 - Replit project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2
 - Published Replit URL: [NOT YET PROVIDED OR VERIFIED]
 

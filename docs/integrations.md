@@ -1,6 +1,6 @@
 # Connect and AI Integration Plan
 
-Every /api/v1/... path is a **proposed Nexus internal interface**, not a verified supplier endpoint. This static prototype does not serve those HTTP APIs or perform live network integrations. Contracts support future backend/adapter work.
+Every /api/v1/... path is a **proposed Nexus internal interface**, not a verified supplier endpoint. These supplier HTTP APIs remain unimplemented. A separate server-side `/api/ai/customer-request` endpoint now calls the OpenAI Responses API; see [AI integration](ai-integration.md). Contracts support future backend/adapter work.
 
 The six proposed inputs cover payment events, accounting invoices, approved payroll hours, CRM contacts, ecommerce orders and WhatsApp webhooks. Confirm provider versions, permissions, mappings, rate limits, costs, signatures and event coverage individually before implementation.
 
@@ -18,7 +18,7 @@ Payroll synchronises approved attendance/overtime only. Do not calculate payable
 
 ## Optional AI Boundary
 
-Current classification, suggested replies, chat summaries, HR analysis and monthly reviews use deterministic rules/statistics and are labelled demonstrations. There are no model calls or API keys.
+Selected customer-message extraction and editable reply drafts now use the server-side OpenAI Responses API. Chat summaries, HR analysis and monthly reviews remain deterministic demonstrations. The key is stored only in server secrets, never in client code. Initial live verification returned `credit_balance_exhausted`, so successful generation awaits API credits.
 
 Possible backend additions are message-field extraction, evidence-based recommendation explanations, structuring OCR receipts and authorised-event monthly reviews. Each output records sources, version, missing fields and confidence, with human clarification when needed. Fixed code retains identity, permissions, approval and financial control.
 

@@ -5,7 +5,7 @@
 - Team: nailong
 - Project: Nexus
 - Replit project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2
-- Related source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/orbyte-flow-mvp
+- Related source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp
 - Activity date: 2026-10-23
 
 ## Actual role in the project

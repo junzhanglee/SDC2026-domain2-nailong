@@ -1,5 +1,7 @@
 # Nexus — From Customer Messages to Fulfilment
 
+> **2026-10-24 AI update:** The deployed architecture now includes a server-side OpenAI Responses API adapter (gpt-4.1-mini), selected-message extraction and editable reply drafts. ChatGPT sign-in is required for AI calls. Cloudflare D1 stores daily usage counters only; business records still use browser localStorage. Live API verification reached OpenAI but returned `credit_balance_exhausted`; successful generation requires the project owner to add API credits. See [AI integration](docs/ai-integration.md). Older submission drafts describe the previous static version and must be reviewed before submission.
+
 Nexus helps Malaysian micro and small businesses turn customer enquiries into context-checked, human-approved fulfilment tasks.
 
 ## SDC 2026 — Team Information
@@ -16,7 +18,7 @@ Nexus helps Malaysian micro and small businesses turn customer enquiries into co
 
 ## Links
 
-- [GitHub repository](https://github.com/junzhanglee/SDC2026-domain2-nailong). Application source is on **`feat/orbyte-flow-mvp`**; `main` currently contains the initial repository files. The final submission must expose the application source on its submitted branch.
+- [GitHub repository](https://github.com/junzhanglee/SDC2026-domain2-nailong). Application source is on **`feat/nexus-mvp`**; `main` currently contains the initial repository files. The final submission must expose the application source on its submitted branch.
 - [Replit project](https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2). This is an editor/project link for proof of use, not the public judging website.
 - [Existing live demo](https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/). Browser-local synthetic data; use a fresh session for a clean demo. Final submission-version verification is pending.
 - Published Replit website: **not yet supplied or verified**. Recent screenshots show publishing settings prepared, not publication completed.
@@ -58,7 +60,7 @@ For the current and proposed production architecture, see [architecture](docs/ar
 
 ## How to Run on Replit
 
-Open the Replit project above, or import the GitHub repository and select **`feat/orbyte-flow-mvp`**. Confirm that `apps/web/index.html` is present. Start in Shell or configure Run with:
+Open the Replit project above, or import the GitHub repository and select **`feat/nexus-mvp`**. Confirm that `apps/web/index.html` is present. Start in Shell or configure Run with:
 
 ```sh
 python3 -m http.server 3000 --bind 0.0.0.0 --directory apps/web

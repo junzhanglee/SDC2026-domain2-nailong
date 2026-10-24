@@ -1,6 +1,6 @@
 import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-for(const file of ['apps/web/assets/app.js','apps/web/assets/data.js','apps/web/assets/engine.js','apps/web/assets/preferences.js','apps/web/assets/account-ui.js','apps/web/assets/interaction-ui.js','apps/web/assets/customer-service.js','apps/web/assets/customer-ui.js','apps/web/assets/dashboard-model.js','apps/web/assets/dashboard-ui.js'])execFileSync(process.execPath,['--check',file]);
+for(const file of ['apps/web/assets/app.js','apps/web/assets/data.js','apps/web/assets/engine.js','apps/web/assets/preferences.js','apps/web/assets/account-ui.js','apps/web/assets/interaction-ui.js','apps/web/assets/customer-service.js','apps/web/assets/customer-ui.js','apps/web/assets/dashboard-model.js','apps/web/assets/dashboard-ui.js','apps/web/assets/ai-client.js','worker/index.js'])execFileSync(process.execPath,['--check',file]);
 const html=readFileSync('apps/web/index.html','utf8');
 for(const file of ['assets/style.css','assets/messenger.css','assets/glass.css','assets/customer.css','assets/dashboard.css','assets/app.js'])if(!html.includes(file)||!existsSync('apps/web/'+file))throw Error('Missing website asset: '+file);
 const contract=JSON.parse(readFileSync('contracts/openapi.json','utf8'));
