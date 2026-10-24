@@ -69,6 +69,10 @@ The team confirms SDC supplied Replit premium account access, used for importing
 
 The [Replit evidence preparation PDF](submission/SDC2026_nailong_Replit_POU.pdf) and [evidence checklist](submission/SDC2026_nailong_Replit_POU.draft.md) identify the missing account/project and running-preview screenshots. They are not completed usage proof. The official template marks RunPod proof as required; the team did not use RunPod and must obtain the organisers' applicability decision rather than fabricate evidence or assume an exemption.
 
+## RunPod Usage Declaration — Not Used
+
+The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, serverless endpoint or sponsor credits were used. There is no RunPod endpoint or proof of use to submit. The current prototype is hosted through OpenAI Sites and its AI integration uses the OpenAI Responses API; RunPod is not part of the architecture. This is a declaration of non-use, not a claim that the organisers have waived any requirement.
+
 ## SDG Evaluation Plan
 
 The initial manual-handling baseline is a transparent **10-minute team estimate** (3 minutes structure, 4 check, 3 assign/record), not an observed industry benchmark. Phase 2 will measure a manual baseline with target users, then compare matched tasks. Targets: **30% lower median active handling time** and **100% human approval coverage** for critical actions. Track missing required information, failures and sample size. Do not claim achieved cost savings, omission reduction or environmental benefits before measurement. SDG definitions: [UN Goal 8](https://sdgs.un.org/goals/goal8).
