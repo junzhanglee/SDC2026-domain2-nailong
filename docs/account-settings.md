@@ -6,7 +6,9 @@ The top-right avatar and sidebar user card open the account menu: profile, setti
 
 Profile includes name, work email, phone, biography, avatar, fixed employee ID and role, personal work summary and personal export. Saving changes only the current fixed demo employee; role and permission fields are rejected. Avatars accept small PNG/JPEG/WebP data, not SVG, remote URLs or secrets.
 
-Personal settings include chat unread counts, compact layout, reduced motion and reduced transparency, stored per employee ID and applied immediately. The interface supports Simplified Chinese only. Time and currency are displayed as MYT and MYR; multilingual or multicurrency support is not implemented.
+Personal settings include chat unread counts, compact layout, reduced motion and reduced transparency. The interface language selector offers Simplified Chinese (`zh-CN`), English (`en`) and Bahasa Melayu (`ms`). Language changes apply immediately and persist per demo employee ID in this browser, including after refresh; they do not reset business records or other preferences. Time zone and currency remain MYT and MYR.
+
+The local UI catalog translates navigation, settings, key workflow controls, prompts and accessibility labels. Names, customer messages, project/task titles, logs, entered text and uploaded data remain in their original language. This is interface localization, not an automatic translation service. Original option values and business status identifiers are preserved when their displayed labels change. The selected language also updates the document language and date/time display locale. No additional API or translation provider is used.
 
 Security shows the current simulated browser session, identity switching and sign-out. Password changes, two-factor authentication and remote session revocation require a real identity backend. The prototype explains their unavailable status rather than collecting passwords through non-functional forms.
 

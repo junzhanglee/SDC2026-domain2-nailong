@@ -1,6 +1,7 @@
+import {validLanguage} from './i18n.js';
 import {roles} from './data.js';
 import {can,requirePermission,staffId,addLog} from './engine.js';
-export function currentProfile(s){const id=staffId(s),staff=s.staff.find(e=>e.id===id);return {displayName:s.session?.name||staff?.name||'',email:staff?.email||'',phone:'',bio:'',avatar:'',chatBadges:true,compact:false,reducedMotion:false,reduceTransparency:false,...s.profiles?.[id]};}
+export function currentProfile(s){const id=staffId(s),staff=s.staff.find(e=>e.id===id);return {displayName:s.session?.name||staff?.name||'',email:staff?.email||'',phone:'',bio:'',avatar:'',language:'zh-CN',chatBadges:true,compact:false,reducedMotion:false,reduceTransparency:false,...s.profiles?.[id]};}
 export function companySettings(s){return {name:'Kita Studio',industry:s.industry||'印刷与定制礼品',state:s.state||'Selangor',email:'',phone:'',address:'',...s.company};}
 export function policy(s){return {annualLeaveDays:14,claimLimit:200,overtimeHours:4,...s.policies};}
 function emailValid(v){return !v||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
@@ -25,3 +26,5 @@ export function savePolicies(s,fields){
 }
 export function personalExport(s){requirePermission(s,'profile');const own=staffId(s);return {exportedAt:new Date().toISOString(),profile:currentProfile(s),staffId:own,role:roles[s.session.role].label,requests:{leave:s.leave.filter(x=>x.staff===own),claims:s.claims.filter(x=>x.staff===own),ot:s.ot.filter(x=>x.staff===own)},daily:s.daily.filter(x=>x.staff===own)};}
 export function canManageSettings(s){return can(s,'manage-connectors');}
+
+export function saveLanguage(s,language){requirePermission(s,'settings');if(!validLanguage(language))throw Error('请输入有效的界面语言。');s.profiles??={};s.profiles[staffId(s)]={...currentProfile(s),language};}
