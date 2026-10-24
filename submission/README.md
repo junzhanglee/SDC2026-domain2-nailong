@@ -4,6 +4,9 @@ Updated 24 October 2026 against the [official SDC repository template](https://g
 
 ## Current Files
 
+- [English pitch deck (.pptx)](pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx): 12 core slides plus 2 reference appendices.
+- [English speaker notes](pitch-deck/Nexus_English_Speaker_Notes.md), arranged for approximately 6½ minutes including the product demo.
+- [Pitch cover preview](pitch-deck/Nexus_Cover_Preview.png).
 - [Preliminary proposal - original layout with factual corrections](SDC2026_nailong_Preliminary.pdf), 9 pages.
 - [Technical declaration - original layout with factual corrections](SDC2026_nailong_TechDeclaration.pdf), 13 pages.
 - [Replit proof preparation copy](SDC2026_nailong_Replit_POU.pdf): **not completed usage evidence; screenshots still missing**.
@@ -34,7 +37,7 @@ The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, 
 
 1. Leader review of the complete team resource inventory, any other AI tools (including possible Replit Agent use), originality/IP statements, and signatures.
 2. Actual Replit account/project and running-preview screenshots; redact keys, billing and unrelated information.
-3. Slide-deck and demo-video URLs and access checks. Recheck the current handbook for format/duration details.
+3. Demo-video URL and access checks. The English pitch deck is included above. Official Participant Handbook §6.3.5.2 requires problem, solution, technical approach and expected impact; §6.3.5.6 specifies a 5–7-minute YouTube video with prototype demonstration.
 4. RunPod applicability: the official repository template marks proof as Required. The team did not use RunPod; ask the organisers whether an explicit non-use statement is accepted. Do not make up usage or claim an exemption without their answer.
 5. Final judge-facing prototype/source links, PDF filenames and official portal submission receipt.
 
