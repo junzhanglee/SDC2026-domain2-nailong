@@ -2,7 +2,11 @@
 
 ## Current Implementation
 
-The prototype uses static ES modules with no third-party JavaScript runtime dependencies. engine.js contains business rules, data.js synthetic records and app.js rendering/input validation. localStorage persists a single-browser demonstration. Roles share one synthetic organisation; role switching binds fixed employee IDs and names are display labels.
+The deployed prototype uses browser ES modules and a Cloudflare ESM Worker through Sites. `engine.js` holds browser-local business rules, `data.js` synthetic records and `app.js` rendering/input validation. The vendored MIT-licensed fflate 0.8.3 module enables local .xlsx parsing. Business records persist in localStorage, not in the cloud database. Demo roles share a synthetic organisation and do not establish enterprise identity or tenant membership.
+
+`worker/index.js` hosts the frontend assets and a same-origin OpenAI Responses API endpoint. AI requests require platform-supplied ChatGPT identity, origin/input validation and daily D1 quota reservation. D1 stores only usage counters. The secret remains server-side. Only a selected customer message and the Malaysia date are sent with `store:false`; validated structured output is returned as an editable draft. Last live verification returned `credit_balance_exhausted`, so successful generation is unverified. This identity boundary does not convert local business roles into production authorisation.
+
+Local .xlsx / .csv analysis is implemented. WhatsApp, Microsoft 365 online workbooks and the other proposed vendor APIs are not connected.
 
 The owner has global business visibility. Managers share the highest business permissions, subject to the owner-only broadcast exception. HR maintains staff and personnel review; Finance handles claims and financial sample events; employees see their own requests/tasks; Customer Service prepares customer work without final business approval. Public directory, shared channels and announcements are available across staff roles.
 

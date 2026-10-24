@@ -12,7 +12,7 @@ The initial use case is a small print/custom-gift business receiving an urgent r
 
 The user's note colours represented sections/themes (blue), required actions (red), emphasis (green) and pain points (purple). The main notes called for Trigger → Connected data → Decision logic → Human approval → Visible outcome and permitted simulated identity, RBAC and platform APIs. People, Work and Connect remain simulated context; the competition story centres on the new fulfilment workflow.
 
-The theme notes highlighted affordability, disconnected tools and training barriers, proposing configurable workflows with fixed execution rules and human approval. The prototype uses a static website, spreadsheet entry and a small set of clear actions. Industry configuration should guide adaptation; a model must not improvise permissions or payments. Unlinked WhatsApp/payment usage statistics from the notes were not repeated as verified market facts.
+The theme notes highlighted affordability, disconnected tools and training barriers, proposing configurable workflows with fixed execution rules and human approval. The prototype uses a responsive browser UI, a Sites Worker for bounded AI calls, local spreadsheet input and a small set of clear actions. Industry configuration should guide adaptation; a model must not improvise permissions or payments. Unlinked WhatsApp/payment usage statistics from the notes were not repeated as verified market facts.
 
 ## Malaysian SME Context
 
@@ -40,7 +40,7 @@ Messages without quantity/date enter the support queue; staff confirm fields ins
 
 ## Supporting Modules
 
-People demonstrates leave/balances/approval, overlap and task conflicts; claims with image preview/manual entry/threshold review; overtime requests/hours/prompts; attendance, public directory, announcements and HR CSV analysis. Receipt OCR is not connected.
+People demonstrates leave/balances/approval, overlap and task conflicts; claims with image preview/manual entry/threshold review; overtime requests/hours/prompts; attendance, public directory, announcements and local HR Excel/CSV analysis. Receipt OCR is not connected.
 
 Work records accomplishments, next actions and blockers, project priorities, synthetic baselines and customer-linked tasks. Approved leave informs staffing. Records and risks offer clues to delays, not proven causality.
 
@@ -52,9 +52,9 @@ Activity and insights show/export requests, simulated events, approvals and vali
 
 Hackathon: demonstrate one explainable journey, role switching, blocked approvals and exceptions.
 
-Pilot: interview five target businesses, collect anonymised order-handling time, omissions/rework, suggestion edits and first-time task success. Compare equivalent orders before/after and record sample sizes. A 30% preparation-time reduction and 50% omission reduction are **unverified targets**, not achieved results.
+Pilot: interview five target businesses, collect anonymised order-handling time, omissions/rework, suggestion edits and first-time task success. Compare equivalent orders before/after and record sample sizes. The current Phase 2 targets are a **30% reduction in median active request-handling time** and **100% human approval coverage** for critical actions, not achieved results. The initial 10-minute manual baseline is a team estimate (3 + 4 + 3 minutes); replace it with a measured manual baseline before comparison. Track omissions and failed tasks without asserting an unsupported 50% improvement.
 
-Integration: agree backend/auth contracts, connect authorised business WhatsApp plus one stock/order source, then evaluate optional model assistance with confidence, source references and human confirmation.
+Integration: agree backend/auth contracts, connect authorised business WhatsApp plus one stock/order source, then evaluate model quality with source references and human confirmation. The server-side OpenAI adapter already exists, but its last live test was credit-blocked.
 
 Expansion: configure fields, thresholds, skills and adapters for repair, gifts and appointments. Perishable food stock requires separate validation; cup-count rules do not transfer unchanged.
 
@@ -69,7 +69,7 @@ Business model hypothesis: monthly company subscription with member/workflow all
 
 ## Risks and Fallbacks
 
-Supplier access/backend readiness may block integration. Use clearly labelled adapters and synthetic events; the core demo must not depend on live Orbyte access. Models may extract incorrectly, follow injected messages or leak context. Confirm fields manually and keep fixed rules/approval in control. An overbroad feature tour obscures innovation: pitch one order and use supporting modules as context. Before real records or transactions, implement server-side authorisation, tenant isolation and persistent tamper-resistant events.
+Supplier access/backend readiness may block integration. Use clearly labelled adapters and synthetic events; the core demo must not depend on live platform access. Models may extract incorrectly, follow injected messages or leak context. Confirm fields manually and keep fixed rules/approval in control. An overbroad feature tour obscures innovation: pitch one order and use supporting modules as context. Before real records or transactions, implement server-side authorisation, tenant isolation and persistent tamper-resistant events.
 
 ## References
 

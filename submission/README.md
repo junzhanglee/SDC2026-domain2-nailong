@@ -1,44 +1,45 @@
-# Nexus — Preliminary Submission Materials
+# Nexus - Submission Package
 
-Prepared using the [official GitHub template](https://github.com/michaelzhngg/SDC_Hackathon_Submission_Template) and the [official proposal and declaration templates](https://drive.google.com/drive/folders/1KvSNvXRXrnYpJ2rGterZx6Gfchi64Nkz). Updated 23 October 2026. All submission-facing materials in this folder are in English.
+Updated 24 October 2026 against the [official SDC repository template](https://github.com/michaelzhngg/SDC_Hackathon_Submission_Template) and the supplied proposal/declaration PDFs. Registered team: 奶龙 (nailong), Domain 2, Xiamen University Malaysia. Leader: LING YUXUAN; members: LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Main SDG: 8.2 / 8.3.
 
-## Confirmed Team Details
+## Current Files
 
-- Team: **nailong**
-- Leader: **LING YUXUAN**
-- University: **Xiamen University Malaysia**
-- Members: **4 (leader + 3 team members)**
-- Responsibility areas: **concept development / frontend debugging / backend debugging**. Names and individual assignments have not yet been supplied; the backend role does not establish that a production backend exists.
-- Mandatory GenAI, Database and Cloud Deployment workshops: **completed by all members**, as confirmed by the team.
-- RunPod: **not used**, as confirmed by the team. Organiser confirmation of applicability remains outstanding.
+- [Preliminary proposal - revised review copy](SDC2026_nailong_Preliminary.pdf).
+- [Technical declaration - revised review copy](SDC2026_nailong_TechDeclaration.pdf).
+- [Replit proof preparation copy](SDC2026_nailong_Replit_POU.pdf): **not completed usage evidence; screenshots still missing**.
+- [Proposal editable narrative](SDC2026_nailong_Preliminary.draft.md).
+- [Declaration editable narrative](SDC2026_nailong_TechDeclaration.draft.md).
+- [Replit evidence checklist](SDC2026_nailong_Replit_POU.draft.md).
 
-Leader contact details are stored in Git-ignored local files under submission/private. Personalised proposal and declaration drafts in that folder include the supplied email and phone number. The public drafts deliberately omit these contacts. Do not force-add the private folder to Git; use the intended official submission channel for completed documents.
+The revised proposal and declaration PDFs retain the original team-supplied leader email and phone, as explicitly requested for the required submission fields. They will be visible in this public repository. No signature is applied by the assistant: the leader must review and sign the official copy. Local working copies and authoring files are kept under Git-ignored `submission/private/`; originals on the user's Desktop are preserved. Do not force-add the private directory.
 
-## Editable Drafts
+The supplied official PDF templates do **not** ask for individual member duties. Names are confirmed; role mappings and GitHub accounts are not invented. A richer GitHub Team section may be completed separately if the team chooses.
 
-- [Preliminary proposal](SDC2026_nailong_Preliminary.draft.md): problem, solution, architecture, deployment strategy, SDG measurement plan and confirmed team information.
-- [Technical and tools declaration](SDC2026_nailong_TechDeclaration.draft.md): current application, development assistance, future plans and confirmed non-use of RunPod.
-- [Replit proof of use](SDC2026_nailong_Replit_POU.draft.md): project link, known activities and evidence requirements.
+## Verified Corrections
 
-These are unsigned drafts, not completed submission PDFs. Transfer reviewed content into the official templates and export SDC2026_nailong_Preliminary.pdf, SDC2026_nailong_TechDeclaration.pdf and SDC2026_nailong_Replit_POU.pdf. The official example stores the final PDFs in submission/. Review the destination and document contents before making any personal information public.
+- School fields now name Xiamen University Malaysia; deadline fields name 25 October 2026.
+- The third-party declaration is Yes and lists fflate, Node.js and the OpenAI model, with applicable licences/terms.
+- OpenAI API code is deployed but last live verification was credit-blocked; no successful generation is claimed.
+- Sites Worker / D1 usage counts / localStorage business records are distinguished.
+- Local Excel parsing is distinguished from unconnected Microsoft Graph / WhatsApp.
+- Replit premium sponsor access is disclosed in both cloud-service and sponsor sections.
+- Unsupported 49% / 59% figures and unverified cost/omission reductions are removed. The workflow baseline is explicitly a 10-minute estimate; measurable Phase 2 targets are 30% handling-time reduction and 100% human approval coverage.
+- All bounded narrative answers are under the official word limits; the supplied contacts are retained; files are screened for common secret patterns without treating the required email/phone as secrets.
 
-## RunPod Applicability
+## Outstanding Actions - Not Fabricated
 
-The official example labels RunPod proof as required, while the Participant Handbook describes mandatory RunPod use for GPU work. The team confirms no RunPod use and the current source has no GPU workload. No usage proof has been fabricated. Obtain the organisers' answer for this project; non-use is a factual disclosure, not confirmation of an exemption. If use later changes, update the declaration and provide the team's actual Pod ID, GPU type and runtime, or the Serverless endpoint information required by the handbook.
+1. Leader review of the complete team resource inventory, any other AI tools (including possible Replit Agent use), originality/IP statements, and signatures.
+2. Actual Replit account/project and running-preview screenshots; redact keys, billing and unrelated information.
+3. Slide-deck and demo-video URLs and access checks. Recheck the current handbook for format/duration details.
+4. RunPod applicability: the official repository template marks proof as Required. The team did not use RunPod; ask the organisers whether an explicit non-use statement is accepted. Do not make up usage or claim an exemption without their answer.
+5. Final judge-facing prototype/source links, PDF filenames and official portal submission receipt.
 
-## Remaining Steps
+## Access and Version
 
-1. Supply the other member names and individual responsibility assignments. Confirm phone formatting if the portal requires a country code; the private copy preserves the number exactly as supplied.
-2. Review prior work, third-party components/licences, employment-related IP, the full AI development-tool inventory and sponsor resources. Do not sign or tick declarations that have not been confirmed.
-3. Supply a measured or cited numeric baseline and the evaluation method. The proposed 30%/50% improvements remain unverified targets.
-4. Attach actual Replit account/project and running-preview evidence, verify reviewer access, and resolve RunPod applicability.
-5. Complete the slide deck, 5–7 minute YouTube pitch and final verified prototype link.
-6. Transfer the reviewed material into official documents, check word limits and obtain the team leader's signature before exporting PDFs.
-7. Confirm that the submitted repository branch contains the application source and meets public/reviewer-access requirements. Match the deployed site, video and code versions.
-8. Submit through sdchack.my and keep the receipt. The handbook states 25 October 2026 at 07:59:59 MYT; check the organisers' latest formal notices.
+Application source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp .
 
-## Mapping the Example to Nexus
+Live prototype: https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/ .
 
-The template's src/ corresponds to apps/web/ here. Its Python/GPU implementation is an example stack. Nexus already has real docs/, tests/ and LICENSE content and does not require an empty RunPod handler or unused dependencies/secrets.
+Replit development project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2 .
 
-This work updates local documentation only. GitHub, Replit and published websites do not automatically synchronise. Preserve the recently prepared Replit configuration when syncing documentation. Repository documentation is in English. The current website interface and synthetic demo messages remain in Chinese by team preference; test fixtures that match those values are preserved.
+The current Worker is hosted on Sites. No public Replit deployment, successful AI generation, multi-tenant business database or cross-device business sync is asserted. Retain these distinctions when making slides or recording the demo.

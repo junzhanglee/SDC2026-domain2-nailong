@@ -1,32 +1,16 @@
-# Nexus — Replit Proof of Use
+# Nexus - Replit Proof of Use: Evidence Checklist
 
-**DRAFT — evidence attachment and team confirmation required before PDF export.**
+Team: 奶龙 (nailong). Sponsor-provided premium access: confirmed by the user on 24 October 2026. Reported activity: repository import/run and cloud development/testing.
 
-- Team: nailong
-- Project: Nexus
-- Replit project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2
-- Related source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp
-- Activity date: 2026-10-23
+Project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2 .
 
-## Actual role in the project
+Source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp .
 
-The team imported the existing repository, identified the application branch and reported a successful run. The configured command serves apps/web with Python's static HTTP server. Replit was also used to prepare static publishing settings: build command npm run build, public directory dist. Supplied platform messages report 43 tests, build checks and 11 browser-demo checks. These are platform-reported results; retain the corresponding evidence rather than treating this draft as independent verification.
+## Evidence Still Required
 
-The screenshots explicitly state that nothing was published at that stage. This document does not claim a public Replit deployment. The existing Sites-hosted demo and the Replit editor link serve different purposes.
+- Actual Replit account/team and project identity, with the project URL visible.
+- Running Nexus preview and matching Run/Console context.
+- Premium-access proof if the official template requires it; redact billing details and secrets.
+- Reviewer access and any additional evidence requested in the official proof template.
 
-## Evidence to attach
-
-1. Actual Replit account/team and project identity, with project URL visible.
-2. Running Nexus preview and Run/Console context showing the team's own project. Prefer the core customer-request-to-task workflow.
-3. Project history or configuration evidence for the same project; check organiser/judge access to the history link.
-4. If subsequently published, add the actual public URL and a logged-out access check with the date.
-
-Use screenshots of actual team activity; redact keys, billing details and unrelated private information. A configuration screenshot alone does not establish publication or successful end-to-end operation. Do not reuse sponsor/example screenshots as team proof.
-
-## Final check
-
-- [ ] Team/account identity and project match.
-- [ ] Screenshots are attached and readable.
-- [ ] Project link and required history access work for intended reviewers.
-- [ ] Any deployment claim is backed by a working public URL.
-- [ ] Export as SDC2026_nailong_Replit_POU.pdf after team review; reference it in the technical declaration.
+The accompanying PDF is an evidence preparation copy, not completed proof. No screenshots or usage amounts have been fabricated. The current Sites Worker deployment is separate from the earlier static Replit setup; no verified public Replit deployment is claimed. Earlier platform-reported checks must be supported by actual screenshots if cited, rather than carried over as unverified proof.
