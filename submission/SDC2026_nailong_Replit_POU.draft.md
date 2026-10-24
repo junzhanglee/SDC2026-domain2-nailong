@@ -1,16 +1,18 @@
-# Nexus - Replit Proof of Use: Evidence Checklist
+# Nexus - Replit Proof of Use
 
-Team: 奶龙 (nailong). Sponsor-provided premium access: confirmed by the user on 24 October 2026. Reported activity: repository import/run and cloud development/testing.
+Collected 25 October 2026, Malaysia time. Team: nailong; Xiamen University Malaysia.
 
-Project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2 .
+Project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2
 
-Source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp .
+## Evidence supplied
 
-## Evidence Still Required
+- Console: real Python frontend server on port 3000 and HTTP request logs.
+- Replit in-editor preview: actual Nexus workspace with synthetic business records.
+- Workspace overview: user-supplied team identity screenshot.
+- Core plan: user-supplied account panel; payment details and unrelated areas removed by PDF image redaction before public export.
 
-- Actual Replit account/team and project identity, with the project URL visible.
-- Running Nexus preview and matching Run/Console context.
-- Premium-access proof if the official template requires it; redact billing details and secrets.
-- Reviewer access and any additional evidence requested in the official proof template.
+See [the proof PDF](SDC2026_nailong_Replit_POU.pdf) and [image provenance](replit-evidence/README.md).
 
-The accompanying PDF is an evidence preparation copy, not completed proof. No screenshots or usage amounts have been fabricated. The current Sites Worker deployment is separate from the earlier static Replit setup; no verified public Replit deployment is claimed. Earlier platform-reported checks must be supported by actual screenshots if cited, rather than carried over as unverified proof.
+## Boundaries
+
+These captures show development and a running frontend preview, not a production Replit deployment. The judging URL remains the separate Sites deployment. Core plan status is shown; the team leader confirms SDC supplied premium access, but the screenshot does not independently establish its sponsor origin or team entitlement. Member email lists and original billing screenshots are not published. No RunPod use, successful AI generation, measured sponsor-credit consumption or organiser waiver is claimed. Verify judge access and any extra organiser template fields before submission.

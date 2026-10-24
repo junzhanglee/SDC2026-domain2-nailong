@@ -21,7 +21,7 @@ Nexus helps Malaysian micro and small businesses turn customer enquiries into co
 - [Submission status and remaining evidence](submission/README.md).
 - [Replit project](https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2): team-confirmed development/testing with SDC premium access; this editor link is not a public deployment URL.
 - [English pitch deck (.pptx)](submission/pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx): 12 core slides and 2 appendices, with [English speaker notes](submission/pitch-deck/Nexus_English_Speaker_Notes.md).
-- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied link. Player duration checked on 24 October 2026: **7:28**, exceeding the official 5–7-minute limit; trim before final submission and recheck judge access.
+- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied link. Player duration checked on 24 October 2026: **7:28**. The team chose to retain this version after being informed of the official 5–7-minute limit; judge access remains to be checked.
 
 The revised PDF copies retain the team-supplied leader email and phone as requested by the team for the official submission. This repository is public. No signature is applied by the assistant; the leader must review and sign the official copies. Local working revisions and authoring files remain Git-ignored under `submission/private/`. No screenshot or sponsor usage evidence is fabricated.
 
@@ -68,7 +68,7 @@ A Python static HTTP server can still display the frontend alone, but it does no
 
 The team confirms SDC supplied Replit premium account access, used for importing/running the project and development/testing. Earlier Replit preparation used static serving. The present Sites Worker has not been verified as running or deployed on Replit. A current Replit deployment would need a compatible server adapter and new verification; no automatic deployment parity is claimed.
 
-The [Replit evidence preparation PDF](submission/SDC2026_nailong_Replit_POU.pdf) and [evidence checklist](submission/SDC2026_nailong_Replit_POU.draft.md) identify the missing account/project and running-preview screenshots. They are not completed usage proof. The official template marks RunPod proof as required; the team did not use RunPod and must obtain the organisers' applicability decision rather than fabricate evidence or assume an exemption.
+The [Replit proof-of-use PDF](submission/SDC2026_nailong_Replit_POU.pdf) now contains actual Console output, an in-editor Nexus preview, the team Workspace overview and a Core-plan panel with payment details removed. [Evidence files and provenance](submission/replit-evidence/README.md) are included. These support frontend development/runtime use and plan status; the sponsor origin remains team-confirmed, and reviewer access still requires verification. The official template marks RunPod proof as required; the team did not use RunPod and must obtain the organisers' applicability decision rather than fabricate evidence or assume an exemption.
 
 ## RunPod Usage Declaration — Not Used
 
@@ -112,10 +112,11 @@ ChatGPT and Codex assisted planning, code, debugging, tests, deployment and docu
 - [x] Public review PDFs and updated editable sources are in `submission/`.
 - [x] Current architecture, Replit sponsor use, actual members and API limitations are consistent in the revised materials.
 - [ ] Leader's final inventory review and signature in the private official copies.
-- [ ] Actual Replit proof screenshots and judge access verification.
+- [x] Actual Replit Console/preview/Workspace screenshots and redacted Core-plan evidence.
+- [ ] Verify judge access to the project and final submission links.
 - [x] English slide deck and speaker-note links.
 - [x] Demo-video link supplied.
-- [ ] Trim the 7:28 video to the official 5–7-minute limit and verify judge access.
+- [ ] Verify judge access to the supplied demo video. The team chose to retain its 7:28 duration.
 - [ ] Organiser decision about RunPod proof applicability.
 - [ ] Official portal submission and saved receipt.
 

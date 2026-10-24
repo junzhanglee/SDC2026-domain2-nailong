@@ -1,20 +1,21 @@
 # Nexus - Submission Package
 
-Updated 24 October 2026 against the [official SDC repository template](https://github.com/michaelzhngg/SDC_Hackathon_Submission_Template) and the supplied proposal/declaration PDFs. Registered team: 奶龙 (nailong), Domain 2, Xiamen University Malaysia. Leader: LING YUXUAN; members: LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Main SDG: 8.2 / 8.3.
+Updated 25 October 2026 against the [official SDC repository template](https://github.com/michaelzhngg/SDC_Hackathon_Submission_Template) and the supplied proposal/declaration PDFs. Registered team: 奶龙 (nailong), Domain 2, Xiamen University Malaysia. Leader: LING YUXUAN; members: LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Main SDG: 8.2 / 8.3.
 
 ## Current Files
 
-- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied YouTube link; player shows **7:28**, so trimming is still required.
+- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied YouTube link; player shows **7:28**. The team chose to retain this version after being informed of the official duration limit.
 
 - [English pitch deck (.pptx)](pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx): 12 core slides plus 2 reference appendices.
 - [English speaker notes](pitch-deck/Nexus_English_Speaker_Notes.md), arranged for approximately 6½ minutes including the product demo.
 - [Pitch cover preview](pitch-deck/Nexus_Cover_Preview.png).
 - [Preliminary proposal - original layout with factual corrections](SDC2026_nailong_Preliminary.pdf), 9 pages.
 - [Technical declaration - original layout with factual corrections](SDC2026_nailong_TechDeclaration.pdf), 13 pages.
-- [Replit proof preparation copy](SDC2026_nailong_Replit_POU.pdf): **not completed usage evidence; screenshots still missing**.
+- [Replit proof of use](SDC2026_nailong_Replit_POU.pdf): 5 pages with actual runtime, Workspace and redacted Core-plan evidence.
+- [Replit evidence images and provenance](replit-evidence/README.md).
 - [Proposal editable narrative](SDC2026_nailong_Preliminary.draft.md).
 - [Declaration editable narrative](SDC2026_nailong_TechDeclaration.draft.md).
-- [Replit evidence checklist](SDC2026_nailong_Replit_POU.draft.md).
+- [Replit proof editable summary](SDC2026_nailong_Replit_POU.draft.md).
 
 At the team's request, both PDFs now use the original supplied documents, preserving their covers, page counts, layout, contact fields and supplied name/date entries. Only factual corrections are applied in place: university/deadline, current architecture, unsupported baseline/KPI claims, and omitted third-party/sponsor entries. The previous reformatted PDFs have been replaced. The Markdown narrative drafts below are earlier alternative wording, not exact transcriptions of the current PDFs; the PDFs are authoritative. The supplied leader email and phone remain visible in this public repository. No new signature is applied by the assistant, and the team must check that its supplied declaration entries satisfy the organiser's signature requirements. Local working copies and authoring files are kept under Git-ignored `submission/private/`; originals on the user's Desktop are preserved. Do not force-add the private directory.
 
@@ -38,8 +39,8 @@ The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, 
 ## Outstanding Actions - Not Fabricated
 
 1. Leader review of the complete team resource inventory, any other AI tools (including possible Replit Agent use), originality/IP statements, and signatures.
-2. Actual Replit account/project and running-preview screenshots; redact keys, billing and unrelated information.
-3. Trim the linked 7:28 demo video to the official 5–7-minute limit and verify access from a non-owner account. The video page opened in the current browser on 24 October 2026, but owner access does not establish judge access. The English pitch deck is included above. Official Participant Handbook §6.3.5.2 requires problem, solution, technical approach and expected impact; §6.3.5.6 specifies a 5–7-minute YouTube video with prototype demonstration.
+2. Replit runtime/Workspace/Core screenshots are now included, with payment information removed. Verify reviewer access and any organiser-specific proof fields. Sponsor origin is team-confirmed, not independently established by the Core-plan screenshot.
+3. Verify access to the linked demo video from a non-owner account. The team chose to keep the current 7:28 video after being informed of the official 5–7-minute limit. The video page opened in the current browser on 24 October 2026, but owner access does not establish judge access. The English pitch deck is included above. Official Participant Handbook §6.3.5.2 requires problem, solution, technical approach and expected impact; §6.3.5.6 specifies a 5–7-minute YouTube video with prototype demonstration.
 4. RunPod applicability: the official repository template marks proof as Required. The team did not use RunPod; ask the organisers whether an explicit non-use statement is accepted. Do not make up usage or claim an exemption without their answer.
 5. Final judge-facing prototype/source links, PDF filenames and official portal submission receipt.
 
