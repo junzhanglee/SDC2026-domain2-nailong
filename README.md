@@ -21,7 +21,7 @@ Nexus helps Malaysian micro and small businesses turn customer enquiries into co
 - [Submission status and remaining evidence](submission/README.md).
 - [Replit project](https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2): team-confirmed development/testing with SDC premium access; this editor link is not a public deployment URL.
 - [English pitch deck (.pptx)](submission/pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx): 12 core slides and 2 appendices, with [English speaker notes](submission/pitch-deck/Nexus_English_Speaker_Notes.md).
-- Demo video: **not supplied**; the official preliminary video duration is 5–7 minutes.
+- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied link. Player duration checked on 24 October 2026: **7:28**, exceeding the official 5–7-minute limit; trim before final submission and recheck judge access.
 
 The revised PDF copies retain the team-supplied leader email and phone as requested by the team for the official submission. This repository is public. No signature is applied by the assistant; the leader must review and sign the official copies. Local working revisions and authoring files remain Git-ignored under `submission/private/`. No screenshot or sponsor usage evidence is fabricated.
 
@@ -114,7 +114,8 @@ ChatGPT and Codex assisted planning, code, debugging, tests, deployment and docu
 - [ ] Leader's final inventory review and signature in the private official copies.
 - [ ] Actual Replit proof screenshots and judge access verification.
 - [x] English slide deck and speaker-note links.
-- [ ] Demo-video link.
+- [x] Demo-video link supplied.
+- [ ] Trim the 7:28 video to the official 5–7-minute limit and verify judge access.
 - [ ] Organiser decision about RunPod proof applicability.
 - [ ] Official portal submission and saved receipt.
 
