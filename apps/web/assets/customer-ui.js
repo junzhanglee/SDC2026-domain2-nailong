@@ -1,4 +1,5 @@
 import {roles} from './data.js';
+import {translate as t} from './i18n.js';
 import {can,requirePermission,staffId} from './engine.js?v=20261023-customer3';
 import {migrateCustomerService,customerAccount,visibleCustomerMessages,customerRequestSummaries,visibleHandoffs} from './customer-service.js?v=20261023-customer3';
 
@@ -15,7 +16,7 @@ export function createCustomerUI({getState,esc,icon,btn,badge,heading,modal}) {
     return `<div class="customer-messages" role="log" aria-label="客户与客服消息记录" tabindex="0">${messages.map(m=>{
       const mine=isCustomer?m.from==='customer':m.from==='support';
       const linked=getState().inquiries.find(q=>q.sourceMessageId===m.id);
-      return `<div class="customer-message ${mine?'mine':''}"><div class="bubble"><small>${esc(m.by)} · ${m.from==='support'?'客服':'客户'} · ${stamp(m.createdAt)}</small>${esc(m.text)}</div>${!isCustomer&&m.from==='customer'?`<div class="customer-message-action">${linked?badge('已建立 '+linked.id,'gray'):btn('AI 提取与回复','ai-message','small secondary',`data-message="${esc(m.id)}" data-customer="${esc(customerId)}"`)+btn('根据此消息建立请求','customer-to-inquiry','small secondary',`data-message="${esc(m.id)}" data-customer="${esc(customerId)}"`)}</div>`:''}</div>`;
+      return `<div class="customer-message ${mine?'mine':''}"><div class="bubble"><small>${esc(m.by)} · ${t(m.from==='support'?'客服':'客户')} · ${stamp(m.createdAt)}</small>${esc(m.text)}</div>${!isCustomer&&m.from==='customer'?`<div class="customer-message-action">${linked?badge('已建立 '+linked.id,'gray'):btn('AI 提取与回复','ai-message','small secondary',`data-message="${esc(m.id)}" data-customer="${esc(customerId)}"`)+btn('根据此消息建立请求','customer-to-inquiry','small secondary',`data-message="${esc(m.id)}" data-customer="${esc(customerId)}"`)}</div>`:''}</div>`;
     }).join('')||`<div class="empty">${isCustomer?'告诉客服你的需求，所有后续回复都在这里。':'暂无客户消息。客户发送消息后会进入此对话。'}</div>`}</div><form id="customer-message-form" data-customer="${esc(customerId)}"><div class="field"><label for="customer-message-input">${isCustomer?'发送给客服':'回复客户'}</label><textarea id="customer-message-input" name="text" required maxlength="2000" placeholder="${isCustomer?'请描述产品、数量、期望日期或需要帮助的问题……':'输入将展示给这位客户的回复……'}"></textarea></div><div class="actions"><button class="btn" type="submit">发送${icon('arrow')}</button><small>站内演示消息 · 同源标签页同步</small></div></form>`;
   }
   function portal(){
