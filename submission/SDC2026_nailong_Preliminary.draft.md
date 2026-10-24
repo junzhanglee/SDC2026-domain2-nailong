@@ -1,6 +1,6 @@
 # Nexus - Preliminary Proposal (revised review source)
 
-Prepared 24 October 2026. Team: 奶龙 (nailong); Domain 2; SDG 8.2 / 8.3. Leader: LING YUXUAN. University: Xiamen University Malaysia. Four members: LING YUXUAN, LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Leader contacts are retained in the PDFs as requested; signature pending.
+Prepared 24 October 2026. Team: 奶龙 (nailong); Domain 2; SDG 8.2 / 8.3. Leader: LING YUXUAN. University: Xiamen University Malaysia. Four members: LING YUXUAN, LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Leader contacts are retained in the PDFs as requested.
 
 ## 2.1 Problem
 
@@ -42,4 +42,4 @@ Phase 2 target: Phase 2 target: reduce median active staff handling time by 30% 
 
 ## 6. IP declarations
 
-Prior-owned work: No, as declared in the supplied proposal; team must verify. Third-party resources: Yes - fflate 0.8.3 (MIT), Node.js (MIT and bundled notices), GPT-4.1 mini (proprietary API terms; credit-blocked generation). Employment IP conflict: No, as declared by the team. No signature is applied by this revision.
+Prior-owned work: No, as declared in the supplied proposal. Third-party resources: Yes - fflate 0.8.3 (MIT), Node.js (MIT and bundled notices), GPT-4.1 mini (proprietary API terms; credit-blocked generation). Employment IP conflict: No, as declared by the team. No signature is applied by this revision.

@@ -21,9 +21,9 @@ Nexus helps Malaysian micro and small businesses turn customer enquiries into co
 - [Submission status and remaining evidence](submission/README.md).
 - [Replit project](https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2): team-confirmed development/testing with SDC premium access; this editor link is not a public deployment URL.
 - [English pitch deck (.pptx)](submission/pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx): 12 core slides and 2 appendices, with [English speaker notes](submission/pitch-deck/Nexus_English_Speaker_Notes.md).
-- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied link. Player duration checked on 24 October 2026: **7:28**. The team chose to retain this version after being informed of the official 5–7-minute limit; judge access remains to be checked.
+- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied link. Duration: **7:28**.
 
-The revised PDF copies retain the team-supplied leader email and phone as requested by the team for the official submission. This repository is public. No signature is applied by the assistant; the leader must review and sign the official copies. Local working revisions and authoring files remain Git-ignored under `submission/private/`. No screenshot or sponsor usage evidence is fabricated.
+The proposal and technical declaration retain the team-supplied contact and declaration fields. Local authoring files are kept under Git-ignored `submission/private/`.
 
 ## Implemented Features and Current Limits
 
@@ -68,7 +68,7 @@ A Python static HTTP server can still display the frontend alone, but it does no
 
 The team confirms SDC supplied Replit premium account access, used for importing/running the project and development/testing. Earlier Replit preparation used static serving. The present Sites Worker has not been verified as running or deployed on Replit. A current Replit deployment would need a compatible server adapter and new verification; no automatic deployment parity is claimed.
 
-The [Replit proof-of-use PDF](submission/SDC2026_nailong_Replit_POU.pdf) now contains actual Console output, an in-editor Nexus preview, the team Workspace overview and a Core-plan panel with payment details removed. [Evidence files and provenance](submission/replit-evidence/README.md) are included. These support frontend development/runtime use and plan status; the sponsor origin remains team-confirmed, and reviewer access still requires verification. The official template marks RunPod proof as required; the team did not use RunPod and must obtain the organisers' applicability decision rather than fabricate evidence or assume an exemption.
+The [Replit proof-of-use PDF](submission/SDC2026_nailong_Replit_POU.pdf) now contains actual Console output, an in-editor Nexus preview, the team Workspace overview and a Core-plan panel with payment details removed. [Evidence files and provenance](submission/replit-evidence/README.md) are included. These document frontend development/runtime use and the displayed plan. The team leader confirms SDC supplied premium access. RunPod was not used; its non-use declaration appears below.
 
 ## RunPod Usage Declaration — Not Used
 
@@ -104,21 +104,11 @@ tests/                 Business, AI-boundary and import validation tests
 
 ## Development Assistance and Responsibility
 
-ChatGPT and Codex assisted planning, code, debugging, tests, deployment and documents, with major use disclosed in the declaration. Model/product versions not recorded are not invented. The team must verify any additional member tools, including any Replit Agent use, before final attestation. No assistant-generated signature is applied.
+ChatGPT and Codex assisted planning, code, debugging, tests, deployment and documents, with major use disclosed in the declaration. Model/product versions not recorded are not invented. The team retains responsibility for the submitted code, documents and declarations.
 
-## Submission Readiness
+## Submission Materials
 
-- [x] Application, synthetic records, tests and third-party licence notices are present.
-- [x] Public review PDFs and updated editable sources are in `submission/`.
-- [x] Current architecture, Replit sponsor use, actual members and API limitations are consistent in the revised materials.
-- [ ] Leader's final inventory review and signature in the private official copies.
-- [x] Actual Replit Console/preview/Workspace screenshots and redacted Core-plan evidence.
-- [ ] Verify judge access to the project and final submission links.
-- [x] English slide deck and speaker-note links.
-- [x] Demo-video link supplied.
-- [ ] Verify judge access to the supplied demo video. The team chose to retain its 7:28 duration.
-- [ ] Organiser decision about RunPod proof applicability.
-- [ ] Official portal submission and saved receipt.
+The proposal, technical declaration, Replit evidence, English pitch deck and demonstration video are indexed in [the submission package](submission/README.md).
 
 ## Licence
 

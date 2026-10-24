@@ -1,55 +1,29 @@
-# Nexus - Submission Package
+# Nexus - SDC 2026 Submission Package
 
-Updated 25 October 2026 against the [official SDC repository template](https://github.com/michaelzhngg/SDC_Hackathon_Submission_Template) and the supplied proposal/declaration PDFs. Registered team: 奶龙 (nailong), Domain 2, Xiamen University Malaysia. Leader: LING YUXUAN; members: LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Main SDG: 8.2 / 8.3.
+Team: **奶龙 (nailong)** | Domain 2 | Xiamen University Malaysia
 
-## Current Files
+Leader: LING YUXUAN. Members: LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Main SDG: 8.2 / 8.3.
 
-- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8): team-supplied YouTube link; player shows **7:28**. The team chose to retain this version after being informed of the official duration limit.
+## Submission Materials
 
-- [English pitch deck (.pptx)](pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx): 12 core slides plus 2 reference appendices.
-- [English speaker notes](pitch-deck/Nexus_English_Speaker_Notes.md), arranged for approximately 6½ minutes including the product demo.
-- [Pitch cover preview](pitch-deck/Nexus_Cover_Preview.png).
-- [Preliminary proposal - original layout with factual corrections](SDC2026_nailong_Preliminary.pdf), 9 pages.
-- [Technical declaration - original layout with factual corrections](SDC2026_nailong_TechDeclaration.pdf), 13 pages.
-- [Replit proof of use](SDC2026_nailong_Replit_POU.pdf): 5 pages with actual runtime, Workspace and redacted Core-plan evidence.
-- [Replit evidence images and provenance](replit-evidence/README.md).
-- [Proposal editable narrative](SDC2026_nailong_Preliminary.draft.md).
-- [Declaration editable narrative](SDC2026_nailong_TechDeclaration.draft.md).
-- [Replit proof editable summary](SDC2026_nailong_Replit_POU.draft.md).
+- [Preliminary proposal](SDC2026_nailong_Preliminary.pdf), 9 pages.
+- [Technical and tools declaration](SDC2026_nailong_TechDeclaration.pdf), 13 pages.
+- [English pitch deck (.pptx)](pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx), 12 core slides plus 2 appendices.
+- [Pitch and prototype demonstration video](https://youtu.be/n85MLCLX3D8), 7:28.
+- [Replit proof of use](SDC2026_nailong_Replit_POU.pdf), 5 pages.
+- [Replit screenshots and provenance](replit-evidence/README.md).
+- [English speaker notes](pitch-deck/Nexus_English_Speaker_Notes.md).
 
-At the team's request, both PDFs now use the original supplied documents, preserving their covers, page counts, layout, contact fields and supplied name/date entries. Only factual corrections are applied in place: university/deadline, current architecture, unsupported baseline/KPI claims, and omitted third-party/sponsor entries. The previous reformatted PDFs have been replaced. The Markdown narrative drafts below are earlier alternative wording, not exact transcriptions of the current PDFs; the PDFs are authoritative. The supplied leader email and phone remain visible in this public repository. No new signature is applied by the assistant, and the team must check that its supplied declaration entries satisfy the organiser's signature requirements. Local working copies and authoring files are kept under Git-ignored `submission/private/`; originals on the user's Desktop are preserved. Do not force-add the private directory.
+## Project Links
 
-The supplied official PDF templates do **not** ask for individual member duties. Names are confirmed; role mappings and GitHub accounts are not invented. A richer GitHub Team section may be completed separately if the team chooses.
+- [Live Nexus prototype](https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/)
+- [Code repository branch](https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp)
+- [Replit development project](https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2)
 
-## Verified Corrections
+## Resource Declaration
 
-- School fields now name Xiamen University Malaysia; deadline fields name 25 October 2026.
-- The third-party declaration is Yes and lists fflate, Node.js and the OpenAI model, with applicable licences/terms.
-- OpenAI API code is deployed but last live verification was credit-blocked; no successful generation is claimed.
-- Sites Worker / D1 usage counts / localStorage business records are distinguished.
-- Local Excel parsing is distinguished from unconnected Microsoft Graph / WhatsApp.
-- Replit premium sponsor access is disclosed in both cloud-service and sponsor sections.
-- Unsupported 49% / 59% figures and unverified cost/omission reductions are removed. The workflow baseline is explicitly a 10-minute estimate; measurable Phase 2 targets are 30% handling-time reduction and 100% human approval coverage.
-- All bounded narrative answers are under the official word limits; the supplied contacts are retained; files are screened for common secret patterns without treating the required email/phone as secrets.
+Replit premium access was supplied by SDC as confirmed by the team leader and used for development/testing. The proof PDF contains actual Console logs, the in-editor Nexus preview, a team Workspace view and a Core-plan panel with payment information removed. The current judging prototype is hosted on Sites, separately from the Replit development preview.
 
-## RunPod Non-Use Declaration
+**RunPod was not used.** No RunPod API, GPU instance, serverless endpoint or sponsor credits were used.
 
-The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, serverless endpoint or sponsor credits were used. There is no RunPod endpoint or proof of use to submit. The current prototype is hosted through OpenAI Sites and its AI integration uses the OpenAI Responses API; RunPod is not part of the architecture. This is a declaration of non-use, not a claim that the organisers have waived any requirement.
-
-## Outstanding Actions - Not Fabricated
-
-1. Leader review of the complete team resource inventory, any other AI tools (including possible Replit Agent use), originality/IP statements, and signatures.
-2. Replit runtime/Workspace/Core screenshots are now included, with payment information removed. Verify reviewer access and any organiser-specific proof fields. Sponsor origin is team-confirmed, not independently established by the Core-plan screenshot.
-3. Verify access to the linked demo video from a non-owner account. The team chose to keep the current 7:28 video after being informed of the official 5–7-minute limit. The video page opened in the current browser on 24 October 2026, but owner access does not establish judge access. The English pitch deck is included above. Official Participant Handbook §6.3.5.2 requires problem, solution, technical approach and expected impact; §6.3.5.6 specifies a 5–7-minute YouTube video with prototype demonstration.
-4. RunPod applicability: the official repository template marks proof as Required. The team did not use RunPod; ask the organisers whether an explicit non-use statement is accepted. Do not make up usage or claim an exemption without their answer.
-5. Final judge-facing prototype/source links, PDF filenames and official portal submission receipt.
-
-## Access and Version
-
-Application source: https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp .
-
-Live prototype: https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/ .
-
-Replit development project: https://replit.com/t/nai-long/repls/SDC2026-domain2-nailong-2 .
-
-The current Worker is hosted on Sites. No public Replit deployment, successful AI generation, multi-tenant business database or cross-device business sync is asserted. Retain these distinctions when making slides or recording the demo.
+The proposal and technical declaration PDFs preserve the supplied layout, contact fields and team declaration entries. The PDFs are the submitted documents; Markdown drafts are supporting editable text.

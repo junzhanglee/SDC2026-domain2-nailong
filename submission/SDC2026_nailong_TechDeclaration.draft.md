@@ -1,6 +1,6 @@
 # Nexus - Technical Declaration (revised review source)
 
-Prepared 24 October 2026; deadline 25 October 2026. Team: 奶龙 (nailong); university: Xiamen University Malaysia. Leader contacts are retained in the PDFs as requested; leader signature pending.
+Prepared 24 October 2026; deadline 25 October 2026. Team: 奶龙 (nailong); university: Xiamen University Malaysia. Leader contacts are retained in the PDFs as requested.
 
 Prototype: https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/
 
@@ -59,7 +59,7 @@ GPT-4.1 mini, pre-trained, no fine-tuning/self-training; proprietary OpenAI API 
 | OpenAI ChatGPT; hosted version not recorded | Product planning, requirements, design guidance and text drafting. | Major |
 | OpenAI Codex; desktop version not recorded | Code generation, debugging, tests, integration, deployment and documents. | Major |
 
-Our team refines AI-generated code and text against project requirements. Verification includes 61 automated tests and browser checks of business rules, demo permissions, approvals, AI failure handling and Excel imports. Documentation distinguishes implemented functions, simulations and future work. Incomplete integrations and the API credit limitation are disclosed. Final review, submission accuracy and responsibility remain with the team; the leader must review and sign the official copies.
+Our team refines AI-generated code and text against project requirements. Verification includes 61 automated tests and browser checks of business rules, demo permissions, approvals, AI failure handling and Excel imports. Documentation distinguishes implemented functions, simulations and future work. Incomplete integrations and the API credit limitation are disclosed. Final review, submission accuracy and responsibility remain with the team; the team retains responsibility for its declarations.
 
 Any Replit Agent or other member tool use still requires factual team verification.
 
@@ -67,7 +67,7 @@ Any Replit Agent or other member tool use still requires factual team verificati
 
 Replit premium access was provided by SDC and used for development/testing (team-confirmed).
 
-Replit's SDC-provided premium access supported cloud development and testing. It was helpful but replaceable: the project can also run locally and is currently deployed through OpenAI Sites. The core workflow does not depend on Replit-specific services. RunPod was not used; the applicability of its required proof-of-use item must be confirmed with the organisers.
+Replit's SDC-provided premium access supported cloud development and testing. It was helpful but replaceable: the project can also run locally and is currently deployed through OpenAI Sites. The core workflow does not depend on Replit-specific services. RunPod was not used.
 
 ## 6.1 Privacy
 
@@ -79,4 +79,4 @@ AI may misinterpret messages, invent details, produce biased wording or follow m
 
 ## 7-8. Final review
 
-Known components, secrets handling and working links are documented. The leader must confirm the complete team inventory, review declarations and sign the private official copy. No signature or sponsor evidence is fabricated.
+Known components, secrets handling and working links are documented. The team retains responsibility for its submitted declarations.
