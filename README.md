@@ -15,3 +15,7 @@ Nexus turns customer messages into checked, human-approved fulfilment tasks for 
 The PDF copies retain the team-supplied contact fields as requested by the team; the leader must review and sign before official submission. Replit proof screenshots, slide/video links and organiser confirmation of RunPod applicability remain outstanding. No sponsor evidence is fabricated.
 
 Current capability: business workflow demonstration, actual local Excel/CSV parsing, and a deployed server-side OpenAI adapter. The latest live AI test was blocked by API credits; WhatsApp and Microsoft 365 cloud synchronisation are not connected. Business data remains browser-local.
+
+## RunPod Usage Declaration — Not Used
+
+The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, serverless endpoint or sponsor credits were used. There is no RunPod endpoint or proof of use to submit. The current prototype is hosted through OpenAI Sites and its AI integration uses the OpenAI Responses API; RunPod is not part of the architecture. This is a declaration of non-use, not a claim that the organisers have waived any requirement.
