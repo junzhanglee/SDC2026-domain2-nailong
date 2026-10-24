@@ -481,4 +481,157 @@ AI 尚未配置，原始消息已保留。|AI is not configured. Your original m
 只有在此窗口发布的消息会进入公屏。普通私聊、团队聊天和 People 公告均不会触发公屏弹窗。|Only messages published in this window become broadcasts. Direct messages, team chats and People announcements do not trigger banners.|Hanya mesej diterbitkan dalam tetingkap ini menjadi siaran. Mesej peribadi, sembang pasukan dan pengumuman People tidak mencetuskan sepanduk.
 例如：今天的团队安排|For example: today's team schedule|Contoh: jadual pasukan hari ini
 输入需要让所有人看到的重要通知……|Enter an important update for everyone…|Masukkan kemas kini penting untuk semua…
+客户待回复|Awaiting reply|Menunggu balasan
+需求待整理|Requirements to prepare|Keperluan untuk disediakan
+业务核对与交接|Business checks & handoff|Semakan perniagaan dan penyerahan
+现货|Stock|Stok
+库存充足。|Sufficient stock.|Stok mencukupi.
+先补货，交期需人工确认|Restock first; delivery date requires human confirmation|Tambah stok dahulu; tarikh penghantaran memerlukan pengesahan manusia
+可进入排期审批|Ready for scheduling approval|Sedia untuk kelulusan penjadualan
+未承诺交期或报价。|No delivery date or quotation has been promised.|Tiada tarikh penghantaran atau sebut harga dijanjikan.
+建议执行|Suggested assignee|Penerima tugas dicadangkan
+建议|Suggestion|Cadangan
+发布人|Published by|Diterbitkan oleh
+数据范围|Data scope|Skop data
+暂无可用员工|No available staff|Tiada pekerja tersedia
+合成消息|Synthetic message|Mesej sintetik
+合成数据|Synthetic data|Data sintetik
+客服已建单|Request created by support|Permintaan dicipta khidmat pelanggan
+客服已建单，等待负责人确认|Support created the request; awaiting approval|Khidmat pelanggan mencipta permintaan; menunggu kelulusan
+客服跟进中|Support is following up|Khidmat pelanggan sedang membuat susulan
+已安排内部处理，交期由客服确认|Assigned internally; support will confirm delivery|Ditugaskan secara dalaman; khidmat pelanggan akan mengesahkan penghantaran
+方案信息不完整，请先核对客户需求。|Proposal incomplete; check the customer's requirements first.|Cadangan tidak lengkap; semak keperluan pelanggan dahulu.
+任务标记为受阻，需确认原因。|Task marked blocked; confirm the reason.|Tugas ditandakan terhalang; sahkan sebabnya.
+任务标记为受阻，请先确认具体原因。|Task marked blocked; confirm the specific reason first.|Tugas ditandakan terhalang; sahkan sebab khusus dahulu.
+已保存的回复草稿|Saved reply draft|Draf balasan disimpan
+草稿未发送；需要在客户对话中确认发送。|Draft not sent; confirm sending in the customer conversation.|Draf belum dihantar; sahkan penghantaran dalam perbualan pelanggan.
+Hi! 我们需要 100 个定制杯，10 月 26 日前交货，可以吗？请先给报价。|Hi! We need 100 custom cups delivered before 26 October. Is that possible? Please provide a quotation first.|Hai! Kami memerlukan 100 cawan tersuai dihantar sebelum 26 Oktober. Bolehkah? Sila berikan sebut harga dahulu.
+请求已交给审批负责人，建议执行员工也可在项目页查看。|Request sent to the approver. The suggested assignee can also view it on the project page.|Permintaan dihantar kepada pelulus. Penerima tugas dicadangkan juga boleh melihatnya pada halaman projek.
+业务信息已核对，建议已生成，等待人工决定。|Business checks complete. Suggestion generated; awaiting human decision.|Semakan perniagaan selesai. Cadangan dijana; menunggu keputusan manusia.
+审批已完成，任务已创建；如有阻碍，请在项目页继续跟进。|Approved and task created. Follow up on any blockers in Projects.|Diluluskan dan tugas dicipta. Buat susulan halangan dalam Projek.
+请选择客户并填写称呼|Choose a customer and enter a preferred name.|Pilih pelanggan dan masukkan nama panggilan.
+请选择有效职位|Choose a valid role.|Pilih peranan yang sah.
+请输入姓名|Enter your name.|Masukkan nama anda.
+回复不能为空|Reply cannot be empty.|Balasan tidak boleh kosong.
+请填写完成事项与下一步|Enter completed work and the next step.|Masukkan kerja selesai dan langkah seterusnya.
+请填写原因|Please enter a reason.|Sila masukkan sebab.
+请检查休假起止日期|Check the leave start and end dates.|Semak tarikh mula dan tamat cuti.
+与本人已提交或已批准的休假重叠|Overlaps with your submitted or approved leave.|Bertindih dengan cuti anda yang dihantar atau diluluskan.
+请确认商户和金额|Confirm the merchant and amount.|Sahkan peniaga dan amaun.
+请确认加班时间，同日最多 12 小时|Check overtime times; maximum 12 hours on the same day.|Semak waktu kerja lebih masa; maksimum 12 jam pada hari sama.
+加班需提前申请，开始时间必须在未来|Request overtime in advance; the start must be in the future.|Mohon kerja lebih masa lebih awal; waktu mula mesti pada masa hadapan.
+请输入完整公告|Enter the complete announcement.|Masukkan pengumuman lengkap.
+消息请输入 1–2000 个字符。|Enter a message of 1–2000 characters.|Masukkan mesej sepanjang 1–2000 aksara.
+请检查姓名、邮箱与资料长度。|Check the name, email and profile lengths.|Semak nama, e-mel dan panjang maklumat profil.
+请选择较小的 PNG、JPG 或 WebP 图片。|Choose a smaller PNG, JPG or WebP image.|Pilih gambar PNG, JPG atau WebP yang lebih kecil.
+请检查企业资料。|Check the company details.|Semak maklumat syarikat.
+没有可分析的客户消息。|No customer message available for analysis.|Tiada mesej pelanggan untuk dianalisis.
+身份已改变，请重新打开客户消息。|Your identity changed. Reopen the customer message.|Identiti anda berubah. Buka semula mesej pelanggan.
+请输入 1–2000 字的消息。|Enter a message of 1–2000 characters.|Masukkan mesej sepanjang 1–2000 aksara.
+AI 服务暂不可用。|AI is temporarily unavailable.|AI tidak tersedia buat sementara.
+未提供|Not provided|Tidak diberikan
+消息已改动，请重新生成后再采用。|The message changed. Regenerate before using the result.|Mesej berubah. Jana semula sebelum menggunakan hasil.
+请先生成草稿。|Generate a draft first.|Jana draf dahulu.
+回复草稿须为 1–2000 字。|Reply drafts must contain 1–2000 characters.|Draf balasan mesti mengandungi 1–2000 aksara.
+暂无未读聊天。|No unread chats.|Tiada sembang belum dibaca.
+消息与待办|Messages & tasks|Mesej dan tugas
+打开审批中心|Open approvals|Buka kelulusan
+全体成员|All members|Semua ahli
+关闭企业通知|Dismiss announcement|Tutup pengumuman
+对话摘要 · 规则演示|Conversation summary · Rule-based demo|Ringkasan perbualan · Demo berasaskan peraturan
+尚无可总结消息|No messages to summarize|Tiada mesej untuk diringkaskan
+仅生成建议，未向客户发送。|Suggestion only; not sent to the customer.|Cadangan sahaja; tidak dihantar kepada pelanggan.
+当前没有 Meta 企业授权，因此尚不能收发真实 WhatsApp 消息。普通 WhatsApp 账号不能直接读取私人对话。|Meta business authorization is not configured, so real WhatsApp messaging is unavailable. A regular account does not grant access to private chats.|Kebenaran perniagaan Meta belum dikonfigurasi, jadi pemesejan WhatsApp sebenar tidak tersedia. Akaun biasa tidak memberikan akses kepada sembang peribadi.
+WhatsApp · 开通真实连接|WhatsApp · Set up a real connection|WhatsApp · Sediakan sambungan sebenar
+使用 Meta 开发者账号创建企业消息应用。|Create a business messaging app with a Meta developer account.|Cipta aplikasi pemesejan perniagaan dengan akaun pembangun Meta.
+先使用官方测试号码验证，再配置你的企业号码。|Verify with an official test number first, then configure your business number.|Sahkan dengan nombor ujian rasmi dahulu, kemudian konfigurasikan nombor perniagaan.
+获得 Phone Number ID、企业访问令牌和应用签名配置后，才能连接服务端消息接收与发送。|Configure the Phone Number ID, business access token and app signature before connecting server-side messaging.|Konfigurasikan Phone Number ID, token akses perniagaan dan tandatangan aplikasi sebelum menyambungkan pemesejan pelayan.
+打开 Meta 官方开通入口 ↗|Open Meta's official setup page ↗|Buka halaman persediaan rasmi Meta ↗
+暂无已发布通知。|No published announcements.|Tiada pengumuman diterbitkan.
+暂时没有分配给你的任务。|No tasks assigned to you.|Tiada tugas ditugaskan kepada anda.
+你还没有关联项目。|No linked projects yet.|Belum ada projek berkaitan.
+收据识别服务未启用；请人工确认以下字段。照片仅在当前窗口预览，不存储、不上传。|Receipt recognition is not enabled. Confirm the fields manually. Photos are previewed only in this window and are not stored or uploaded.|Pengecaman resit belum diaktifkan. Sahkan medan secara manual. Gambar dipratonton dalam tetingkap ini sahaja dan tidak disimpan atau dimuat naik.
+申请时间必须早于加班开始。需事先审批；本原型不计算法定工资或跨夜工时。|Apply before overtime starts. Prior approval is required; this prototype does not calculate statutory pay or overnight hours.|Mohon sebelum kerja lebih masa bermula. Kelulusan awal diperlukan; prototaip ini tidak mengira gaji berkanun atau jam merentas malam.
+演示按日历天计假，不扣除周末与公共假期。真实政策需接入 Nexus 后端。重叠休假与任务会在提交后提示。|Demo leave uses calendar days, including weekends and holidays. Real policies need a Nexus backend. Overlapping leave and tasks are flagged on submission.|Cuti demo menggunakan hari kalendar termasuk hujung minggu dan cuti umum. Dasar sebenar memerlukan pelayan Nexus. Pertindihan cuti dan tugas ditandakan semasa penghantaran.
+让工作|Let work|Biar kerja
+自然流动。|flow naturally.|mengalir lancar.
+把客户消息变成明确的下一步。连接团队、订单与审批，让小企业的每一次交付都有人接住。|Turn customer messages into clear next steps. Connect teams, orders and approvals so every delivery has an owner.|Tukar mesej pelanggan menjadi langkah seterusnya yang jelas. Hubungkan pasukan, pesanan dan kelulusan supaya setiap penghantaran ada penanggungjawab.
+消息 → 工作|Messages → Work|Mesej → Kerja
+决定权，留给人|People stay in control|Manusia kekal mengawal
+黑客松演示 · 姓名只保存在此浏览器。职位选择模拟平台身份，不是真实登录认证。各职位绑定固定演示员工，完整数据不应存放在前端。|Hackathon demo · Names stay in this browser. Role selection simulates identity, not real authentication. Each role uses a fixed demo employee; production data should not live in the frontend.|Demo hackathon · Nama kekal dalam pelayar ini. Pemilihan peranan mensimulasikan identiti, bukan pengesahan sebenar. Setiap peranan menggunakan pekerja demo tetap; data produksi tidak patut disimpan pada bahagian hadapan.
+企业主尚未发布公屏通知。|The owner has not published any broadcasts.|Pemilik belum menerbitkan sebarang siaran.
+这是本地可修改的演示日志，不能用作防篡改审计或交易凭证。生产版需服务端追加式事件、租户范围、关联 ID 和保留策略。|These editable local demo logs are not tamper-proof audits or transaction receipts. Production requires append-only server events, tenant scoping, correlation IDs and retention policies.|Log demo setempat ini boleh diubah dan bukan audit kalis pindaan atau bukti transaksi. Produksi memerlukan peristiwa pelayan tambah sahaja, skop penyewa, ID korelasi dan dasar pengekalan.
+Nexus · 消息到履约|Nexus · Messages to fulfilment|Nexus · Mesej kepada pemenuhan
+首批面向 5–20 人的小型印刷、定制礼品和服务团队（目标客群假设，待访谈验证）。一个人兼顾客服、排期与跟单，真正的负担是「消息中答应的事，没有变成有人负责的工作」。|Initially aimed at printing, custom gift and service teams of 5–20 people (a target-user hypothesis to validate). One person often handles support, scheduling and follow-up. The burden: promises in messages do not become work with a clear owner.|Pada awalnya untuk pasukan percetakan, hadiah tersuai dan perkhidmatan seramai 5–20 orang (hipotesis pengguna sasaran untuk disahkan). Seorang sering mengurus khidmat pelanggan, jadual dan susulan. Bebannya: janji dalam mesej tidak menjadi kerja dengan penanggungjawab jelas.
+我们的新能力|Our core capability|Keupayaan utama kami
+客户消息 → 结构化需求 → 检查库存、休假和任务 → 建议分派 → 人工审批 → 创建任务 → 留下可追溯结果。|Customer message → Structured requirements → Check stock, leave and tasks → Suggest assignment → Human approval → Create task → Traceable outcome.|Mesej pelanggan → Keperluan berstruktur → Semak stok, cuti dan tugas → Cadang tugasan → Kelulusan manusia → Cipta tugas → Hasil boleh dijejak.
+为什么适合马来西亚 SME？|Why Malaysian SMEs?|Mengapa PKS Malaysia?
+采用你笔记中的 WhatsApp 与表格工作习惯；界面先提供中文和易认英文模块名，后续验证 Bahasa Melayu / English 文案。用 RM 显示金额，以 MYT 记录事件；排期要考虑州属与已核实公共假期。网页移动适配，减少额外培训。|Designed around familiar WhatsApp and spreadsheet workflows, with Chinese, English and Bahasa Melayu interface options. Amounts use RM and events use MYT. Scheduling considers state context and verified holidays. Responsive layouts reduce training needs.|Direka mengikut aliran kerja WhatsApp dan hamparan biasa, dengan pilihan antara muka Cina, Inggeris dan Bahasa Melayu. Amaun menggunakan RM dan peristiwa menggunakan MYT. Penjadualan mempertimbangkan negeri dan cuti yang disahkan. Susun atur responsif mengurangkan latihan.
+背景证据：DOSM 2024 报告显示 MSME 贡献 39.5% GDP。这个宏观数据说明市场重要性，不能证明本产品已节省时间。|Context: DOSM's 2024 report states MSMEs contributed 39.5% of GDP. This indicates market importance, not proven time savings from this product.|Konteks: laporan DOSM 2024 menyatakan PMKS menyumbang 39.5% KDNK. Ini menunjukkan kepentingan pasaran, bukan penjimatan masa terbukti daripada produk ini.
+查看 DOSM 来源 ↗|View DOSM source ↗|Lihat sumber DOSM ↗
+避免比赛方向偏离|Keep the competition focus|Kekalkan fokus pertandingan
+Nexus 的参赛创新聚焦客户履约自动化。People、Work 和 Connect 在此用作平台上下文的模拟；路演重点是新的客户履约自动化，而不是把 HR 模块数量当成创新。|Nexus focuses on customer fulfilment automation. People, Work and Connect provide simulated platform context. The pitch should demonstrate the fulfilment workflow rather than count HR modules as innovation.|Nexus memfokuskan automasi pemenuhan pelanggan. People, Work dan Connect menyediakan konteks platform simulasi. Pembentangan perlu menunjukkan aliran pemenuhan, bukan mengira modul HR sebagai inovasi.
+比赛笔记 ↗|Competition notes ↗|Nota pertandingan ↗
+验证与增长路线|Validation & growth roadmap|Hala tuju pengesahan dan pertumbuhan
+01 · 黑客松 MVP|01 · Hackathon MVP|01 · MVP hackathon
+跑通一条加急订单的触发、检查、建议、审批和任务闭环。使用合成数据与规则，证明价值与人的控制权。|Demonstrate an urgent order from trigger through checks, suggestion, approval and task. Use synthetic data and rules to show value and human control.|Tunjukkan pesanan segera daripada pencetus melalui semakan, cadangan, kelulusan dan tugas. Gunakan data sintetik dan peraturan untuk menunjukkan nilai serta kawalan manusia.
+02 · 真实小团队试点|02 · Small-team pilot|02 · Perintis pasukan kecil
+访谈 5 家目标企业；用同一批订单对比人工与产品流程。测中位处理耗时、遗漏率、建议修改率，跟踪异常，不把目标包装成成果。|Interview five target businesses. Compare manual and product workflows on matched orders. Measure median handling time, omissions and suggestion edits; track exceptions without presenting targets as results.|Temu bual lima perniagaan sasaran. Bandingkan aliran manual dan produk pada pesanan sepadan. Ukur median masa pengendalian, keciciran dan suntingan cadangan; jejak pengecualian tanpa menyatakan sasaran sebagai hasil.
+03 · 平台与渠道接通|03 · Platform & channel connections|03 · Sambungan platform dan saluran
+完善 Nexus 后端接口与认证约定；先接企业 WhatsApp 消息和一个业务数据源，再做服务端权限、事件幂等与审核。|Complete Nexus backend interfaces and authentication. Connect business WhatsApp and one business data source, then add server permissions, idempotent events and audit trails.|Lengkapkan antara muka pelayan dan pengesahan Nexus. Sambungkan WhatsApp perniagaan dan satu sumber data, kemudian tambah kebenaran pelayan, peristiwa idempoten dan jejak audit.
+04 · 可复用行业模板|04 · Reusable industry templates|04 · Templat industri boleh guna semula
+从印刷扩展到礼品、维修和预约服务。用字段、政策、角色与工作流配置适配行业，而不是为每家企业重写系统。|Expand from printing to gifts, repairs and appointment services. Configure fields, policies, roles and workflows for each industry instead of rebuilding for every business.|Kembangkan daripada percetakan kepada hadiah, pembaikan dan perkhidmatan janji temu. Konfigurasikan medan, dasar, peranan dan aliran kerja mengikut industri tanpa membina semula bagi setiap perniagaan.
+商业模式假设|Business model hypothesis|Hipotesis model perniagaan
+基础套餐按企业／月收费，包含少量成员与流程次数；进阶版按工作流量和连接器收费。价格需经付费意愿访谈验证；WhatsApp 与模型成本需另计。优先通过 Nexus 合作伙伴渠道分销。|Hypothesis: a monthly company plan with limited members and workflow runs; advanced plans priced by usage and integrations. Validate willingness to pay; account for WhatsApp and model costs separately. Explore partner distribution.|Hipotesis: pelan bulanan syarikat dengan ahli dan pelaksanaan aliran terhad; pelan lanjutan mengikut penggunaan dan integrasi. Sahkan kesanggupan membayar; kira kos WhatsApp dan model secara berasingan. Teroka pengedaran rakan kongsi.
+职位与信息边界|Roles & information boundaries|Peranan dan batas maklumat
+SDG，落实到可测指标|SDGs through measurable indicators|SDG melalui petunjuk boleh diukur
+：每单处理分钟、每人可完成订单、无需培训完成任务比例。|: minutes per order, orders per person and tasks completed without training.|: minit setiap pesanan, pesanan setiap orang dan tugas diselesaikan tanpa latihan.
+：移动端与低数字熟练度人员的任务成功率；不使用隐私数据排斥员工。|: task success on mobile and for users with lower digital confidence; no exclusion based on private data.|: kejayaan tugas pada mudah alih dan bagi pengguna kurang mahir digital; tiada pengecualian berdasarkan data peribadi.
+：缺货／重复采购警报与返工材料量。环保改善需收集实测数据，不能凭自动化直接宣称减排。|: shortage and duplicate-purchase alerts, plus rework materials. Environmental gains require measurements; automation alone does not prove lower emissions.|: amaran kekurangan dan pembelian berganda, serta bahan kerja semula. Faedah alam sekitar memerlukan ukuran; automasi sahaja tidak membuktikan pengurangan pelepasan.
+试点目标（非已实现结果）：订单准备时间减少 30%，关键步骤遗漏减少 50%。|Pilot targets, not achieved results: reduce order preparation time by 30% and missed critical steps by 50%.|Sasaran perintis, bukan hasil dicapai: kurangkan masa penyediaan pesanan sebanyak 30% dan langkah kritikal terlepas sebanyak 50%.
+建议下一步：将涉及库存、交期或休假的信息放入业务流程核对，重要决定仍需审批。|Next: check stock, delivery and leave information in the business workflow. Important decisions still require approval.|Seterusnya: semak maklumat stok, penghantaran dan cuti dalam aliran perniagaan. Keputusan penting masih memerlukan kelulusan.
+这是 Nexus 拟议的内部接口，不代表供应商已公开承诺的端点。当前静态站未实现这些 HTTP 服务。|This is a proposed internal Nexus interface, not a vendor-endorsed endpoint. These integration HTTP services are not implemented.|Ini antara muka dalaman Nexus yang dicadangkan, bukan titik akhir disahkan pembekal. Perkhidmatan HTTP integrasi ini belum dilaksanakan.
+服务端流程：验证签名与租户 → 去重事件 → 检查权限 → 路由审批 → 写入审计。|Server flow: verify signature and tenant → Deduplicate event → Check permissions → Route approval → Write audit.|Aliran pelayan: sahkan tandatangan dan penyewa → Nyahganda peristiwa → Semak kebenaran → Halakan kelulusan → Tulis audit.
+官方提供测试号码和测试工具。正式服务的适用范围与费用需在 Meta 确认。不要把访问令牌或应用密钥粘贴到聊天或 GitHub。|Official test numbers and tools are available. Confirm production availability and pricing with Meta. Never paste tokens or app secrets into chat or GitHub.|Nombor dan alat ujian rasmi tersedia. Sahkan ketersediaan produksi dan harga dengan Meta. Jangan tampal token atau rahsia aplikasi ke sembang atau GitHub.
+做得好的地方|What went well|Perkara yang berjalan baik
+需要改善的地方|Areas to improve|Bidang untuk diperbaiki
+下个月可做的三件事|Three actions for next month|Tiga tindakan untuk bulan depan
+1. 为加急订单设置库存检查。|1. Add stock checks for urgent orders.|1. Tambah semakan stok untuk pesanan segera.
+2. 每周查看休假与交付冲突。|2. Review leave and delivery conflicts weekly.|2. Semak konflik cuti dan penghantaran setiap minggu.
+3. 记录每单实际耗时，对比上线前基线。|3. Record actual handling time against the baseline.|3. Rekod masa pengendalian sebenar berbanding garis dasar.
+客服整理|Prepared by support|Disediakan khidmat pelanggan
+把「追着人问」变成「流程接得住」。|Replace repeated follow-ups with reliable workflows.|Gantikan susulan berulang dengan aliran kerja teratur.
+产品定位、权限边界与比赛路线，放在同一个地方。|Product focus, permission boundaries and competition roadmap in one place.|Fokus produk, batas kebenaran dan hala tuju pertandingan di satu tempat.
+确认交易状态，再更新订单。|Confirm transaction status before updating orders.|Sahkan status transaksi sebelum mengemas kini pesanan.
+订单、费用与发票保持一致。|Keep orders, expenses and invoices consistent.|Pastikan pesanan, perbelanjaan dan invois konsisten.
+同步已核准考勤和加班时数。|Sync approved attendance and overtime hours.|Segerakkan kehadiran dan jam lebih masa diluluskan.
+客户历史与项目在一处汇合。|Bring customer history and projects together.|Gabungkan sejarah pelanggan dan projek.
+接收订单变更与库存事件。|Receive order changes and stock events.|Terima perubahan pesanan dan peristiwa stok.
+客户消息进入站内统一收件箱。|Bring customer messages into a unified inbox.|Bawa mesej pelanggan ke peti masuk bersepadu.
+支付服务商 / DuitNow 服务商待确认|Payment / DuitNow provider to be confirmed|Pembekal pembayaran / DuitNow perlu disahkan
+会计软件与 MyInvois 对接待确认|Accounting / MyInvois integration to be confirmed|Integrasi perakaunan / MyInvois perlu disahkan
+Payroll 供应商待确认|Payroll provider to be confirmed|Pembekal penggajian perlu disahkan
+CRM 供应商待确认|CRM provider to be confirmed|Pembekal CRM perlu disahkan
+电商供应商待确认|Commerce provider to be confirmed|Pembekal e-dagang perlu disahkan
+交易编号、金额、状态|Transaction ID, amount, status|ID transaksi, amaun, status
+发票、客户、应收款|Invoices, customers, receivables|Invois, pelanggan, penghutang
+员工编号、核准工时|Staff ID, approved hours|ID pekerja, jam diluluskan
+客户、负责人、项目|Customers, owners, projects|Pelanggan, penanggungjawab, projek
+SKU、数量、订单状态|SKU, quantity, order status|SKU, kuantiti, status pesanan
+已授权企业号码的消息|Messages from authorized business numbers|Mesej daripada nombor perniagaan dibenarkan
+最高业务权限，独享公屏通知发布；不能审批自己的申请，私聊仅聊天双方可见。|Full business permissions and exclusive broadcast publishing. No self-approval; private chats are visible only to participants.|Kebenaran perniagaan penuh dan penerbitan siaran khusus. Tiada kelulusan sendiri; sembang peribadi hanya untuk peserta.
+全局业务、人事、财务、审批与全部连接器；不能发布企业主公屏通知，私聊仅聊天双方可见。|All business, HR, finance, approvals and integrations. Cannot publish owner broadcasts; private chats are visible only to participants.|Semua perniagaan, HR, kewangan, kelulusan dan integrasi. Tidak boleh menerbitkan siaran pemilik; sembang peribadi hanya untuk peserta.
+员工导入、考勤、休假加班审核；不查看客户订单和付款。|Staff imports, attendance, leave and overtime reviews. No access to customer orders or payments.|Import pekerja, kehadiran, semakan cuti dan kerja lebih masa. Tiada akses pesanan pelanggan atau bayaran.
+报销政策复核、支付与会计接口；不读取休假原因或团队聊天之外的私密资料。|Claim policy reviews, payments and accounting integrations. No access to leave reasons or private information outside shared team chat.|Semakan dasar tuntutan, bayaran dan integrasi perakaunan. Tiada akses sebab cuti atau maklumat peribadi di luar sembang pasukan bersama.
+本人申请、本人任务和工作记录；公开通讯录、公告及共享聊天。|Own requests, tasks and work records; public directory, announcements and shared chat.|Permohonan, tugas dan rekod kerja sendiri; direktori awam, pengumuman dan sembang bersama.
+客户收件箱、回复草稿与分派建议；无业务最终审批或付款权限。|Customer inbox, reply drafts and assignment suggestions; no final business approval or payment permissions.|Peti masuk pelanggan, draf balasan dan cadangan tugasan; tiada kebenaran kelulusan akhir perniagaan atau bayaran.
+未对外发送或支付|Not sent externally or paid|Belum dihantar keluar atau dibayar
+在演示政策额度内|Within demo policy allowance|Dalam had dasar demo
+规则生成，未连接 AI 模型；非完整财务报表。|Rule-generated, not an AI model; not a complete financial statement.|Dijana peraturan, bukan model AI; bukan penyata kewangan lengkap.
+生成建议，不代表已执行|Suggestions generated, not executed|Cadangan dijana, belum dilaksanakan
+操作被拦截或验证失败|Blocked actions or validation failures|Tindakan disekat atau pengesahan gagal
+当前职位可访问记录|Records visible to your role|Rekod boleh dilihat peranan anda
+目前没有可见错误记录；这不代表没有业务风险。|No visible errors recorded; this does not mean there are no business risks.|Tiada ralat boleh dilihat direkodkan; ini tidak bermakna tiada risiko perniagaan.
+数据尚少，暂时不能判断审批效果。|Not enough data to assess approval effectiveness.|Data belum mencukupi untuk menilai keberkesanan kelulusan.
+仍需跟踪缺货与等待客户确认造成的阻碍。|Continue tracking stock shortages and blockers awaiting customer confirmation.|Terus jejak kekurangan stok dan halangan menunggu pengesahan pelanggan.
 `.trim().split('\n').map(line=>{const [zh,en,ms]=line.split('|');return [zh,{en,ms}];}));

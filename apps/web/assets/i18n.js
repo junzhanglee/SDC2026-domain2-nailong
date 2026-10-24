@@ -11,6 +11,17 @@ export function setLanguage(value){
   if(globalThis.document)document.documentElement.lang=language;
 }
 const patterns=[
+  [/^(.*) · (\d+) 个定制杯(（等待补货）)?$/,(_,name,n,restock)=>({en:`${name} · ${n} custom cups${restock?' (awaiting restock)':''}`,ms:`${name} · ${n} cawan tersuai${restock?' (menunggu stok)':''}`})],
+  [/^(.*) 客户订单$/,(_,name)=>({en:`${name} customer orders`,ms:`Pesanan pelanggan ${name}`})],
+  [/^缺货 (\d+) 个；补货后再承诺交期$/,(_,n)=>({en:`Shortage: ${n}; confirm delivery only after restocking`,ms:`Kekurangan: ${n}; sahkan penghantaran selepas menambah stok`})],
+  [/^现货 (\d+) 个，需求 (\d+) 个，缺 (\d+) 个。$/,(_,stock,qty,missing)=>({en:`Stock: ${stock}; required: ${qty}; shortage: ${missing}.`,ms:`Stok: ${stock}; diperlukan: ${qty}; kekurangan: ${missing}.`})],
+  [/^(.*) · (客户待回复|需求待整理|休假申请|报销申请|加班申请)$/,(_,name,label)=>({en:`${name} · ${copy[label].en}`,ms:`${name} · ${copy[label].ms}`})],
+  [/^(.*) · 客户请求 (.+)$/,(_,name,id)=>({en:`${name} · Customer request ${id}`,ms:`${name} · Permintaan pelanggan ${id}`})],
+  [/^(建议执行|审批负责人|期望交付|建议|截止|负责人|发布人|数据范围)：\s*(.*)$/,(_,label,value)=>({en:`${copy[label].en}: ${translate(value,'en')}`,ms:`${copy[label].ms}: ${translate(value,'ms')}`})],
+  [/^已建立 (.+)$/,(_,id)=>({en:`Request created: ${id}`,ms:`Permintaan dicipta: ${id}`})],
+  [/^需求数量 (\d+) · 期望日期 (.+)$/,(_,n,date)=>({en:`Quantity ${n} · Requested date ${date}`,ms:`Kuantiti ${n} · Tarikh diminta ${date}`})],
+  [/^数量 (\d+) · 期望日期 (.+)$/,(_,n,date)=>({en:`Quantity ${n} · Requested date ${date}`,ms:`Kuantiti ${n} · Tarikh diminta ${date}`})],
+  [/^演示年假 (\d+) 天，已使用 (\d+) 天。不是法定权益计算。$/,(_,total,used)=>({en:`Demo annual leave: ${total} days; used: ${used}. Not a statutory entitlement calculation.`,ms:`Cuti tahunan demo: ${total} hari; digunakan: ${used}. Bukan pengiraan kelayakan berkanun.`})],
   [/^\/ 共 (\d+) 项工作$/,(_,n)=>({en:`/ ${n} total tasks`,ms:`/ ${n} jumlah tugas`})],
   [/^(.+)，你好。$/,(_,name)=>({en:`Hello, ${name}.`,ms:`Helo, ${name}.`})],
   [/^(.+)，欢迎回来。$/,(_,name)=>({en:`Welcome back, ${name}.`,ms:`Selamat kembali, ${name}.`})],
@@ -31,7 +42,8 @@ export function translate(value,locale=language){
   if(locale==='zh-CN'||!validLanguage(locale))return value;
   const source=String(value),key=source.trim();let translated=copy[key]?.[locale];
   if(!translated){for(const [pattern,format] of patterns){const match=key.match(pattern);if(match){translated=format(...match)[locale];break;}}}
-  if(!translated&&key.includes(' · '))translated=key.split(' · ').map(part=>copy[part]?.[locale]||part).join(' · ');
+  if(!translated&&key.includes(' · '))translated=key.split(' · ').map(part=>translate(part,locale)).join(' · ');
+  if(!translated&&key.includes('；'))translated=key.split('；').map(part=>translate(part,locale)).join('; ');
   if(!translated&&key.startsWith('# '))translated='# '+(copy[key.slice(2)]?.[locale]||key.slice(2));
   return translated?source.slice(0,source.indexOf(key))+translated+source.slice(source.indexOf(key)+key.length):value;
 }
