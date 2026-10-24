@@ -4,14 +4,14 @@ Updated 24 October 2026 against the [official SDC repository template](https://g
 
 ## Current Files
 
-- [Preliminary proposal - revised review copy](SDC2026_nailong_Preliminary.pdf).
-- [Technical declaration - revised review copy](SDC2026_nailong_TechDeclaration.pdf).
+- [Preliminary proposal - original layout with factual corrections](SDC2026_nailong_Preliminary.pdf), 9 pages.
+- [Technical declaration - original layout with factual corrections](SDC2026_nailong_TechDeclaration.pdf), 13 pages.
 - [Replit proof preparation copy](SDC2026_nailong_Replit_POU.pdf): **not completed usage evidence; screenshots still missing**.
 - [Proposal editable narrative](SDC2026_nailong_Preliminary.draft.md).
 - [Declaration editable narrative](SDC2026_nailong_TechDeclaration.draft.md).
 - [Replit evidence checklist](SDC2026_nailong_Replit_POU.draft.md).
 
-The revised proposal and declaration PDFs retain the original team-supplied leader email and phone, as explicitly requested for the required submission fields. They will be visible in this public repository. No signature is applied by the assistant: the leader must review and sign the official copy. Local working copies and authoring files are kept under Git-ignored `submission/private/`; originals on the user's Desktop are preserved. Do not force-add the private directory.
+At the team's request, both PDFs now use the original supplied documents, preserving their covers, page counts, layout, contact fields and supplied name/date entries. Only factual corrections are applied in place: university/deadline, current architecture, unsupported baseline/KPI claims, and omitted third-party/sponsor entries. The previous reformatted PDFs have been replaced. The Markdown narrative drafts below are earlier alternative wording, not exact transcriptions of the current PDFs; the PDFs are authoritative. The supplied leader email and phone remain visible in this public repository. No new signature is applied by the assistant, and the team must check that its supplied declaration entries satisfy the organiser's signature requirements. Local working copies and authoring files are kept under Git-ignored `submission/private/`; originals on the user's Desktop are preserved. Do not force-add the private directory.
 
 The supplied official PDF templates do **not** ask for individual member duties. Names are confirmed; role mappings and GitHub accounts are not invented. A richer GitHub Team section may be completed separately if the team chooses.
 
