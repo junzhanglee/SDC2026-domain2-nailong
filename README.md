@@ -2,20 +2,25 @@
 
 Nexus turns customer messages into checked, human-approved fulfilment tasks for small businesses.
 
-## Project Code and Submission Documents
+## Project and Submission
 
-**The application and current submission package are on [`feat/nexus-mvp`](https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp).** This default-branch page is an index; it is not a claim that the application source is stored on main.
-
-- [Live prototype](https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/)
 - [Application source and full README](https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp)
+- [Live Nexus prototype](https://nexus-nailong-2026.d7ystszcjf.chatgpt.site/)
+- [Submission package](https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp/submission)
 - [Preliminary proposal](https://github.com/junzhanglee/SDC2026-domain2-nailong/blob/feat/nexus-mvp/submission/SDC2026_nailong_Preliminary.pdf)
 - [Technical declaration](https://github.com/junzhanglee/SDC2026-domain2-nailong/blob/feat/nexus-mvp/submission/SDC2026_nailong_TechDeclaration.pdf)
-- [Readiness status and remaining evidence](https://github.com/junzhanglee/SDC2026-domain2-nailong/tree/feat/nexus-mvp/submission)
+- [English pitch deck](https://github.com/junzhanglee/SDC2026-domain2-nailong/blob/feat/nexus-mvp/submission/pitch-deck/SDC2026_nailong_Nexus_Pitch.pptx)
+- [Pitch and demonstration video](https://youtu.be/n85MLCLX3D8)
+- [Replit proof of use](https://github.com/junzhanglee/SDC2026-domain2-nailong/blob/feat/nexus-mvp/submission/SDC2026_nailong_Replit_POU.pdf)
 
-The PDF copies retain the team-supplied contact fields as requested by the team; the leader must review and sign before official submission. Replit proof screenshots, slide/video links and organiser confirmation of RunPod applicability remain outstanding. No sponsor evidence is fabricated.
+The application code and submission materials are maintained on `feat/nexus-mvp`. This main-branch page provides direct links to that package.
 
-Current capability: business workflow demonstration, actual local Excel/CSV parsing, and a deployed server-side OpenAI adapter. The latest live AI test was blocked by API credits; WhatsApp and Microsoft 365 cloud synchronisation are not connected. Business data remains browser-local.
+## Team
 
-## RunPod Usage Declaration — Not Used
+Xiamen University Malaysia. Leader: LING YUXUAN. Members: LI JUNZHANG, XIE WEIYE, HU ZHAOMING. Domain 2; SDG targets 8.2 / 8.3.
 
-The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, serverless endpoint or sponsor credits were used. There is no RunPod endpoint or proof of use to submit. The current prototype is hosted through OpenAI Sites and its AI integration uses the OpenAI Responses API; RunPod is not part of the architecture. This is a declaration of non-use, not a claim that the organisers have waived any requirement.
+## Resource Declaration
+
+Replit premium access was supplied by SDC as confirmed by the team leader and used for development/testing. The current judging prototype is hosted on Sites. RunPod was not used: no RunPod API, GPU instance, serverless endpoint or sponsor credits were used.
+
+Current implementation details, third-party licences and integration boundaries are documented in the application branch and technical declaration.
