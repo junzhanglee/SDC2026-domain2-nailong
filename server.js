@@ -7,7 +7,7 @@ import { createAuth, sessionCookie, demoPassword } from './lib/auth.js';
 import { Problem, fail, context, view, candidates, parcelFor, createParcel, linkParcel, reviewParcel, replan, handoff, releaseParcel, reportException, editParcel, configure, event, id } from './lib/domain.js';
 
 const actions = { link: linkParcel, review: reviewParcel, replan, handoff, release: releaseParcel, exception: reportException, edit: editParcel };
-const staticFiles = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/styles.css': ['styles.css', 'text/css'] };
+const staticFiles = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/english.js': ['english.js', 'text/javascript'], '/styles.css': ['styles.css', 'text/css'] };
 async function body(request) {
   if (!request.headers['content-type']?.startsWith('application/json')) fail(415, '请使用 JSON 请求');
   let data = '';
