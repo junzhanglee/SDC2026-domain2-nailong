@@ -69,12 +69,16 @@ test('all built-in task, project, blocker and example copy has English and Malay
     assert.doesNotMatch(translate(source,language),/[\u3400-\u9fff]/u,source);
     assert.equal(translate(source,'zh-CN'),source);
   }
-  const s=initialState();s.session={role:'owner',name:'Li Wei'};const before=JSON.stringify(s);
+  const s=initialState();s.session={role:'owner',name:'Li Wei'};
+  s.tasks.push({id:'generated-blocker',title:'Bunga Café · 100 个定制杯（等待补货）',customer:'Bunga Café',assignee:'e7',status:'受阻',due:'2026-10-26',blocked:'缺货 20 个；补货后再承诺交期'});
+  const before=JSON.stringify(s);
   const ui=createDashboardUI({getState:()=>s,esc:String,btn:text=>`<button>${text}</button>`});
   for(const language of ['en','ms']){
     setLanguage(language);const markup=ui.render();
     assert.ok(markup.includes(language==='en'?'Store menu printing · Proofreading':'Percetakan menu kedai · Semakan pruf'));
     assert.ok(markup.includes(language==='en'?'Bunga Café brand materials':'Bahan jenama Bunga Café'));
+    assert.ok(markup.includes(language==='en'?'Awaiting customer confirmation of dimensions':'Menunggu pengesahan ukuran daripada pelanggan'));
+    assert.ok(markup.includes(language==='en'?'Shortage: 20; confirm delivery only after restocking':'Kekurangan: 20; sahkan penghantaran selepas menambah stok'));
     assert.equal(JSON.stringify(s),before);
     for(const project of s.projects)assert.doesNotMatch(translate(project.risk+'。这是合成项目基线，需结合实际工作记录确认。',language),/[\u3400-\u9fff]/u);
   }
