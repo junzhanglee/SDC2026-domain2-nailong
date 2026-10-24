@@ -26,6 +26,10 @@ The supplied official PDF templates do **not** ask for individual member duties.
 - Unsupported 49% / 59% figures and unverified cost/omission reductions are removed. The workflow baseline is explicitly a 10-minute estimate; measurable Phase 2 targets are 30% handling-time reduction and 100% human approval coverage.
 - All bounded narrative answers are under the official word limits; the supplied contacts are retained; files are screened for common secret patterns without treating the required email/phone as secrets.
 
+## RunPod Non-Use Declaration
+
+The Nexus team did not use RunPod in this project. No RunPod API, GPU instance, serverless endpoint or sponsor credits were used. There is no RunPod endpoint or proof of use to submit. The current prototype is hosted through OpenAI Sites and its AI integration uses the OpenAI Responses API; RunPod is not part of the architecture. This is a declaration of non-use, not a claim that the organisers have waived any requirement.
+
 ## Outstanding Actions - Not Fabricated
 
 1. Leader review of the complete team resource inventory, any other AI tools (including possible Replit Agent use), originality/IP statements, and signatures.
