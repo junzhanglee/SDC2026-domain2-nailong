@@ -43,8 +43,6 @@ Work · 项目|Work · Projects|Work · Projek
 企业主通知|Owner announcements|Pengumuman pemilik
 Connect · 集成|Connect · Integrations|Connect · Integrasi
 活动与洞察|Activity & insights|Aktiviti dan pandangan
-产品与路线|Product & roadmap|Produk dan hala tuju
-产品路线|Product roadmap|Hala tuju produk
 企业主|Business owner|Pemilik perniagaan
 管理者|Manager|Pengurus
 人力资源|Human resources|Sumber manusia

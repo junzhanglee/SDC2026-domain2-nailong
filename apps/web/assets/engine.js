@@ -1,11 +1,11 @@
 import {roles} from './data.js';
 export const permissions = {
- owner:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors','broadcast'],
- manager:['dashboard','inbox','approvals','people','work','chat','connect','logs','strategy','hr-import','hr-review','claim-review','business-review','announce','manage-connectors'],
- hr:['dashboard','approvals','people','work','chat','logs','strategy','hr-import','hr-review','announce'],
- finance:['dashboard','approvals','people','work','chat','connect','logs','strategy','claim-review'],
- employee:['dashboard','people','work','chat','logs','strategy'],
- support:['dashboard','inbox','people','work','chat','logs','strategy','create-inquiry','customer-support']
+ owner:['dashboard','inbox','approvals','people','work','chat','connect','logs','hr-import','hr-review','claim-review','business-review','announce','manage-connectors','broadcast'],
+ manager:['dashboard','inbox','approvals','people','work','chat','connect','logs','hr-import','hr-review','claim-review','business-review','announce','manage-connectors'],
+ hr:['dashboard','approvals','people','work','chat','logs','hr-import','hr-review','announce'],
+ finance:['dashboard','approvals','people','work','chat','connect','logs','claim-review'],
+ employee:['dashboard','people','work','chat','logs'],
+ support:['dashboard','inbox','people','work','chat','logs','create-inquiry','customer-support']
 };
 export function can(s,p){return !!s.session && !!permissions[s.session.role] && (['profile','settings'].includes(p)||(permissions[s.session.role]||[]).includes(p));}
 export function requirePermission(s,p){if(!can(s,p)) throw Error('当前职位没有这项操作权限。');}
